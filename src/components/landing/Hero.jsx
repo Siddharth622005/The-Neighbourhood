@@ -32,7 +32,9 @@ export default function Hero() {
               an operating system for modern parenting
             </p>
             <h1 className="font-headline-h1 text-headline-h1 text-charcoal max-w-xl">
-              Raising children was never meant to be done alone.
+              A gentler way
+              <br />
+              to raise a family.
             </h1>
             <p className="text-on-surface-variant text-headline-h3 font-normal max-w-lg pb-4">
               Warm spaces where children truly belong. A community that holds you. Tools that stay with you long after the school day ends.
