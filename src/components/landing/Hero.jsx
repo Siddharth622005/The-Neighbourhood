@@ -1,5 +1,3 @@
-import ImagePlaceholder from "../ImagePlaceholder.jsx";
-
 export default function Hero() {
   return (
     <div className="relative">
@@ -44,14 +42,13 @@ export default function Hero() {
             </button>
           </div>
 
-          <div className="relative hero-graphic-bg rounded-[40px] p-8 md:p-12">
-            <div className="aspect-square w-full rounded-3xl overflow-hidden relative border border-soft-sand/20 bg-surface-container-low shadow-sm">
-              <ImagePlaceholder
-                className="w-full h-full"
-                alt="Stylized Indian village courtyard (Aangan) with a central Banyan tree, soft cream and sand tones, children playing with wooden toys, parents talking in golden afternoon light"
-                icon="park"
-              />
-            </div>
+          <div className="relative flex items-center justify-center p-4 md:p-8">
+            <object
+              type="image/svg+xml"
+              data="/seedling-animation.svg"
+              aria-label="A gently growing seedling, animated"
+              className="w-full h-auto max-w-md pointer-events-none"
+            />
           </div>
         </div>
       </section>
