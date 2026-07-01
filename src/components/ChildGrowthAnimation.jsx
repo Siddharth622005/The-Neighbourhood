@@ -7,7 +7,7 @@ const PRINT_SRC = "/hand-8yr.png";    // warm ochre paint mark
 
 export default function ChildGrowthAnimation() {
   return (
-    <div className="relative w-full aspect-square max-w-md mx-auto select-none">
+    <div className="relative w-full aspect-square max-w-lg mx-auto select-none">
       <style>{`
         .tn-wrap {
           position:absolute;
@@ -71,7 +71,7 @@ export default function ChildGrowthAnimation() {
       `}</style>
 
       {/* LEFT hand — mirrored so thumb points inward (right side) */}
-      <div className="tn-wrap" style={{ left: "26%", top: "45%", width: "40%" }}>
+      <div className="tn-wrap" style={{ left: "22%", top: "36%", width: "48%" }}>
         <div className="tn-tilt" style={{ transform: "rotate(-16deg) scaleX(-1)" }}>
           <img src={PRINT_SRC}   alt="" aria-hidden="true" className="tn-print print-L" style={{ width: "100%" }} />
           <img src={PRESSER_SRC} alt="" aria-hidden="true" className="tn-presser presser-L" style={{ width: "100%" }} />
@@ -79,7 +79,7 @@ export default function ChildGrowthAnimation() {
       </div>
 
       {/* RIGHT hand — natural orientation, thumb already points inward (left side) */}
-      <div className="tn-wrap" style={{ left: "74%", top: "45%", width: "40%" }}>
+      <div className="tn-wrap" style={{ left: "78%", top: "36%", width: "48%" }}>
         <div className="tn-tilt" style={{ transform: "rotate(16deg)" }}>
           <img src={PRINT_SRC}   alt="" aria-hidden="true" className="tn-print print-R" style={{ width: "100%" }} />
           <img src={PRESSER_SRC} alt="" aria-hidden="true" className="tn-presser presser-R" style={{ width: "100%" }} />

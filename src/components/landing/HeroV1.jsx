@@ -43,7 +43,7 @@ export default function HeroV1() {
           </div>
 
           <div className="relative flex items-center justify-center">
-            <div className="w-full max-w-sm aspect-square">
+            <div className="w-full max-w-lg aspect-square">
               <ChildGrowthAnimation />
             </div>
           </div>
