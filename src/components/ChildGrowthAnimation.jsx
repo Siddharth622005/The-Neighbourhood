@@ -70,23 +70,23 @@ export default function ChildGrowthAnimation() {
         }
       `}</style>
 
-      {/* LEFT hand */}
-      <div className="tn-wrap" style={{ left: "30%", top: "52%", width: "26%" }}>
-        <div className="tn-tilt" style={{ transform: "rotate(-16deg)" }}>
+      {/* LEFT hand — mirrored so thumb points inward (right side) */}
+      <div className="tn-wrap" style={{ left: "32%", top: "45%", width: "40%" }}>
+        <div className="tn-tilt" style={{ transform: "rotate(-16deg) scaleX(-1)" }}>
           <img src={PRINT_SRC}   alt="" aria-hidden="true" className="tn-print print-L" style={{ width: "100%" }} />
           <img src={PRESSER_SRC} alt="" aria-hidden="true" className="tn-presser presser-L" style={{ width: "100%" }} />
         </div>
       </div>
 
-      {/* RIGHT hand — mirrored */}
-      <div className="tn-wrap" style={{ left: "70%", top: "52%", width: "26%" }}>
-        <div className="tn-tilt" style={{ transform: "rotate(16deg) scaleX(-1)" }}>
+      {/* RIGHT hand — natural orientation, thumb already points inward (left side) */}
+      <div className="tn-wrap" style={{ left: "68%", top: "45%", width: "40%" }}>
+        <div className="tn-tilt" style={{ transform: "rotate(16deg)" }}>
           <img src={PRINT_SRC}   alt="" aria-hidden="true" className="tn-print print-R" style={{ width: "100%" }} />
           <img src={PRESSER_SRC} alt="" aria-hidden="true" className="tn-presser presser-R" style={{ width: "100%" }} />
         </div>
       </div>
 
-      <p className="tn-caption">little hands, lasting marks</p>
+      <p className="tn-caption" style={{ bottom: "2%" }}>little hands, lasting marks</p>
     </div>
   );
 }
