@@ -1,87 +1,92 @@
-const D = "13s";
+const D = "9s";
 
-const hands = [
-  { src: "/hand-1yr.png",  label: "1 year",   left: "26%", top: "83%", w: "20%", cls: "st1", lcls: "l1", lx: "3%",  ly: "92%" },
-  { src: "/hand-4yr.png",  label: "4 years",  left: "64%", top: "67%", w: "28%", cls: "st2", lcls: "l2", lx: "74%", ly: "84%" },
-  { src: "/hand-8yr.png",  label: "8 years",  left: "30%", top: "48%", w: "37%", cls: "st3", lcls: "l3", lx: "1%",  ly: "37%" },
-  { src: "/hand-12yr.png", label: "12 years", left: "65%", top: "31%", w: "46%", cls: "st4", lcls: "l4", lx: "40%", ly: "6%" },
-];
+// Two hands (mirrored pair), each with a "presser" (the hand coming down)
+// and a "print" (the paint mark it leaves behind).
+const PRESSER_SRC = "/hand-1yr.png";  // pale tone reads as a bare hand
+const PRINT_SRC = "/hand-8yr.png";    // warm ochre paint mark
 
 export default function ChildGrowthAnimation() {
   return (
     <div className="relative w-full aspect-square max-w-sm mx-auto select-none">
       <style>{`
-        .tn-hand {
+        .tn-wrap {
           position:absolute;
-          opacity:0;
+          transform:translate(-50%,-50%);
+        }
+        .tn-tilt { position:relative; }
+        .tn-print, .tn-presser {
+          position:absolute;
+          top:0; left:0;
           transform-origin:center;
-          filter: drop-shadow(1px 3px 3px rgba(92,74,50,0.18));
+          opacity:0;
           will-change: transform, opacity;
         }
+        .tn-print {
+          filter: drop-shadow(1px 2px 2px rgba(92,74,50,0.15));
+        }
+        .tn-presser {
+          filter: drop-shadow(2px 6px 6px rgba(92,74,50,0.25));
+        }
 
-        /* Each hand fades and settles in gently at its own moment, holds, then fades out together. */
-        @keyframes st1 {
-          0%,2%    { transform:translate(-50%,-50%) rotate(-13deg) scale(0.88); opacity:0; }
-          9%,86%   { transform:translate(-50%,-50%) rotate(-13deg) scale(1);    opacity:1; }
-          93%,100% { transform:translate(-50%,-50%) rotate(-13deg) scale(1);    opacity:0; }
+        /* LEFT hand: presses down first */
+        @keyframes press-L {
+          0%,4%    { transform: translateY(-46px) scale(1.08); opacity:0; }
+          20%      { transform: translateY(-46px) scale(1.08); opacity:.92; }
+          27%      { transform: translateY(0)      scale(0.96); opacity:1; }
+          32%,50%  { transform: translateY(0)      scale(1);    opacity:1; }
+          58%      { transform: translateY(-40px)  scale(1.04); opacity:0; }
+          100%     { transform: translateY(-40px)  scale(1.04); opacity:0; }
         }
-        @keyframes st2 {
-          0%,17%   { transform:translate(-50%,-50%) rotate(11deg) scale(0.88);  opacity:0; }
-          24%,86%  { transform:translate(-50%,-50%) rotate(11deg) scale(1);     opacity:1; }
-          93%,100% { transform:translate(-50%,-50%) rotate(11deg) scale(1);     opacity:0; }
+        @keyframes print-L {
+          0%,26%   { opacity:0; transform: scale(0.92); }
+          31%,90%  { opacity:1; transform: scale(1); }
+          97%,100% { opacity:0; transform: scale(1); }
         }
-        @keyframes st3 {
-          0%,32%   { transform:translate(-50%,-50%) rotate(-7deg) scale(0.88);  opacity:0; }
-          39%,86%  { transform:translate(-50%,-50%) rotate(-7deg) scale(1);     opacity:1; }
-          93%,100% { transform:translate(-50%,-50%) rotate(-7deg) scale(1);     opacity:0; }
-        }
-        @keyframes st4 {
-          0%,47%   { transform:translate(-50%,-50%) rotate(8deg) scale(0.88);   opacity:0; }
-          54%,86%  { transform:translate(-50%,-50%) rotate(8deg) scale(1);      opacity:1; }
-          93%,100% { transform:translate(-50%,-50%) rotate(8deg) scale(1);      opacity:0; }
-        }
-        .st1 { animation: st1 ${D} ease-out infinite; }
-        .st2 { animation: st2 ${D} ease-out infinite; }
-        .st3 { animation: st3 ${D} ease-out infinite; }
-        .st4 { animation: st4 ${D} ease-out infinite; }
 
-        .tn-lbl { position:absolute; font-family:Georgia,serif; font-style:italic;
-                  font-size:0.72rem; color:#8B7355; opacity:0; white-space:nowrap; }
-        @keyframes lf1 { 0%,8%{opacity:0} 11%,86%{opacity:.85} 93%,100%{opacity:0} }
-        @keyframes lf2 { 0%,23%{opacity:0} 26%,86%{opacity:.85} 93%,100%{opacity:0} }
-        @keyframes lf3 { 0%,38%{opacity:0} 41%,86%{opacity:.85} 93%,100%{opacity:0} }
-        @keyframes lf4 { 0%,53%{opacity:0} 56%,86%{opacity:.85} 93%,100%{opacity:0} }
-        .l1 { animation: lf1 ${D} ease-in-out infinite; }
-        .l2 { animation: lf2 ${D} ease-in-out infinite; }
-        .l3 { animation: lf3 ${D} ease-in-out infinite; }
-        .l4 { animation: lf4 ${D} ease-in-out infinite; }
+        /* RIGHT hand: presses a beat later */
+        @keyframes press-R {
+          0%,18%   { transform: translateY(-46px) scale(1.08); opacity:0; }
+          34%      { transform: translateY(-46px) scale(1.08); opacity:.92; }
+          41%      { transform: translateY(0)      scale(0.96); opacity:1; }
+          46%,62%  { transform: translateY(0)      scale(1);    opacity:1; }
+          70%      { transform: translateY(-40px)  scale(1.04); opacity:0; }
+          100%     { transform: translateY(-40px)  scale(1.04); opacity:0; }
+        }
+        @keyframes print-R {
+          0%,40%   { opacity:0; transform: scale(0.92); }
+          45%,90%  { opacity:1; transform: scale(1); }
+          97%,100% { opacity:0; transform: scale(1); }
+        }
+
+        .presser-L { animation: press-L ${D} cubic-bezier(.4,0,.2,1) infinite; }
+        .print-L   { animation: print-L ${D} ease-out infinite; }
+        .presser-R { animation: press-R ${D} cubic-bezier(.4,0,.2,1) infinite; }
+        .print-R   { animation: print-R ${D} ease-out infinite; }
+
+        .tn-caption {
+          position:absolute; left:50%; bottom:6%; transform:translateX(-50%);
+          font-family:Georgia,serif; font-style:italic; font-size:0.72rem;
+          letter-spacing:0.18em; color:#8B7355; opacity:0.65; white-space:nowrap;
+        }
       `}</style>
 
-      <p className="absolute left-1/2 -translate-x-1/2 top-0 font-tagline-handwritten
-                    text-[0.7rem] italic tracking-[0.2em] text-warm-taupe/60">
-        watch them grow
-      </p>
+      {/* LEFT hand */}
+      <div className="tn-wrap" style={{ left: "30%", top: "52%", width: "26%" }}>
+        <div className="tn-tilt" style={{ transform: "rotate(-16deg)" }}>
+          <img src={PRINT_SRC}   alt="" aria-hidden="true" className="tn-print print-L" style={{ width: "100%" }} />
+          <img src={PRESSER_SRC} alt="" aria-hidden="true" className="tn-presser presser-L" style={{ width: "100%" }} />
+        </div>
+      </div>
 
-      {hands.map((h) => (
-        <img
-          key={h.src}
-          src={h.src}
-          alt=""
-          aria-hidden="true"
-          className={`tn-hand ${h.cls}`}
-          style={{ left: h.left, top: h.top, width: h.w }}
-        />
-      ))}
+      {/* RIGHT hand — mirrored */}
+      <div className="tn-wrap" style={{ left: "70%", top: "52%", width: "26%" }}>
+        <div className="tn-tilt" style={{ transform: "rotate(16deg) scaleX(-1)" }}>
+          <img src={PRINT_SRC}   alt="" aria-hidden="true" className="tn-print print-R" style={{ width: "100%" }} />
+          <img src={PRESSER_SRC} alt="" aria-hidden="true" className="tn-presser presser-R" style={{ width: "100%" }} />
+        </div>
+      </div>
 
-      {hands.map((h) => (
-        <span
-          key={h.label}
-          className={`tn-lbl ${h.lcls}`}
-          style={{ left: h.lx, top: h.ly }}
-        >
-          {h.label}
-        </span>
-      ))}
+      <p className="tn-caption">little hands, lasting marks</p>
     </div>
   );
 }
