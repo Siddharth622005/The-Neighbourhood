@@ -29,7 +29,7 @@ export default function Hero() {
         <div className="grid lg:grid-cols-2 gap-stack-lg items-center relative z-10">
           <div className="space-y-stack-md">
             <p className="font-tagline-handwritten text-tagline-handwritten text-soft-sand uppercase tracking-widest mb-4">
-              SAFE SPACES. WARM HEARTS. BRIGHT FUTURES.
+              an operating system for modern parenting
             </p>
             <h1 className="font-headline-h1 text-headline-h1 text-charcoal max-w-xl">
               Raising children was never meant to be done alone.
