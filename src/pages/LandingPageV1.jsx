@@ -2,6 +2,7 @@ import Navbar from "../components/landing/Navbar.jsx";
 import Hero from "../components/landing/Hero.jsx";
 import TrustBar from "../components/landing/TrustBar.jsx";
 import Mission from "../components/landing/Mission.jsx";
+import OurStory from "../components/landing/OurStory.jsx";
 import FeatureRows from "../components/landing/FeatureRows.jsx";
 import AppPreview from "../components/landing/AppPreview.jsx";
 import TrickFramework from "../components/landing/TrickFramework.jsx";
@@ -15,6 +16,7 @@ export default function LandingPage() {
       <Hero />
       <TrustBar />
       <Mission />
+      <OurStory />
       <FeatureRows />
       <AppPreview />
       <TrickFramework />

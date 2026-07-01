@@ -32,7 +32,7 @@ export default function TrickFramework() {
                 key={p.letter}
                 className={`stagger-item flex items-center gap-4 group ${inView ? "in-view" : ""}`}
               >
-                <div className="w-12 h-12 rounded-full border border-soft-sand flex items-center justify-center font-bold text-warm-taupe group-hover:bg-warm-taupe group-hover:text-white transition-all duration-300">
+                <div className="w-12 h-12 flex-shrink-0 rounded-full border border-soft-sand flex items-center justify-center font-bold text-warm-taupe group-hover:bg-warm-taupe group-hover:text-white transition-all duration-300">
                   {p.letter}
                 </div>
                 <div>
