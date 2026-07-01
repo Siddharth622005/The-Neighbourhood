@@ -1,6 +1,10 @@
+import { useState } from "react";
 import ChildGrowthAnimation from "../ChildGrowthAnimation.jsx";
+import WaitlistDialog from "../WaitlistDialog.jsx";
 
 export default function HeroV1() {
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
+
   return (
     <div className="relative">
 
@@ -37,7 +41,10 @@ export default function HeroV1() {
             <p className="text-on-surface-variant text-headline-h3 font-normal max-w-lg pb-4">
               We brought it back. A copilot that knows your child, spaces like The Aangan to grow in, and neighbours who actually show up.
             </p>
-            <button className="bg-charcoal text-surface-cream px-10 py-4 rounded-full font-body-strong text-lg hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 shadow-sm">
+            <button
+              onClick={() => setWaitlistOpen(true)}
+              className="bg-charcoal text-surface-cream px-10 py-4 rounded-full font-body-strong text-lg hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 shadow-sm"
+            >
               Join the Waitlist
             </button>
           </div>
@@ -49,6 +56,8 @@ export default function HeroV1() {
           </div>
         </div>
       </section>
+
+      <WaitlistDialog open={waitlistOpen} onClose={() => setWaitlistOpen(false)} />
     </div>
   );
 }
