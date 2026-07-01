@@ -1,5 +1,5 @@
 import Navbar from "../components/landing/Navbar.jsx";
-import Hero from "../components/landing/Hero.jsx";
+import Hero from "../components/landing/HeroV1.jsx";
 import TrustBar from "../components/landing/TrustBar.jsx";
 import Mission from "../components/landing/Mission.jsx";
 import OurStory from "../components/landing/OurStory.jsx";
