@@ -10,14 +10,15 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full px-4 pt-3 pb-2">
       <div className="flex justify-between items-center max-w-container-max mx-auto bg-[#f5ede4]/90 backdrop-blur-md border border-[#8B7355]/15 shadow-[0_2px_16px_rgba(139,115,85,0.10)] rounded-2xl px-6 h-16">
         <div className="flex items-center gap-3">
-          <img src="/logo.png" alt="The Neighbourhood logo" className="w-8 h-8 object-contain" />
-          <span className="text-headline-h3 font-headline-h3 font-bold text-primary">
-            The Neighbourhood
-          </span>
-          <span className="hidden md:inline-block w-px h-4 bg-warm-taupe/30 mx-1" />
-          <span className="hidden md:inline text-xs text-on-surface-variant italic tracking-wide">
-            safe spaces. warm hearts. bright futures.
-          </span>
+          <img src="/logo.png" alt="The Neighbourhood logo" className="w-8 h-8 object-contain mt-0.5 flex-shrink-0" />
+          <div className="flex flex-col leading-tight">
+            <span className="text-headline-h3 font-headline-h3 font-bold text-primary leading-none">
+              The Neighbourhood
+            </span>
+            <span className="text-[10px] text-warm-taupe/70 italic tracking-[0.12em] mt-1">
+              safe spaces. warm hearts. bright futures.
+            </span>
+          </div>
         </div>
 
         <div className="hidden md:flex items-center gap-stack-lg">
