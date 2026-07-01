@@ -11,14 +11,13 @@ export default function Navbar() {
       <div className="flex justify-between items-center max-w-container-max mx-auto bg-[#f5ede4]/90 backdrop-blur-md border border-[#8B7355]/15 shadow-[0_2px_16px_rgba(139,115,85,0.10)] rounded-2xl px-6 h-16">
         <div className="flex items-center gap-3">
           <img src="/logo.png" alt="The Neighbourhood logo" className="w-8 h-8 object-contain" />
-          <div className="flex flex-col leading-tight">
-            <span className="text-headline-h3 font-headline-h3 font-bold text-primary">
-              The Neighbourhood
-            </span>
-            <span className="text-xs text-on-surface-variant tracking-wide">
-              an operating system for modern parenting
-            </span>
-          </div>
+          <span className="text-headline-h3 font-headline-h3 font-bold text-primary">
+            The Neighbourhood
+          </span>
+          <span className="hidden md:inline-block w-px h-4 bg-warm-taupe/30 mx-1" />
+          <span className="hidden md:inline text-xs text-on-surface-variant italic tracking-wide">
+            safe spaces. warm hearts. bright futures.
+          </span>
         </div>
 
         <div className="hidden md:flex items-center gap-stack-lg">
