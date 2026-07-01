@@ -1,4 +1,4 @@
-import ImagePlaceholder from "../ImagePlaceholder.jsx";
+import ChildGrowthAnimation from "../ChildGrowthAnimation.jsx";
 
 export default function HeroV1() {
   return (
@@ -42,13 +42,9 @@ export default function HeroV1() {
             </button>
           </div>
 
-          <div className="relative hero-graphic-bg rounded-[40px] p-8 md:p-12">
-            <div className="aspect-square w-full rounded-3xl overflow-hidden relative border border-soft-sand/20 bg-surface-container-low shadow-sm">
-              <ImagePlaceholder
-                className="w-full h-full"
-                alt="Stylized Indian village courtyard (Aangan) with a central Banyan tree, soft cream and sand tones, children playing with wooden toys, parents talking in golden afternoon light"
-                icon="park"
-              />
+          <div className="relative flex items-center justify-center">
+            <div className="w-full max-w-sm aspect-square">
+              <ChildGrowthAnimation />
             </div>
           </div>
         </div>
