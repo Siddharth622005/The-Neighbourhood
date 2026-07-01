@@ -33,7 +33,7 @@ export default function HeroV2() {
               Raising children was never meant to be done alone.
             </h1>
             <p className="text-on-surface-variant text-headline-h3 font-normal max-w-lg pb-4">
-              Warm spaces where children truly belong. A community that holds you. Tools that stay with you long after the school day ends.
+              A quiet companion for the years that matter most, a copilot that knows your child, a space for them to belong, and a village of neighbours around you both.
             </p>
             <button className="bg-charcoal text-surface-cream px-10 py-4 rounded-full font-body-strong text-lg hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 shadow-sm">
               Join the Waitlist

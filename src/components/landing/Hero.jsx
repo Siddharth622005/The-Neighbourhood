@@ -37,7 +37,7 @@ export default function Hero() {
               to raise a family.
             </h1>
             <p className="text-on-surface-variant text-headline-h3 font-normal max-w-lg pb-4">
-              Warm spaces where children truly belong. A community that holds you. Tools that stay with you long after the school day ends.
+              The Neighbourhood is a quiet companion for the years that shape them, an AI copilot that actually knows your child, warm spaces like The Aangan to grow in, and a community of neighbours who show up like family.
             </p>
             <button className="bg-charcoal text-surface-cream px-10 py-4 rounded-full font-body-strong text-lg hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 shadow-sm">
               Join the Waitlist
