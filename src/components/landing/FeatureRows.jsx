@@ -55,8 +55,9 @@ export default function FeatureRows() {
               Physical Spaces
             </h3>
             <p className="text-on-surface-variant text-lg max-w-md">
-              The Aangan and The Verandah: Play-based havens designed for children's discovery
-              and parents' peace of mind.
+              Rooted in immunopsychiatry, the science of how calm, connected environments
+              strengthen a child's mind and immunity alike. The Aangan and The Verandah:
+              play spaces built for real peace of mind.
             </p>
           </div>
           <div className="mt-8">
