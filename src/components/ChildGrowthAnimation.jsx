@@ -19,39 +19,31 @@ export default function ChildGrowthAnimation() {
           will-change: transform, opacity;
         }
 
-        /* Each hand stamps in at its own moment, all hold, then fade together. */
+        /* Each hand fades and settles in gently at its own moment, holds, then fades out together. */
         @keyframes st1 {
-          0%,2%    { transform:translate(-50%,-50%) rotate(-13deg) scale(0);    opacity:0; }
-          5%       { transform:translate(-50%,-50%) rotate(-13deg) scale(1.18); opacity:.9; }
-          8%       { transform:translate(-50%,-50%) rotate(-13deg) scale(0.95); opacity:1; }
-          11%,86%  { transform:translate(-50%,-50%) rotate(-13deg) scale(1);    opacity:1; }
+          0%,2%    { transform:translate(-50%,-50%) rotate(-13deg) scale(0.88); opacity:0; }
+          9%,86%   { transform:translate(-50%,-50%) rotate(-13deg) scale(1);    opacity:1; }
           93%,100% { transform:translate(-50%,-50%) rotate(-13deg) scale(1);    opacity:0; }
         }
         @keyframes st2 {
-          0%,17%   { transform:translate(-50%,-50%) rotate(11deg) scale(0);    opacity:0; }
-          20%      { transform:translate(-50%,-50%) rotate(11deg) scale(1.18); opacity:.9; }
-          23%      { transform:translate(-50%,-50%) rotate(11deg) scale(0.95); opacity:1; }
-          26%,86%  { transform:translate(-50%,-50%) rotate(11deg) scale(1);    opacity:1; }
-          93%,100% { transform:translate(-50%,-50%) rotate(11deg) scale(1);    opacity:0; }
+          0%,17%   { transform:translate(-50%,-50%) rotate(11deg) scale(0.88);  opacity:0; }
+          24%,86%  { transform:translate(-50%,-50%) rotate(11deg) scale(1);     opacity:1; }
+          93%,100% { transform:translate(-50%,-50%) rotate(11deg) scale(1);     opacity:0; }
         }
         @keyframes st3 {
-          0%,32%   { transform:translate(-50%,-50%) rotate(-7deg) scale(0);    opacity:0; }
-          35%      { transform:translate(-50%,-50%) rotate(-7deg) scale(1.18); opacity:.9; }
-          38%      { transform:translate(-50%,-50%) rotate(-7deg) scale(0.95); opacity:1; }
-          41%,86%  { transform:translate(-50%,-50%) rotate(-7deg) scale(1);    opacity:1; }
-          93%,100% { transform:translate(-50%,-50%) rotate(-7deg) scale(1);    opacity:0; }
+          0%,32%   { transform:translate(-50%,-50%) rotate(-7deg) scale(0.88);  opacity:0; }
+          39%,86%  { transform:translate(-50%,-50%) rotate(-7deg) scale(1);     opacity:1; }
+          93%,100% { transform:translate(-50%,-50%) rotate(-7deg) scale(1);     opacity:0; }
         }
         @keyframes st4 {
-          0%,47%   { transform:translate(-50%,-50%) rotate(8deg) scale(0);    opacity:0; }
-          50%      { transform:translate(-50%,-50%) rotate(8deg) scale(1.18); opacity:.9; }
-          53%      { transform:translate(-50%,-50%) rotate(8deg) scale(0.95); opacity:1; }
-          56%,86%  { transform:translate(-50%,-50%) rotate(8deg) scale(1);    opacity:1; }
-          93%,100% { transform:translate(-50%,-50%) rotate(8deg) scale(1);    opacity:0; }
+          0%,47%   { transform:translate(-50%,-50%) rotate(8deg) scale(0.88);   opacity:0; }
+          54%,86%  { transform:translate(-50%,-50%) rotate(8deg) scale(1);      opacity:1; }
+          93%,100% { transform:translate(-50%,-50%) rotate(8deg) scale(1);      opacity:0; }
         }
-        .st1 { animation: st1 ${D} ease-in-out infinite; }
-        .st2 { animation: st2 ${D} ease-in-out infinite; }
-        .st3 { animation: st3 ${D} ease-in-out infinite; }
-        .st4 { animation: st4 ${D} ease-in-out infinite; }
+        .st1 { animation: st1 ${D} ease-out infinite; }
+        .st2 { animation: st2 ${D} ease-out infinite; }
+        .st3 { animation: st3 ${D} ease-out infinite; }
+        .st4 { animation: st4 ${D} ease-out infinite; }
 
         .tn-lbl { position:absolute; font-family:Georgia,serif; font-style:italic;
                   font-size:0.72rem; color:#8B7355; opacity:0; white-space:nowrap; }
