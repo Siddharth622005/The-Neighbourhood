@@ -35,7 +35,7 @@ export default function HeroV1() {
               What happened to the neighbourhood?
             </h1>
             <p className="text-on-surface-variant text-headline-h3 font-normal max-w-lg pb-4">
-              A quiet companion for the early years of parenting, an AI copilot that actually knows your child, The Aangan to bring them into a room full of wonder, and a community of parents who get it.
+              We brought it back. A copilot that knows your child, spaces like The Aangan to grow in, and neighbours who actually show up.
             </p>
             <button className="bg-charcoal text-surface-cream px-10 py-4 rounded-full font-body-strong text-lg hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 shadow-sm">
               Join the Waitlist
