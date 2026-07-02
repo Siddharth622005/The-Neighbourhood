@@ -44,7 +44,7 @@ export default function Truths() {
       <div className="max-w-3xl mb-16 md:mb-20">
         <p className="v3-eyebrow text-warm-taupe mb-6">Why we exist</p>
         <WordReveal
-          text="You love this more than anything. Some days, it's still a lot."
+          text="You love your child more than anything. Some days, raising them is still a lot."
           className="v3-h2 text-charcoal"
         />
         <p className="v3-body-lg text-on-surface-variant mt-6 max-w-2xl">
