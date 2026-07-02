@@ -1,11 +1,9 @@
-import TwoAmConstellation from "./TwoAmConstellation.jsx";
+import ChildGrowthAnimation from "../ChildGrowthAnimation.jsx";
 
 /**
  * Opening beat: empathy before product. One emotional headline (the only
  * place Playfair touches the hero), one plain-spoken promise, one calm
  * invitation. Load-in is CSS-only (.v3-enter) — no scroll hijacking here.
- * The right-side visual is the 2am Constellation: lit windows in the dark,
- * one of them yours — the headline's promise, made visible.
  */
 export default function HeroV3({ onJoin }) {
   return (
@@ -46,7 +44,7 @@ export default function HeroV3({ onJoin }) {
 
           <div className="v3-enter lg:col-span-5 hidden md:block" data-delay="3">
             <div className="w-full max-w-md mx-auto aspect-square">
-              <TwoAmConstellation />
+              <ChildGrowthAnimation />
             </div>
           </div>
         </div>
