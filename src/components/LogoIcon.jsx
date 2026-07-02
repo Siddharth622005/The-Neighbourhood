@@ -30,14 +30,14 @@ export default function LogoIcon({ className = "", color = "#4A3323" }) {
         <g data-group="roof">
           <path
             data-part="roof-left"
-            d="M 5 92 Q 9 85 15 80 L 100 15"
+            d="M 6 88 Q 8 82 14 77 L 100 14"
             pathLength="1"
             strokeDasharray="1"
             strokeDashoffset="0"
           />
           <path
             data-part="roof-right"
-            d="M 195 92 Q 191 85 185 80 L 100 15"
+            d="M 194 88 Q 192 82 186 77 L 100 14"
             pathLength="1"
             strokeDasharray="1"
             strokeDashoffset="0"
@@ -45,18 +45,18 @@ export default function LogoIcon({ className = "", color = "#4A3323" }) {
         </g>
 
         <g data-group="heart">
-          {/* Left wall drops from the eave and bulges inward, becoming the
+          {/* Left wall drops from the eave and bulges wide, becoming the
               heart's left lobe, down to the shared point at bottom-center. */}
           <path
             data-part="heart-lobe-left"
-            d="M 34 76 C 14 104, 34 138, 100 150"
+            d="M 42 72 C 8 100, 20 145, 100 158"
             pathLength="1"
             strokeDasharray="1"
             strokeDashoffset="0"
           />
           <path
             data-part="heart-lobe-right"
-            d="M 166 76 C 186 104, 166 138, 100 150"
+            d="M 158 72 C 192 100, 180 145, 100 158"
             pathLength="1"
             strokeDasharray="1"
             strokeDashoffset="0"
@@ -65,14 +65,14 @@ export default function LogoIcon({ className = "", color = "#4A3323" }) {
               and curls into a short tail, like a ribbon tied off. */}
           <path
             data-part="heart-flare-left"
-            d="M 100 150 C 148 162, 160 148, 150 132"
+            d="M 100 158 C 165 172, 178 152, 160 128"
             pathLength="1"
             strokeDasharray="1"
             strokeDashoffset="0"
           />
           <path
             data-part="heart-flare-right"
-            d="M 100 150 C 52 162, 40 148, 50 132"
+            d="M 100 158 C 35 172, 22 152, 40 128"
             pathLength="1"
             strokeDasharray="1"
             strokeDashoffset="0"
@@ -81,9 +81,9 @@ export default function LogoIcon({ className = "", color = "#4A3323" }) {
       </g>
 
       <g data-group="dots" fill={color}>
-        <circle data-part="dot-left" cx="76" cy="180" r="5" />
-        <circle data-part="dot-center" cx="100" cy="182" r="5" />
-        <circle data-part="dot-right" cx="124" cy="180" r="5" />
+        <circle data-part="dot-left" cx="82" cy="178" r="6" />
+        <circle data-part="dot-center" cx="100" cy="180" r="6" />
+        <circle data-part="dot-right" cx="118" cy="178" r="6" />
       </g>
     </svg>
   );
