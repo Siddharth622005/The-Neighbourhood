@@ -1,10 +1,10 @@
 import ImagePlaceholder from "../ImagePlaceholder.jsx";
 import useScrollReveal from "../useScrollReveal.js";
 
-function RevealCard({ className = "", children }) {
+function RevealCard({ className = "", id, children }) {
   const { ref, inView } = useScrollReveal();
   return (
-    <div ref={ref} className={`bento-card reveal ${inView ? "in-view" : ""} ${className}`}>
+    <div id={id} ref={ref} className={`bento-card reveal ${inView ? "in-view" : ""} ${className}`}>
       {children}
     </div>
   );
