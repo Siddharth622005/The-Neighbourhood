@@ -17,29 +17,35 @@ export default function HeroV3() {
       // then subtext/CTA follow, then the visual — same recipe as kihealth's hero.
       gsap.set(rootRef.current, { opacity: 1 });
 
-      const tl = gsap.timeline({ defaults: { ease: "power1.out" } });
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       tl.from(".v3-hero-line", {
         opacity: 0,
         yPercent: 100,
-        duration: 0.6,
-        stagger: 0.18,
+        duration: 0.7,
+        stagger: 0.16,
       })
+        // hand-drawn underline sweeps in under "village" once its line lands
+        .to(
+          ".v3-hero-underline path",
+          { strokeDashoffset: 0, duration: 0.9, ease: "power2.inOut" },
+          "-=0.2"
+        )
         .from(
           ".v3-hero-sub-item",
           {
             opacity: 0,
             yPercent: 40,
-            duration: 0.45,
-            stagger: 0.15,
+            duration: 0.5,
+            stagger: 0.14,
           },
-          "-=0.25"
+          "-=0.6"
         )
         .from(
           ".v3-hero-visual",
           {
             opacity: 0,
             yPercent: 20,
-            duration: 0.9,
+            duration: 1,
           },
           "-=0.5"
         );
@@ -92,8 +98,31 @@ export default function HeroV3() {
               an operating system for modern parenting
             </p>
             <h1 className="font-headline-h1 text-headline-h1 text-charcoal max-w-xl">
-              <span className="block overflow-hidden">
-                <span className="v3-hero-line block">A village,</span>
+              {/* pb-1 gives the clip box room for the underline's -bottom-1
+                  overhang (it was getting cut off); -mb-1 cancels the extra
+                  4px so the gap to the next line stays unchanged. */}
+              <span className="block overflow-hidden pb-1 -mb-1">
+                <span className="v3-hero-line block">
+                  A{" "}
+                  <span className="relative inline-block">
+                    village,
+                    <svg
+                      className="v3-hero-underline absolute left-0 -bottom-1 w-full h-3 text-soft-sand"
+                      viewBox="0 0 200 12"
+                      preserveAspectRatio="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M4 9 Q 52 3 102 7 T 196 5"
+                        pathLength="1"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </span>
+                </span>
               </span>
               <span className="block overflow-hidden">
                 <span className="v3-hero-line block">built for how families</span>

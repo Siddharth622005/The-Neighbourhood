@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import WordReveal from "../WordReveal.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,6 +31,7 @@ const PROBLEMS = [
 
 export default function ProblemSectionV3() {
   const sectionRef = useRef(null);
+  const fillRefs = useRef([]);
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -46,11 +48,14 @@ export default function ProblemSectionV3() {
             end: "bottom bottom",
             scrub: 1,
             onUpdate: (self) => {
-              const idx = Math.min(
-                PROBLEMS.length - 1,
-                Math.floor(self.progress * PROBLEMS.length)
-              );
+              const per = self.progress * PROBLEMS.length;
+              const idx = Math.min(PROBLEMS.length - 1, Math.floor(per));
               setActive(idx);
+              // Progress rail fills continuously with scroll (not binary),
+              // driven via refs so scroll ticks never re-render React.
+              fillRefs.current.forEach((el, i) => {
+                if (el) el.style.transform = `scaleX(${Math.min(1, Math.max(0, per - i))})`;
+              });
             },
           });
 
@@ -64,17 +69,27 @@ export default function ProblemSectionV3() {
 
   return (
     <section id="problem" ref={sectionRef} className="relative md:h-[300vh]">
-      <div className="md:sticky md:top-0 md:h-screen flex flex-col justify-center py-section-gap md:py-0 px-margin-mobile md:px-gutter max-w-container-max mx-auto">
-        <div className="max-w-2xl mb-stack-lg">
+      <div className="md:sticky md:top-0 md:h-screen relative flex flex-col justify-center py-section-gap md:py-0 px-margin-mobile md:px-gutter max-w-container-max mx-auto">
+        {/* Giant watermark number, re-mounted per switch so it rises in again */}
+        <span
+          key={active}
+          aria-hidden="true"
+          className="v3-watermark hidden md:block pointer-events-none select-none absolute top-6 right-0 font-headline-h1 font-bold leading-none text-[11rem] text-soft-sand/25"
+        >
+          0{active + 1}
+        </span>
+
+        <div className="max-w-2xl mb-stack-lg relative">
           <p className="font-tagline-handwritten text-tagline-handwritten text-soft-sand uppercase tracking-widest mb-4">
             the problem
           </p>
-          <h2 className="font-headline-h2 text-headline-h2 text-charcoal">
-            Modern parenting broke something the village used to hold.
-          </h2>
+          <WordReveal
+            text="Modern parenting broke something the village used to hold."
+            className="font-headline-h2 text-headline-h2 text-charcoal"
+          />
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-6 relative">
           {PROBLEMS.map((p, i) => {
             const isActive = i === active;
             return (
@@ -82,8 +97,8 @@ export default function ProblemSectionV3() {
                 key={p.title}
                 className={`rounded-[32px] p-8 border transition-all duration-500 ease-out ${
                   isActive
-                    ? "bg-charcoal border-charcoal scale-100 opacity-100 shadow-xl"
-                    : "bg-surface-container/40 border-transparent scale-[0.96] opacity-60"
+                    ? "bg-charcoal border-charcoal md:scale-100 md:-translate-y-2 opacity-100 shadow-xl"
+                    : "bg-surface-container/40 border-transparent md:scale-[0.96] md:translate-y-0 opacity-100 md:opacity-60"
                 }`}
               >
                 {/* Lottie slot: once animation JSON files are provided, swap
@@ -93,7 +108,7 @@ export default function ProblemSectionV3() {
                     active/inactive transition keeps working unchanged. */}
                 <div
                   className={`w-14 h-14 rounded-full flex items-center justify-center mb-6 transition-colors duration-500 ${
-                    isActive ? "bg-secondary" : "bg-surface-container"
+                    isActive ? "v3-icon-pop bg-secondary" : "bg-surface-container"
                   }`}
                 >
                   <span
@@ -131,14 +146,17 @@ export default function ProblemSectionV3() {
           })}
         </div>
 
-        <div className="flex gap-2 mt-stack-lg max-w-xs">
+        {/* Scrub-linked progress rail: each segment fills continuously as you
+            scroll through its card's third of the section. */}
+        <div className="hidden md:flex gap-2 mt-stack-lg max-w-xs" aria-hidden="true">
           {PROBLEMS.map((_, i) => (
-            <div
-              key={i}
-              className={`h-1 flex-1 rounded-full transition-colors duration-500 ${
-                i === active ? "bg-charcoal" : "bg-soft-sand/30"
-              }`}
-            />
+            <div key={i} className="h-1 flex-1 rounded-full bg-soft-sand/30 overflow-hidden">
+              <div
+                ref={(el) => (fillRefs.current[i] = el)}
+                className="h-full w-full rounded-full bg-charcoal origin-left"
+                style={{ transform: "scaleX(0)" }}
+              />
+            </div>
           ))}
         </div>
       </div>

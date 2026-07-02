@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ImagePlaceholder from "../ImagePlaceholder.jsx";
 import { useStaggerReveal } from "../useScrollReveal.js";
+import WordReveal from "../WordReveal.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,6 +57,23 @@ export default function ApproachSectionV3() {
           },
         });
       });
+
+      // One-shot intro: panels settle from slightly zoomed + transparent as
+      // the section first enters view. Safe alongside the yPercent scrub —
+      // GSAP treats scale/opacity and yPercent as independent channels, so
+      // the two tweens never fight over the same property.
+      gsap.from(panels, {
+        opacity: 0,
+        scale: 1.06,
+        duration: 1.1,
+        ease: "power2.out",
+        stagger: 0.15,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 70%",
+          once: true,
+        },
+      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -72,9 +90,10 @@ export default function ApproachSectionV3() {
           <p className="font-tagline-handwritten text-tagline-handwritten text-soft-sand uppercase tracking-widest mb-4">
             our approach
           </p>
-          <h2 className="font-headline-h2 text-headline-h2 text-charcoal mb-6 max-w-lg">
-            Why calm, connected environments come first.
-          </h2>
+          <WordReveal
+            text="Why calm, connected environments come first."
+            className="font-headline-h2 text-headline-h2 text-charcoal mb-6 max-w-lg"
+          />
 
           <div ref={textRef} className="space-y-stack-lg">
             {BEATS.map((b) => (

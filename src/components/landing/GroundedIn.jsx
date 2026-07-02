@@ -1,4 +1,5 @@
 import { useStaggerReveal } from "../useScrollReveal.js";
+import WordReveal from "../WordReveal.jsx";
 
 // The trust/credibility beat kihealth fills with advisor headshots and
 // credentials. We deliberately don't fabricate a team or advisor board we
@@ -34,25 +35,34 @@ export default function GroundedIn() {
         <p className="font-tagline-handwritten text-tagline-handwritten text-soft-sand uppercase tracking-widest mb-4">
           grounded in
         </p>
-        <h2 className="font-headline-h2 text-headline-h2 text-charcoal">
-          Not theory. Lived experience and real science.
-        </h2>
+        <WordReveal
+          text="Not theory. Lived experience and real science."
+          className="font-headline-h2 text-headline-h2 text-charcoal"
+        />
       </div>
 
       <div ref={ref} className="grid md:grid-cols-2 gap-6">
-        {PILLARS.map((p) => (
-          <div
-            key={p.title}
-            className={`stagger-item ${inView ? "in-view" : ""} rounded-[32px] bg-surface-container/40 border border-soft-sand/25 p-8 md:p-10`}
-          >
-            <div className="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-6">
-              <span className="material-symbols-outlined text-warm-taupe text-2xl">{p.icon}</span>
+        {PILLARS.map((p, i) => (
+          <div key={p.title} className={`stagger-item ${inView ? "in-view" : ""}`}>
+            {/* Visual card lives on an inner wrapper: .stagger-item sets a bare
+                `transform` for its reveal, which would wipe Tailwind's rotate
+                var-chain if the tilt sat on the same element. The cards rest
+                at a slight alternating tilt (like cards laid on a table) and
+                straighten + lift on hover. */}
+            <div
+              className={`h-full rounded-[32px] bg-surface-container/40 border border-soft-sand/25 p-8 md:p-10 transition-all duration-300 ease-out md:hover:rotate-0 hover:-translate-y-1.5 hover:shadow-lg hover:bg-surface-container/60 ${
+                i % 2 === 0 ? "md:-rotate-1" : "md:rotate-1"
+              }`}
+            >
+              <div className="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-6">
+                <span className="material-symbols-outlined text-warm-taupe text-2xl">{p.icon}</span>
+              </div>
+              <h3 className="font-headline-h3 text-headline-h3 text-warm-taupe mb-3">{p.title}</h3>
+              <p className="text-on-surface-variant text-lg leading-relaxed">{p.body}</p>
+              {p.attribution && (
+                <p className="mt-4 text-warm-taupe font-body-strong">{p.attribution}</p>
+              )}
             </div>
-            <h3 className="font-headline-h3 text-headline-h3 text-warm-taupe mb-3">{p.title}</h3>
-            <p className="text-on-surface-variant text-lg leading-relaxed">{p.body}</p>
-            {p.attribution && (
-              <p className="mt-4 text-warm-taupe font-body-strong">{p.attribution}</p>
-            )}
           </div>
         ))}
       </div>
