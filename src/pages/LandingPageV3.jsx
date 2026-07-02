@@ -5,11 +5,11 @@ import Navbar from "../components/landing/Navbar.jsx";
 import Hero from "../components/landing/HeroV3.jsx";
 import ProblemSectionV3 from "../components/landing/ProblemSectionV3.jsx";
 import ApproachSectionV3 from "../components/landing/ApproachSectionV3.jsx";
-import GroundedIn from "../components/landing/GroundedIn.jsx";
+import FeatureRows from "../components/landing/FeatureRows.jsx";
 import TrustBar from "../components/landing/TrustBar.jsx";
 import Mission from "../components/landing/Mission.jsx";
+import GroundedIn from "../components/landing/GroundedIn.jsx";
 import OurStory from "../components/landing/OurStory.jsx";
-import FeatureRows from "../components/landing/FeatureRows.jsx";
 import AppPreview from "../components/landing/AppPreview.jsx";
 import TrickFramework from "../components/landing/TrickFramework.jsx";
 import ClosingCTA from "../components/landing/ClosingCTA.jsx";
@@ -25,13 +25,16 @@ gsap.registerPlugin(ScrollTrigger);
 const CREAM = "#E8DDD1";
 const TINT = "#FDF2E5";
 
+// Order here follows the page's actual visual order (Problem -> Approach ->
+// Solution -> Vision -> Grounded In -> Our Story -> Values) so the
+// TINT/CREAM alternation reads correctly as you scroll down.
 const ZONES = [
   { id: "#problem", color: TINT, prevColor: CREAM },
   { id: "#approach", color: CREAM, prevColor: TINT },
-  { id: "#grounded", color: TINT, prevColor: CREAM },
+  { id: "#community", color: TINT, prevColor: CREAM },
   { id: "#mission", color: CREAM, prevColor: TINT },
-  { id: "#our-story", color: TINT, prevColor: CREAM },
-  { id: "#community", color: CREAM, prevColor: TINT },
+  { id: "#grounded", color: TINT, prevColor: CREAM },
+  { id: "#our-story", color: CREAM, prevColor: TINT },
   { id: "#trick", color: TINT, prevColor: CREAM },
 ];
 
@@ -64,11 +67,11 @@ export default function LandingPageV3() {
       <Hero />
       <ProblemSectionV3 />
       <ApproachSectionV3 />
-      <GroundedIn />
+      <FeatureRows />
       <TrustBar />
       <Mission />
+      <GroundedIn />
       <OurStory />
-      <FeatureRows />
       <AppPreview />
       <TrickFramework />
       <ClosingCTA />
