@@ -38,7 +38,7 @@ export default function HeroV3({ onJoin }) {
               </a>
             </div>
             <p className="v3-enter text-sm text-on-surface-variant/70 mt-6" data-delay="4">
-              Opening first in Gurugram &middot; Joining is free
+              Joining is free &mdash; wherever you&rsquo;re raising a child.
             </p>
           </div>
 

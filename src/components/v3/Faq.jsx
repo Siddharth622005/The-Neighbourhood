@@ -7,7 +7,7 @@ import WordReveal from "../WordReveal.jsx";
 const FAQS = [
   {
     q: "Where is The Neighbourhood?",
-    a: "We're starting in Gurugram — physical spaces first, with the community and app growing alongside them. If you're somewhere else, join the waitlist anyway; we'll tell you the moment we head your way.",
+    a: "Two places: on your phone, and on the ground. The guidance and community are being built for parents everywhere, from day one. The first physical spaces are taking shape in Gurugram — the first neighbourhood of many. Join from wherever you are; you're not early to someone else's city, you're early to yours.",
   },
   {
     q: "What actually happens when I join the waitlist?",
