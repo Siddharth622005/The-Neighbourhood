@@ -248,6 +248,46 @@ body {
 .logo-draw [data-part="dot-center"] { animation-delay: 0.62s; }
 .logo-draw [data-part="dot-right"] { animation-delay: 0.69s; }
 
+/* ---------------------------------------------------------------- */
+/* The 2am Constellation (hero visual)                               */
+/* ---------------------------------------------------------------- */
+
+/* Every window breathes on its own slow cycle; per-window duration and
+   a negative delay (start mid-cycle) are set inline by TwoAmConstellation. */
+@keyframes windowBreathe {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+.constellation-window {
+  animation: windowBreathe var(--dur, 10s) ease-in-out var(--delay, 0s) infinite;
+}
+
+/* The viewer's window: steady and warm, brightening once per cycle... */
+@keyframes windowCall {
+  0%, 55%, 90%, 100% { opacity: 0.85; }
+  64%, 76%           { opacity: 1; }
+}
+
+.constellation-call {
+  animation: windowCall 10s ease-in-out infinite;
+}
+
+/* ...and a distant light answers within a second. */
+@keyframes windowAnswer {
+  0%, 62%, 96%, 100% { opacity: 0.45; }
+  72%, 84%           { opacity: 1; }
+}
+
+.constellation-answer {
+  animation: windowAnswer 10s ease-in-out infinite;
+}
+
+/* A farther light that only answers now and then. */
+.constellation-answer-slow {
+  animation: windowAnswer 30s ease-in-out infinite;
+}
+
 /* Calm honesty for people who ask for less motion. */
 @media (prefers-reduced-motion: reduce) {
   .v3-fade,
@@ -266,5 +306,12 @@ body {
   .blob-float,
   .blob-float-slow {
     animation: none;
+  }
+  .constellation-window,
+  .constellation-call,
+  .constellation-answer,
+  .constellation-answer-slow {
+    animation: none;
+    opacity: 0.85;
   }
 }
