@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "../components/landing/Navbar.jsx";
 import Hero from "../components/landing/HeroV3.jsx";
+import ProblemSectionV3 from "../components/landing/ProblemSectionV3.jsx";
 import TrustBar from "../components/landing/TrustBar.jsx";
 import Mission from "../components/landing/Mission.jsx";
 import OurStory from "../components/landing/OurStory.jsx";
@@ -23,10 +24,11 @@ const CREAM = "#E8DDD1";
 const TINT = "#FDF2E5";
 
 const ZONES = [
-  { id: "#mission", color: TINT, prevColor: CREAM },
-  { id: "#our-story", color: CREAM, prevColor: TINT },
-  { id: "#community", color: TINT, prevColor: CREAM },
-  { id: "#trick", color: CREAM, prevColor: TINT },
+  { id: "#problem", color: TINT, prevColor: CREAM },
+  { id: "#mission", color: CREAM, prevColor: TINT },
+  { id: "#our-story", color: TINT, prevColor: CREAM },
+  { id: "#community", color: CREAM, prevColor: TINT },
+  { id: "#trick", color: TINT, prevColor: CREAM },
 ];
 
 export default function LandingPageV3() {
@@ -53,9 +55,10 @@ export default function LandingPageV3() {
   }, []);
 
   return (
-    <div ref={wrapperRef} className="overflow-x-hidden" style={{ backgroundColor: CREAM }}>
+    <div ref={wrapperRef} className="overflow-x-clip" style={{ backgroundColor: CREAM }}>
       <Navbar />
       <Hero />
+      <ProblemSectionV3 />
       <TrustBar />
       <Mission />
       <OurStory />
