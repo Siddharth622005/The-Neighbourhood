@@ -1,81 +1,47 @@
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Navbar from "../components/landing/Navbar.jsx";
-import Hero from "../components/landing/HeroV3.jsx";
-import ProblemSectionV3 from "../components/landing/ProblemSectionV3.jsx";
-import ApproachSectionV3 from "../components/landing/ApproachSectionV3.jsx";
-import FeatureRows from "../components/landing/FeatureRows.jsx";
-import TrustBar from "../components/landing/TrustBar.jsx";
-import Mission from "../components/landing/Mission.jsx";
-import GroundedIn from "../components/landing/GroundedIn.jsx";
-import OurStory from "../components/landing/OurStory.jsx";
-import AppPreview from "../components/landing/AppPreview.jsx";
-import TrickFramework from "../components/landing/TrickFramework.jsx";
-import ClosingCTA from "../components/landing/ClosingCTA.jsx";
-import Footer from "../components/landing/Footer.jsx";
+import { useState } from "react";
+import NavbarV3 from "../components/v3/NavbarV3.jsx";
+import HeroV3 from "../components/v3/HeroV3.jsx";
+import Truths from "../components/v3/Truths.jsx";
+import Belief from "../components/v3/Belief.jsx";
+import Pillars from "../components/v3/Pillars.jsx";
+import LifeInside from "../components/v3/LifeInside.jsx";
+import FounderStory from "../components/v3/FounderStory.jsx";
+import Values from "../components/v3/Values.jsx";
+import Faq from "../components/v3/Faq.jsx";
+import ClosingInvite from "../components/v3/ClosingInvite.jsx";
+import FooterV3 from "../components/v3/FooterV3.jsx";
+import WaitlistDialogV3 from "../components/v3/WaitlistDialogV3.jsx";
 
-gsap.registerPlugin(ScrollTrigger);
-
-// Alternating background "zones" as you scroll — mirrors kihealth.org's
-// nav/body color-morph trick, where the whole page tint shifts per section
-// instead of staying flat, giving scroll a sense of moving through distinct
-// spaces. Kept subtle and on-brand: cream <-> a lighter cream-sand tint,
-// both already in our palette (surface-cream / surface-container-low).
-const CREAM = "#E8DDD1";
-const TINT = "#FDF2E5";
-
-// Order here follows the page's actual visual order (Problem -> Approach ->
-// Solution -> Vision -> Grounded In -> Our Story -> Values) so the
-// TINT/CREAM alternation reads correctly as you scroll down.
-const ZONES = [
-  { id: "#problem", color: TINT, prevColor: CREAM },
-  { id: "#approach", color: CREAM, prevColor: TINT },
-  { id: "#community", color: TINT, prevColor: CREAM },
-  { id: "#mission", color: CREAM, prevColor: TINT },
-  { id: "#grounded", color: TINT, prevColor: CREAM },
-  { id: "#our-story", color: CREAM, prevColor: TINT },
-  { id: "#trick", color: TINT, prevColor: CREAM },
-];
-
+/**
+ * V3 — the editorial redesign. One narrative, top to bottom:
+ * parenting is beautiful → and overwhelming → that's not your fault →
+ * here's what we believe → the three parts of the village → life inside →
+ * who's behind it → how we behave → honest answers → an invitation.
+ *
+ * One waitlist flow: every CTA on the page opens the same dialog, owned
+ * here. Motion is CSS-only (v3-enter / v3-fade / word-reveal) — calm by
+ * construction, no scroll hijacking.
+ */
 export default function LandingPageV3() {
-  const wrapperRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      ZONES.forEach(({ id, color, prevColor }) => {
-        ScrollTrigger.create({
-          trigger: id,
-          start: "top 60%",
-          end: "bottom top",
-          onEnter: () =>
-            gsap.to(wrapperRef.current, { backgroundColor: color, duration: 0.6, ease: "power1.out" }),
-          onEnterBack: () =>
-            gsap.to(wrapperRef.current, { backgroundColor: color, duration: 0.6, ease: "power1.out" }),
-          onLeaveBack: () =>
-            gsap.to(wrapperRef.current, { backgroundColor: prevColor, duration: 0.6, ease: "power1.out" }),
-        });
-      });
-    }, wrapperRef);
-
-    return () => ctx.revert();
-  }, []);
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
+  const openWaitlist = () => setWaitlistOpen(true);
 
   return (
-    <div ref={wrapperRef} className="overflow-x-clip" style={{ backgroundColor: CREAM }}>
-      <Navbar />
-      <Hero />
-      <ProblemSectionV3 />
-      <ApproachSectionV3 />
-      <FeatureRows />
-      <TrustBar />
-      <Mission />
-      <GroundedIn />
-      <OurStory />
-      <AppPreview />
-      <TrickFramework />
-      <ClosingCTA />
-      <Footer />
+    <div className="overflow-x-clip bg-surface-cream">
+      <NavbarV3 onJoin={openWaitlist} />
+      <main>
+        <HeroV3 onJoin={openWaitlist} />
+        <Truths />
+        <Belief />
+        <Pillars />
+        <LifeInside />
+        <FounderStory />
+        <Values />
+        <Faq />
+        <ClosingInvite onJoin={openWaitlist} />
+      </main>
+      <FooterV3 />
+      <WaitlistDialogV3 open={waitlistOpen} onClose={() => setWaitlistOpen(false)} />
     </div>
   );
 }

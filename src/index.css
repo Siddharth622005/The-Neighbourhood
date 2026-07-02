@@ -137,31 +137,148 @@ body {
   transform: translateY(0);
 }
 
-/* Small celebratory pop when a problem card becomes the active one.
-   Class is added on activation, so the animation replays each switch. */
-@keyframes v3IconPop {
-  0%   { transform: scale(1); }
-  45%  { transform: scale(1.18) rotate(-4deg); }
-  100% { transform: scale(1) rotate(0deg); }
+/* ---------------------------------------------------------------- */
+/* V3 redesign vocabulary (calm, editorial)                          */
+/* ---------------------------------------------------------------- */
+
+/* Type system. Inter carries everything; Playfair Display appears only
+   as .v3-serif — italic emotional accents, hero emphasis, pull quotes. */
+.v3-display {
+  font-family: Inter, sans-serif;
+  font-size: clamp(2.5rem, 5.5vw, 4.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  font-weight: 700;
 }
 
-.v3-icon-pop {
-  animation: v3IconPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+.v3-h2 {
+  font-family: Inter, sans-serif;
+  font-size: clamp(1.9rem, 3.6vw, 2.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 600;
 }
 
-/* Big watermark number behind the problem cards: re-mounted on each
-   active-card change (via key), so it rises + fades in per switch. */
-@keyframes v3WatermarkIn {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+.v3-h3 {
+  font-family: Inter, sans-serif;
+  font-size: 1.375rem;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  font-weight: 600;
 }
 
-.v3-watermark {
-  animation: v3WatermarkIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+.v3-eyebrow {
+  font-family: Inter, sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-/* Hero underline: drawn in by GSAP via strokeDashoffset (pathLength=1). */
-.v3-hero-underline path {
-  stroke-dasharray: 1;
+.v3-serif {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.v3-body-lg {
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+/* Scroll reveal: fade + gentle rise + blur settling into focus.
+   Pair with useScrollReveal's `in-view`. */
+.v3-fade {
+  opacity: 0;
+  transform: translateY(22px);
+  filter: blur(8px);
+  transition:
+    opacity 0.9s ease-out,
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.9s ease-out;
+}
+
+.v3-fade.in-view {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Optional per-item delay steps for small groups of .v3-fade siblings. */
+.v3-fade[data-delay="1"] { transition-delay: 120ms; }
+.v3-fade[data-delay="2"] { transition-delay: 240ms; }
+.v3-fade[data-delay="3"] { transition-delay: 360ms; }
+
+/* Load-in for the hero (no scroll needed): same feel as .v3-fade but
+   keyframe-driven so it plays once on mount, staggered via data-delay. */
+@keyframes v3Enter {
+  from { opacity: 0; transform: translateY(22px); filter: blur(8px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+.v3-enter {
+  animation: v3Enter 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.v3-enter[data-delay="1"] { animation-delay: 150ms; }
+.v3-enter[data-delay="2"] { animation-delay: 300ms; }
+.v3-enter[data-delay="3"] { animation-delay: 450ms; }
+.v3-enter[data-delay="4"] { animation-delay: 600ms; }
+
+/* Logo mark draws itself in on load: strokes sweep in (pathLength=1),
+   dots settle last. Applied by adding .logo-draw to LogoIcon. */
+@keyframes v3LogoStroke {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes v3LogoDot {
+  from { opacity: 0; transform: scale(0); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.logo-draw path {
   stroke-dashoffset: 1;
+  animation: v3LogoStroke 0.9s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.logo-draw [data-part="roof-left"],
+.logo-draw [data-part="roof-right"] { animation-delay: 0.1s; }
+.logo-draw [data-part="heart-lobe-left"],
+.logo-draw [data-part="heart-lobe-right"] { animation-delay: 0.45s; }
+.logo-draw [data-part="heart-flare-left"],
+.logo-draw [data-part="heart-flare-right"] { animation-delay: 0.85s; }
+
+.logo-draw circle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: v3LogoDot 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.logo-draw [data-part="dot-left"] { animation-delay: 1.25s; }
+.logo-draw [data-part="dot-center"] { animation-delay: 1.35s; }
+.logo-draw [data-part="dot-right"] { animation-delay: 1.45s; }
+
+/* Calm honesty for people who ask for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .v3-fade,
+  .word-reveal-inner {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+  .v3-enter,
+  .logo-draw path,
+  .logo-draw circle {
+    animation: none !important;
+    opacity: 1;
+    stroke-dashoffset: 0;
+    transform: none;
+  }
+  .blob-float,
+  .blob-float-slow {
+    animation: none;
+  }
 }
