@@ -226,39 +226,27 @@ body {
 .v3-enter[data-delay="3"] { animation-delay: 450ms; }
 .v3-enter[data-delay="4"] { animation-delay: 600ms; }
 
-/* Logo mark draws itself in on load: strokes sweep in (pathLength=1),
-   dots settle last. Applied by adding .logo-draw to LogoIcon. */
-@keyframes v3LogoStroke {
-  from { stroke-dashoffset: 1; }
-  to   { stroke-dashoffset: 0; }
-}
-
-@keyframes v3LogoDot {
-  from { opacity: 0; transform: scale(0); }
+/* Logo mark settles in on load: the roof and heart fade/scale up first,
+   dots pop in last. Applied by adding .logo-draw to LogoIcon. The mark is
+   solid fills (not stroked line art), so parts reveal via opacity/scale
+   rather than a stroke-dashoffset draw. */
+@keyframes v3LogoPart {
+  from { opacity: 0; transform: scale(0.85); }
   to   { opacity: 1; transform: scale(1); }
 }
 
-.logo-draw path {
-  stroke-dashoffset: 1;
-  animation: v3LogoStroke 0.9s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-.logo-draw [data-part="roof-left"],
-.logo-draw [data-part="roof-right"] { animation-delay: 0.1s; }
-.logo-draw [data-part="heart-lobe-left"],
-.logo-draw [data-part="heart-lobe-right"] { animation-delay: 0.45s; }
-.logo-draw [data-part="heart-flare-left"],
-.logo-draw [data-part="heart-flare-right"] { animation-delay: 0.85s; }
-
-.logo-draw circle {
+.logo-draw [data-part] {
   transform-box: fill-box;
   transform-origin: center;
-  animation: v3LogoDot 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  opacity: 0;
+  animation: v3LogoPart 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.logo-draw [data-part="dot-left"] { animation-delay: 1.25s; }
-.logo-draw [data-part="dot-center"] { animation-delay: 1.35s; }
-.logo-draw [data-part="dot-right"] { animation-delay: 1.45s; }
+.logo-draw [data-part="roof"] { animation-delay: 0s; }
+.logo-draw [data-part="heart"] { animation-delay: 0.25s; }
+.logo-draw [data-part="dot-left"] { animation-delay: 0.55s; }
+.logo-draw [data-part="dot-center"] { animation-delay: 0.62s; }
+.logo-draw [data-part="dot-right"] { animation-delay: 0.69s; }
 
 /* Calm honesty for people who ask for less motion. */
 @media (prefers-reduced-motion: reduce) {
@@ -270,11 +258,9 @@ body {
     transition: none !important;
   }
   .v3-enter,
-  .logo-draw path,
-  .logo-draw circle {
+  .logo-draw [data-part] {
     animation: none !important;
     opacity: 1;
-    stroke-dashoffset: 0;
     transform: none;
   }
   .blob-float,
