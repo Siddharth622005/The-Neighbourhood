@@ -49,14 +49,14 @@ export default function LogoIcon({ className = "", color = "#4A3323" }) {
               heart's left lobe, down to the shared point at bottom-center. */}
           <path
             data-part="heart-lobe-left"
-            d="M 42 72 C 8 100, 20 145, 100 158"
+            d="M 38 76 C 15 95, 18 130, 100 155"
             pathLength="1"
             strokeDasharray="1"
             strokeDashoffset="0"
           />
           <path
             data-part="heart-lobe-right"
-            d="M 158 72 C 192 100, 180 145, 100 158"
+            d="M 162 76 C 185 95, 182 130, 100 155"
             pathLength="1"
             strokeDasharray="1"
             strokeDashoffset="0"
@@ -65,14 +65,14 @@ export default function LogoIcon({ className = "", color = "#4A3323" }) {
               and curls into a short tail, like a ribbon tied off. */}
           <path
             data-part="heart-flare-left"
-            d="M 100 158 C 165 172, 178 152, 160 128"
+            d="M 100 155 C 125 165, 138 155, 132 137"
             pathLength="1"
             strokeDasharray="1"
             strokeDashoffset="0"
           />
           <path
             data-part="heart-flare-right"
-            d="M 100 158 C 35 172, 22 152, 40 128"
+            d="M 100 155 C 75 165, 62 155, 68 137"
             pathLength="1"
             strokeDasharray="1"
             strokeDashoffset="0"
