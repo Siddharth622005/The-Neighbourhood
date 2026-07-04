@@ -33,9 +33,9 @@ export default function Values() {
               style={{ transitionDelay: `${i * 90}ms` }}
             >
               <div className="flex flex-col md:flex-row md:items-baseline md:gap-8">
-                <p className="text-charcoal text-lg md:w-52 flex-shrink-0">
-                  <span className="text-3xl font-semibold text-warm-taupe">{v.word[0]}</span>
-                  <span className="font-semibold">{v.word.slice(1)}</span>
+                <p className="v3-serif text-charcoal text-xl md:w-52 flex-shrink-0">
+                  <span className="text-3xl text-warm-taupe">{v.word[0]}</span>
+                  <span>{v.word.slice(1)}</span>
                 </p>
                 <p className="text-on-surface-variant leading-relaxed">{v.line}</p>
               </div>
