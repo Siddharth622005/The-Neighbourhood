@@ -3,6 +3,7 @@ import useScrollReveal from "../useScrollReveal.js";
 import WordReveal from "../WordReveal.jsx";
 import aanganSpace from "../../assets/aangan-space.jpg";
 import neighboursCircle from "../../assets/neighbours-circle.jpg";
+import guidancePhone from "../../assets/guidance-phone.jpg";
 
 // The introduction beat: what The Neighbourhood actually is. Three parts of
 // the village, shown as alternating editorial rows — imagery on one side,
@@ -36,7 +37,8 @@ const PILLARS = [
     title: "Answers that know your child.",
     body: "One quiet app. Ask anything at 2pm or 2am and get an answer shaped by your child — their age, their temperament, their history. Grounded in real expertise, spoken like a friend, never a script.",
     image: {
-      alt: "A phone held in one hand at night, showing a gentle, reassuring reply to a parent's question",
+      src: guidancePhone,
+      alt: "A phone held up at night showing a gentle, reassuring reply to a parent's question, with a sleeping baby softly visible below in warm lamplight",
       icon: "psychology",
     },
   },
