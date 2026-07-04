@@ -2,7 +2,7 @@ import useScrollReveal from "../useScrollReveal.js";
 import WordReveal from "../WordReveal.jsx";
 
 // Our values, spoken like a person instead of a values poster. Each word
-// opens on an oversized serif initial — a drop cap, not an acronym legend.
+// opens on an oversized taupe initial — a drop cap, not an acronym legend.
 const VALUES = [
   { word: "Trust", line: "Earned slowly, through honesty and consistency. Never assumed." },
   { word: "Respect", line: "For every family's structure, pace, and way of doing things." },
@@ -34,7 +34,7 @@ export default function Values() {
             >
               <div className="flex flex-col md:flex-row md:items-baseline md:gap-8">
                 <p className="text-charcoal text-lg md:w-52 flex-shrink-0">
-                  <span className="v3-serif text-3xl text-warm-taupe">{v.word[0]}</span>
+                  <span className="text-3xl font-semibold text-warm-taupe">{v.word[0]}</span>
                   <span className="font-semibold">{v.word.slice(1)}</span>
                 </p>
                 <p className="text-on-surface-variant leading-relaxed">{v.line}</p>
