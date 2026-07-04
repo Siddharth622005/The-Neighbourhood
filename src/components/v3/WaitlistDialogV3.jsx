@@ -142,8 +142,8 @@ export default function WaitlistDialogV3({ open, onClose }) {
               Save your family's place.
             </h3>
             <p className="text-on-surface-variant leading-relaxed mb-7">
-              Leave your details and we'll write to you when The
-              Neighbourhood opens near you. Nothing else — promise.
+              Be one of the founding families. What we build, we build with
+              you.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
