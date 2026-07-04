@@ -65,7 +65,7 @@ export default function Faq() {
       <div className="grid lg:grid-cols-12 gap-12">
         <div className="lg:col-span-4">
           <p className="v3-eyebrow text-warm-taupe mb-6">Before you ask</p>
-          <WordReveal text="Fair questions." className="v3-h2 text-charcoal" />
+          <WordReveal text="You're right to ask." className="v3-h2 text-charcoal" />
         </div>
         <div ref={ref} className={`v3-fade ${inView ? "in-view" : ""} lg:col-span-8`}>
           {FAQS.map((item, i) => (

@@ -15,7 +15,7 @@ export default function HeroV3({ onJoin }) {
         <div className="grid lg:grid-cols-12 gap-16 items-center">
           <div className="lg:col-span-7 max-w-2xl">
             <p className="v3-enter v3-eyebrow text-warm-taupe mb-6">
-              A village for modern parenting
+              The village, rebuilt.
             </p>
             <h1 className="v3-enter v3-display text-charcoal" data-delay="1">
               Raising a child was never meant to be done{" "}
@@ -23,7 +23,7 @@ export default function HeroV3({ onJoin }) {
             </h1>
             <p className="v3-enter v3-body-lg text-on-surface-variant mt-7 max-w-lg" data-delay="2">
               Real neighbours. Calm spaces built around your child. Guidance
-              that actually knows your family. The village, rebuilt for the
+              that actually knows your family. An old idea, rebuilt for the
               way we live now.
             </p>
             <div className="v3-enter mt-10 flex flex-wrap items-center gap-6" data-delay="3">

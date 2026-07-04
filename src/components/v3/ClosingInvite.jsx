@@ -21,7 +21,7 @@ export default function ClosingInvite({ onJoin }) {
           </h2>
           <p className="v3-body-lg text-surface-cream/70 mt-7 max-w-lg mx-auto">
             Join the waitlist and be among the founding families of The
-            Neighbourhood. We'll write to you when we open near you.
+            Neighbourhood. We'll write to you as the doors open.
           </p>
           <button
             onClick={onJoin}
@@ -30,7 +30,7 @@ export default function ClosingInvite({ onJoin }) {
             Join the Waitlist
           </button>
           <p className="text-sm text-surface-cream/50 mt-6">
-            Free &middot; Gurugram first &middot; We'll only write when it matters
+            Free to join &middot; Among the first families &middot; A quiet inbox, promised
           </p>
         </div>
       </div>

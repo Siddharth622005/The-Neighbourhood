@@ -86,7 +86,7 @@ export default function WaitlistDialogV3({ open, onClose }) {
   };
 
   const shareText =
-    "I just joined the waitlist for The Neighbourhood — a village for modern parenting. Join me:";
+    "I just joined the waitlist for The Neighbourhood — the village, rebuilt. Join me:";
 
   const handleShare = async () => {
     if (!result) return;

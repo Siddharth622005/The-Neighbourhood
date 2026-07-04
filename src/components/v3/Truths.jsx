@@ -7,12 +7,12 @@ import WordReveal from "../WordReveal.jsx";
 const TRUTHS = [
   {
     number: "01",
-    title: "The village is gone.",
-    body: "Grandparents live a flight away. Neighbours stay strangers. The question you would have asked over a cup of chai becomes a 2am search — and a search engine doesn't know your child.",
+    title: "The village has scattered.",
+    body: "Grandparents might live a flight away. Neighbours stay strangers. The question you would have asked over a cup of chai becomes a 2am search — and a search engine doesn't know your child.",
   },
   {
     number: "02",
-    title: "Everyone has advice. No one has context.",
+    title: "Plenty of advice. Limited context.",
     body: "Books, apps, reels, relatives — every answer is written for an average child who doesn't exist. Advice that ignores your child's temperament, your home, your reality isn't guidance. It's noise.",
   },
   {

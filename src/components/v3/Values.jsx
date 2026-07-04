@@ -19,7 +19,7 @@ export default function Values() {
         <div className="lg:col-span-4">
           <p className="v3-eyebrow text-warm-taupe mb-6">How we behave</p>
           <WordReveal
-            text="Five words we don't take lightly."
+            text="Values we live by."
             className="v3-h2 text-charcoal"
           />
         </div>
