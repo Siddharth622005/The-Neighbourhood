@@ -19,8 +19,8 @@ export default function LifeInside() {
             className="v3-h2 text-charcoal"
           />
           <p className="v3-body-lg text-on-surface-variant mt-6 max-w-xl">
-            Built to reduce the mental load, never add to it. No streaks, no
-            noise, no guilt — just help when you reach for it.
+            Built to reduce the mental load. No streaks, no noise, no guilt —
+            just help when you reach for it.
           </p>
         </div>
 
