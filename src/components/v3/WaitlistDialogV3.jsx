@@ -9,6 +9,8 @@ const REFERRAL_BOOST = 10;
  * decision per screen, honest microcopy.
  */
 export default function WaitlistDialogV3({ open, onClose }) {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("form"); // form | loading | success | error
   const [errorMessage, setErrorMessage] = useState("");
@@ -19,6 +21,8 @@ export default function WaitlistDialogV3({ open, onClose }) {
   useEffect(() => {
     if (!open) {
       setStatus("form");
+      setName("");
+      setPhone("");
       setEmail("");
       setErrorMessage("");
       setCopied(false);
@@ -35,7 +39,7 @@ export default function WaitlistDialogV3({ open, onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || status === "loading") return;
+    if (!name.trim() || !phone.trim() || status === "loading") return;
 
     if (!isSupabaseConfigured) {
       setStatus("error");
@@ -49,11 +53,14 @@ export default function WaitlistDialogV3({ open, onClose }) {
     try {
       const params = new URLSearchParams(window.location.search);
       const refId = params.get("ref");
+      const trimmedEmail = email.trim().toLowerCase();
 
       const { data: inserted, error: insertError } = await supabase
         .from("waitlist")
         .insert({
-          email: email.trim().toLowerCase(),
+          name: name.trim(),
+          phone: phone.trim(),
+          email: trimmedEmail || null,
           referred_by: refId ? Number(refId) : null,
         })
         .select("id, created_at")
@@ -135,20 +142,39 @@ export default function WaitlistDialogV3({ open, onClose }) {
               Save your family's place.
             </h3>
             <p className="text-on-surface-variant leading-relaxed mb-7">
-              Leave your email and we'll write to you when The Neighbourhood
-              opens near you. Nothing else — promise.
+              Leave your details and we'll write to you when The
+              Neighbourhood opens near you. Nothing else — promise.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              <label className="sr-only" htmlFor="waitlist-email">Email address</label>
+              <label className="sr-only" htmlFor="waitlist-name">Your name</label>
+              <input
+                id="waitlist-name"
+                ref={inputRef}
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your name"
+                className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
+              />
+              <label className="sr-only" htmlFor="waitlist-phone">Phone number</label>
+              <input
+                id="waitlist-phone"
+                type="tel"
+                required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Phone number"
+                className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
+              />
+              <label className="sr-only" htmlFor="waitlist-email">Email address (optional)</label>
               <input
                 id="waitlist-email"
-                ref={inputRef}
                 type="email"
-                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
+                placeholder="Email (optional)"
                 className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
               />
               {status === "error" && (
