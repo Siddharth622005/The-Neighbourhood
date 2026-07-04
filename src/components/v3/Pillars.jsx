@@ -2,6 +2,7 @@ import ImagePlaceholder from "../ImagePlaceholder.jsx";
 import useScrollReveal from "../useScrollReveal.js";
 import WordReveal from "../WordReveal.jsx";
 import aanganSpace from "../../assets/aangan-space.jpg";
+import neighboursCircle from "../../assets/neighbours-circle.jpg";
 
 // The introduction beat: what The Neighbourhood actually is. Three parts of
 // the village, shown as alternating editorial rows — imagery on one side,
@@ -24,7 +25,8 @@ const PILLARS = [
     title: "The same faces, week after week.",
     body: "Small circles of parents who live near you, matched by your child's age and stage. Not another group chat — real people you'll actually see, until they stop being strangers and start being the aunties and uncles your child grows up around.",
     image: {
-      alt: "A handful of parents talking easily in a courtyard while their children play together nearby, golden evening light",
+      src: neighboursCircle,
+      alt: "Parents sitting on floor cushions in easy conversation beneath a tree-shaped bookshelf, while two children read together on a rug nearby",
       icon: "groups",
     },
   },
