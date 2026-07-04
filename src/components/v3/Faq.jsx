@@ -64,7 +64,7 @@ export default function Faq() {
     <section id="faq" className="py-section-gap md:py-32 px-margin-mobile md:px-gutter max-w-container-max mx-auto">
       <div className="grid lg:grid-cols-12 gap-12">
         <div className="lg:col-span-4">
-          <p className="v3-eyebrow text-warm-taupe mb-6">Before you ask</p>
+          <p className="v3-eyebrow text-warm-taupe mb-6">Questions</p>
           <WordReveal text="You're right to ask." className="v3-h2 text-charcoal" />
         </div>
         <div ref={ref} className={`v3-fade ${inView ? "in-view" : ""} lg:col-span-8`}>
