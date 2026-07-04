@@ -1,6 +1,7 @@
 import ImagePlaceholder from "../ImagePlaceholder.jsx";
 import useScrollReveal from "../useScrollReveal.js";
 import WordReveal from "../WordReveal.jsx";
+import aanganSpace from "../../assets/aangan-space.jpg";
 
 // The introduction beat: what The Neighbourhood actually is. Three parts of
 // the village, shown as alternating editorial rows — imagery on one side,
@@ -12,7 +13,8 @@ const PILLARS = [
     title: "Places where children belong, not just attend.",
     body: "The Aangan and The Verandah are calm, beautiful spaces near you — natural materials, soft light, room to move. Designed around a child's nervous system, not a brochure. A regulated child is a child who can truly play, learn, and grow.",
     image: {
-      alt: "Inside The Aangan: a toddler playing on warm wooden floors, low shelves, soft natural light through large windows",
+      src: aanganSpace,
+      alt: "Inside The Aangan: a child absorbed in a wooden activity tray on the floor of a calm Montessori room — low shelves, pale wood, soft morning light",
       icon: "cottage",
     },
   },
@@ -58,7 +60,16 @@ function PillarRow({ pillar, index }) {
 
       <div className={flipped ? "md:order-1" : ""}>
         <div className="rounded-[28px] overflow-hidden aspect-[4/3] bg-surface-container/60">
-          <ImagePlaceholder className="w-full h-full" alt={pillar.image.alt} icon={pillar.image.icon} />
+          {pillar.image.src ? (
+            <img
+              src={pillar.image.src}
+              alt={pillar.image.alt}
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <ImagePlaceholder className="w-full h-full" alt={pillar.image.alt} icon={pillar.image.icon} />
+          )}
         </div>
       </div>
     </div>
