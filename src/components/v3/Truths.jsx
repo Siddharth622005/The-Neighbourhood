@@ -49,7 +49,8 @@ export default function Truths() {
         />
         <p className="v3-body-lg text-on-surface-variant mt-6 max-w-2xl">
           That's not a contradiction, and it isn't a failing. Parenting today
-          asks one or two people to do what an entire neighbourhood used to.
+          asks one person — sometimes two — to do what an entire
+          neighbourhood once did together.
         </p>
       </div>
 
