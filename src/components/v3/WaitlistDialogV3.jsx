@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { supabase, isSupabaseConfigured } from "../../lib/supabaseClient.js";
 
-const REFERRAL_BOOST = 10;
+const REFERRAL_BOOST = 3;
 
 /**
  * Same waitlist flow as the shared dialog (Supabase insert + queue position
@@ -68,8 +68,13 @@ export default function WaitlistDialogV3({ open, onClose }) {
 
       if (insertError) {
         if (insertError.code === "23505") {
+          const isPhone = insertError.message?.includes("phone");
           setStatus("error");
-          setErrorMessage("Good news — that email is already on the waitlist.");
+          setErrorMessage(
+            isPhone
+              ? "Good news — that phone number is already on the waitlist."
+              : "Good news — that email is already on the waitlist."
+          );
           return;
         }
         throw insertError;
