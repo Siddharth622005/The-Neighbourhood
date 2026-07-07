@@ -39,9 +39,10 @@ export default function FounderStory() {
               takes to raise a child.
             </p>
             <p>
-              So she started building it back. Warm spaces where children
-              belong. Neighbours who become familiar. And a quiet layer of
-              guidance, so no parent has to figure it out in the dark.
+              So she started building it back, together with her co-founder
+              Rachit. Warm spaces where children belong. Neighbours who
+              become familiar. And a quiet layer of guidance, so no parent
+              has to figure it out in the dark.
             </p>
           </div>
 
@@ -55,7 +56,7 @@ export default function FounderStory() {
               connection at a time.&rdquo;
             </p>
             <footer className="mt-4 text-sm font-medium text-warm-taupe">
-              Sakshi, Founder
+              Sakshi &amp; Rachit, Co-Founders
             </footer>
           </blockquote>
         </div>

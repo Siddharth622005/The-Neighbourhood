@@ -19,7 +19,7 @@ const FAQS = [
   },
   {
     q: "Who is behind this?",
-    a: "A small team led by Sakshi, a parent in Gurugram who spent weeks looking for a place that got safety, warmth, and learning right at the same time — and couldn't find one. So she started building it.",
+    a: "A small team led by co-founders Sakshi and Rachit. Sakshi is a parent in Gurugram who spent weeks looking for a place that got safety, warmth, and learning right at the same time — and couldn't find one. So together, they started building it.",
   },
 ];
 
