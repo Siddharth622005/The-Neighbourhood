@@ -11,13 +11,13 @@ import guidancePhone from "../../assets/guidance-phone.jpg";
 const PILLARS = [
   {
     number: "01",
-    eyebrow: "The Spaces",
-    title: "Places where children belong, not just attend.",
-    body: "The Aangan and The Verandah are calm, beautiful spaces near you — natural materials, soft light, room to move. Designed around a child's nervous system, not a brochure. A regulated child is a child who can truly play, learn, and grow.",
+    eyebrow: "The Guidance",
+    title: "Answers that know your child.",
+    body: "One quiet app. Ask anything at 2pm or 2am and get an answer shaped by your child — their age, their temperament, their history. Grounded in real expertise, spoken like a friend, never a script.",
     image: {
-      src: aanganSpace,
-      alt: "Inside The Aangan: a child absorbed in a wooden activity tray on the floor of a calm Montessori room — low shelves, pale wood, soft morning light",
-      icon: "cottage",
+      src: guidancePhone,
+      alt: "A phone held up at night showing a gentle, reassuring reply to a parent's question, with a sleeping baby softly visible below in warm lamplight",
+      icon: "psychology",
     },
   },
   {
@@ -33,13 +33,13 @@ const PILLARS = [
   },
   {
     number: "03",
-    eyebrow: "The Guidance",
-    title: "Answers that know your child.",
-    body: "One quiet app. Ask anything at 2pm or 2am and get an answer shaped by your child — their age, their temperament, their history. Grounded in real expertise, spoken like a friend, never a script.",
+    eyebrow: "The Spaces",
+    title: "Places where children belong, not just attend.",
+    body: "The Aangan and The Verandah are calm, beautiful spaces near you — natural materials, soft light, room to move. Designed around a child's nervous system, not a brochure. A regulated child is a child who can truly play, learn, and grow.",
     image: {
-      src: guidancePhone,
-      alt: "A phone held up at night showing a gentle, reassuring reply to a parent's question, with a sleeping baby softly visible below in warm lamplight",
-      icon: "psychology",
+      src: aanganSpace,
+      alt: "Inside The Aangan: a child absorbed in a wooden activity tray on the floor of a calm Montessori room — low shelves, pale wood, soft morning light",
+      icon: "cottage",
     },
   },
 ];
