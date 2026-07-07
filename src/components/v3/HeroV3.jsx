@@ -1,12 +1,9 @@
-import motherAndBaby from "../../assets/mother-and-baby.svg";
+import ChildGrowthAnimation from "../ChildGrowthAnimation.jsx";
 
 /**
  * Opening beat: empathy before product. One emotional headline (the only
  * place Playfair touches the hero), one plain-spoken promise, one calm
  * invitation. Load-in is CSS-only (.v3-enter) — no scroll hijacking here.
- * The right-side visual is a mother rocking her baby, recoloured into the
- * brand palette with an 8.5s SMIL loop (sway, breathing, blinks) — motion
- * runs inside the SVG itself, so an <img> keeps it out of the JS bundle.
  */
 export default function HeroV3({ onJoin }) {
   return (
@@ -47,11 +44,7 @@ export default function HeroV3({ onJoin }) {
 
           <div className="v3-enter lg:col-span-5 hidden md:block" data-delay="3">
             <div className="w-full max-w-md mx-auto aspect-square">
-              <img
-                src={motherAndBaby}
-                alt="A mother gently rocking her baby"
-                className="w-full h-full"
-              />
+              <ChildGrowthAnimation />
             </div>
           </div>
         </div>
