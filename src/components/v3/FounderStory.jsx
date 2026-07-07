@@ -54,7 +54,7 @@ export default function FounderStory() {
             <p className="v3-serif text-2xl md:text-[1.75rem] leading-relaxed text-charcoal">
               &ldquo;We're not trying to bring back the past. We're rebuilding
               the village for today's families — one child, one parent, one
-              connection at a time.&rdquo;
+              family at a time.&rdquo;
             </p>
             <footer className="mt-4 text-sm font-medium text-warm-taupe">
               Sakshi &amp; Rachit, Founders

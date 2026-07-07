@@ -17,7 +17,7 @@ export default function FooterV3() {
             The Neighbourhood
           </p>
           <p className="v3-serif text-warm-taupe text-lg">
-            safe spaces, warm hearts, bright futures.
+            Safe Spaces, Warm Hearts, Bright Futures.
           </p>
         </div>
 
