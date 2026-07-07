@@ -33,8 +33,9 @@ export default function FounderStory() {
             </p>
             <p>
               One evening, watching her daughter play, she remembered the
-              neighbourhood she grew up in — where aunties looked out for every
-              child, where you could knock on any door. And it landed: we
+              neighbourhood she grew up in — where aunties and uncles looked
+              out for every child, where you could knock on any door. And it
+              landed: we
               haven't just lost our padosis. We've lost the entire village it
               takes to raise a child.
             </p>
