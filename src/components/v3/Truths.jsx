@@ -30,7 +30,7 @@ function Truth({ truth }) {
       className={`v3-fade ${inView ? "in-view" : ""} grid md:grid-cols-12 gap-4 md:gap-8 py-12 md:py-14 border-t border-warm-taupe/15`}
     >
       <span className="md:col-span-2 v3-eyebrow text-soft-sand pt-2" aria-hidden="true">{truth.number}</span>
-      <h3 className="md:col-span-4 v3-h3 text-charcoal">{truth.title}</h3>
+      <h3 className="md:col-span-4 md:-ml-3 v3-h3 text-charcoal">{truth.title}</h3>
       <p className="md:col-span-6 v3-body-lg text-on-surface-variant max-w-xl">{truth.body}</p>
     </div>
   );

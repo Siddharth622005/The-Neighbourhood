@@ -20,8 +20,7 @@ export default function HeroV3({ onJoin }) {
             </h1>
             <p className="v3-enter v3-body-lg text-on-surface-variant mt-7 max-w-lg" data-delay="2">
               Real neighbours. Calm spaces built around your child. Guidance
-              that actually knows your family. An old idea, rebuilt for the
-              way we live now.
+              that actually knows your family.
             </p>
             <div className="v3-enter mt-10 flex flex-wrap items-center gap-6" data-delay="3">
               <button

@@ -86,7 +86,7 @@ export default function Pillars() {
       <div className="max-w-3xl mb-20 md:mb-24">
         <p className="v3-eyebrow text-warm-taupe mb-6">What we're building</p>
         <WordReveal
-          text="We're rebuilding the village. All three parts of it."
+          text="We're rebuilding the Neighbourhood. All three parts of it."
           className="v3-h2 text-charcoal"
         />
       </div>
