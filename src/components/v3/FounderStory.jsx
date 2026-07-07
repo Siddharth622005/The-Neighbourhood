@@ -26,10 +26,10 @@ export default function FounderStory() {
             className={`v3-fade ${story.inView ? "in-view" : ""} space-y-6 v3-body-lg text-on-surface-variant max-w-xl`}
           >
             <p>
-              Like many parents in Gurugram, Sakshi spent weeks visiting
-              preschools for her daughter. She met passionate teachers. She saw
-              well-run centres. She found warm caregivers. Never all three,
-              never in one place.
+              Like many parents, Sakshi spent weeks visiting preschools for
+              her daughter. She met passionate teachers. She saw well-run
+              centres. She found warm caregivers. Never all three, never in
+              one place.
             </p>
             <p>
               One evening, watching her daughter play, she remembered the
