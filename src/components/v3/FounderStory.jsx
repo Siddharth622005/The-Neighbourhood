@@ -39,7 +39,7 @@ export default function FounderStory() {
               takes to raise a child.
             </p>
             <p>
-              So she started building it back, together with her co-founder
+              So she started building it back, together with her husband,
               Rachit. Warm spaces where children belong. Neighbours who
               become familiar. And a quiet layer of guidance, so no parent
               has to figure it out in the dark.
@@ -56,7 +56,7 @@ export default function FounderStory() {
               connection at a time.&rdquo;
             </p>
             <footer className="mt-4 text-sm font-medium text-warm-taupe">
-              Sakshi &amp; Rachit, Co-Founders
+              Sakshi &amp; Rachit, Founders
             </footer>
           </blockquote>
         </div>
@@ -71,10 +71,10 @@ export default function FounderStory() {
             </span>
             <h3 className="v3-h3 text-charcoal mb-4">Grounded in real science</h3>
             <p className="text-on-surface-variant leading-relaxed">
-              Our spaces and programs draw on immunopsychiatry — the study of
-              how calm, connected environments shape a child's developing mind
-              and immune system alike. It's why The Aangan feels the way it
-              does: not decorated to impress parents, but designed to regulate
+              Our spaces and programs draw on real research into how calm,
+              connected environments shape a child's developing mind and
+              immune system alike. It's why The Aangan feels the way it does:
+              not decorated to impress parents, but designed to regulate
               children.
             </p>
             <p className="text-on-surface-variant leading-relaxed mt-4">
