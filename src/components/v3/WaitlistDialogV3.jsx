@@ -165,7 +165,7 @@ export default function WaitlistDialogV3({ open, onClose }) {
       className="fixed inset-0 z-[100] flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
-      aria-label="Join the waitlist"
+      aria-label="Join the village"
     >
       <div
         className="absolute inset-0 bg-charcoal/50 backdrop-blur-sm"
@@ -183,7 +183,7 @@ export default function WaitlistDialogV3({ open, onClose }) {
 
         {status !== "success" && mode === "join" && (
           <>
-            <p className="v3-eyebrow text-warm-taupe mb-4">Join the waitlist</p>
+            <p className="v3-eyebrow text-warm-taupe mb-4">Join the village</p>
             <h3 className="v3-h3 text-charcoal mb-3">
               Save your family's place.
             </h3>
@@ -231,7 +231,7 @@ export default function WaitlistDialogV3({ open, onClose }) {
                 disabled={status === "loading"}
                 className="w-full bg-charcoal text-surface-cream px-8 py-3.5 rounded-full font-medium text-lg hover:opacity-90 transition-opacity disabled:opacity-60"
               >
-                {status === "loading" ? "Saving your place…" : "Join the Waitlist"}
+                {status === "loading" ? "Saving your place…" : "Join the Village"}
               </button>
             </form>
 

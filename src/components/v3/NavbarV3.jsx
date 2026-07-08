@@ -56,7 +56,7 @@ export default function NavbarV3({ onJoin }) {
           onClick={onJoin}
           className="bg-charcoal text-surface-cream text-sm font-medium px-4 md:px-6 py-2.5 rounded-full whitespace-nowrap hover:opacity-90 hover:-translate-y-px transition-all duration-200"
         >
-          <span className="hidden sm:inline">Join the Waitlist</span>
+          <span className="hidden sm:inline">Join the Village</span>
           <span className="sm:hidden">Join</span>
         </button>
       </div>

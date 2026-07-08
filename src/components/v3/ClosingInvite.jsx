@@ -20,14 +20,14 @@ export default function ClosingInvite({ onJoin }) {
             <em className="v3-serif text-soft-sand">your family.</em>
           </h2>
           <p className="v3-body-lg text-surface-cream/70 mt-7 max-w-lg mx-auto">
-            Join the waitlist and be among the founding families of The
+            Join the village and be among the founding families of The
             Neighbourhood. We'll write to you as the doors open.
           </p>
           <button
             onClick={onJoin}
             className="mt-10 bg-surface-cream text-charcoal px-10 py-4 rounded-full font-medium text-lg hover:bg-white hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200"
           >
-            Join the Waitlist
+            Join the Village
           </button>
           <p className="text-sm text-surface-cream/50 mt-6">
             Free to join &middot; Among the first families &middot; A quiet inbox, promised

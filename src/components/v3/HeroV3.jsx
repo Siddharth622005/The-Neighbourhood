@@ -28,7 +28,7 @@ export default function HeroV3({ onJoin }) {
                 onClick={onJoin}
                 className="bg-charcoal text-surface-cream px-9 py-4 rounded-full font-medium text-lg hover:opacity-90 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200"
               >
-                Join the Waitlist
+                Join the Village
               </button>
               <a
                 href="#why"
