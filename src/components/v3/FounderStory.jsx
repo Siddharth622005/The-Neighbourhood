@@ -17,7 +17,7 @@ export default function FounderStory() {
         <div className="lg:col-span-7">
           <p className="v3-eyebrow text-warm-taupe mb-6">Our story</p>
           <WordReveal
-            text="It started with a parent who couldn't find what her daughter needed."
+            text="It started with a couple who couldn't find what their daughter needed."
             className="v3-h2 text-charcoal mb-10 max-w-xl"
           />
 
@@ -26,24 +26,31 @@ export default function FounderStory() {
             className={`v3-fade ${story.inView ? "in-view" : ""} space-y-6 v3-body-lg text-on-surface-variant max-w-xl`}
           >
             <p>
-              Like many parents, Sakshi spent weeks visiting preschools for
-              her daughter. She met passionate teachers. She saw well-run
-              centres. She found warm caregivers. Never all three, never in
-              one place.
+              Like many parents in Gurugram, Sakshi and Rachit spent weeks
+              visiting preschools for Mehr. They met passionate teachers.
+              They saw well-run centres. They found warm caregivers. Never
+              all three, never in one place.
             </p>
             <p>
-              One evening, watching her daughter play, she remembered the
+              One evening, watching Mehr play, Sakshi remembered the
               neighbourhood she grew up in — where aunties and uncles looked
               out for every child, where you could knock on any door. And it
-              landed: we
-              haven't just lost our padosis. We've lost the entire village it
-              takes to raise a child.
+              landed: we haven't just lost our padosis. We've lost the
+              entire village it takes to raise a child.
+            </p>
+            <p>So they started building it back.</p>
+            <p>And then Rudr arrived.</p>
+            <p>
+              Suddenly they weren't just building for Mehr anymore — they
+              were living the exact problem they'd set out to solve. Two
+              children, one village missing, and a half-built answer in
+              their hands. That's when it stopped being a project and
+              started being urgent.
             </p>
             <p>
-              So she started building it back, together with her husband,
-              Rachit. Warm spaces where children belong. Neighbours who
-              become familiar. And a quiet layer of guidance, so no parent
-              has to figure it out in the dark.
+              Warm spaces where children belong. Neighbours who become
+              familiar. And a quiet layer of guidance, so no parent ever has
+              to figure it out in the dark — the way they once did.
             </p>
           </div>
 
