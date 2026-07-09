@@ -3,11 +3,20 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import LandingPageV3 from "./pages/LandingPageV3.jsx";
 
 const JourneyPage = lazy(() => import("./pages/JourneyPage.jsx"));
+const TodayPage = lazy(() => import("./pages/TodayPage.jsx"));
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPageV3 />} />
+      <Route
+        path="/today"
+        element={
+          <Suspense fallback={null}>
+            <TodayPage />
+          </Suspense>
+        }
+      />
       <Route
         path="/journey"
         element={

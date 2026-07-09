@@ -52,6 +52,12 @@ export default function NavbarV3({ onJoin }) {
             </a>
           ))}
           <Link
+            to="/today"
+            className="text-sm text-charcoal/70 hover:text-charcoal transition-colors duration-200"
+          >
+            Today
+          </Link>
+          <Link
             to="/journey"
             className="text-sm text-charcoal/70 hover:text-charcoal transition-colors duration-200"
           >
