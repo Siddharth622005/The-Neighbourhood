@@ -8,7 +8,7 @@ import LogoIcon from "../LogoIcon.jsx";
  * underneath without noise. The vector mark draws itself in on first load
  * (.logo-draw, see index.css).
  */
-export default function NavbarV3({ onJoin }) {
+export default function NavbarV3({ onJoin, onLogoClick }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -27,7 +27,12 @@ export default function NavbarV3({ onJoin }) {
       }`}
     >
       <div className="max-w-container-max mx-auto px-margin-mobile md:px-gutter h-[72px] flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 group" aria-label="The Neighbourhood">
+        <Link
+          to="/"
+          onClick={onLogoClick}
+          className="flex items-center gap-3 group"
+          aria-label="The Neighbourhood — back to home"
+        >
           <LogoIcon className="logo-draw w-8 h-8 md:w-9 md:h-9 flex-shrink-0" />
           <span className="font-semibold tracking-tight text-charcoal text-base md:text-lg whitespace-nowrap">
             The Neighbourhood
