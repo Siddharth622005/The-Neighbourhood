@@ -39,22 +39,22 @@ export default function NavbarV3({ onJoin, onLogoClick }) {
           </span>
         </Link>
 
-        <div className="hidden lg:flex items-center gap-10">
+        <div className="flex items-center gap-6 md:gap-8">
           <Link
             to="/today"
-            className="text-sm text-charcoal/70 hover:text-charcoal transition-colors duration-200"
+            className="hidden lg:inline text-sm text-charcoal/70 hover:text-charcoal transition-colors duration-200"
           >
             Today
           </Link>
-        </div>
 
-        <button
-          onClick={onJoin}
-          className="bg-charcoal text-surface-cream text-sm font-medium px-4 md:px-6 py-2.5 rounded-full whitespace-nowrap hover:opacity-90 hover:-translate-y-px transition-all duration-200"
-        >
-          <span className="hidden sm:inline">Join the Village</span>
-          <span className="sm:hidden">Join</span>
-        </button>
+          <button
+            onClick={onJoin}
+            className="bg-charcoal text-surface-cream text-sm font-medium px-4 md:px-6 py-2.5 rounded-full whitespace-nowrap hover:opacity-90 hover:-translate-y-px transition-all duration-200"
+          >
+            <span className="hidden sm:inline">Join the Village</span>
+            <span className="sm:hidden">Join</span>
+          </button>
+        </div>
       </div>
     </nav>
   );
