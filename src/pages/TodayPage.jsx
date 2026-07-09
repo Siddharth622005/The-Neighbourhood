@@ -111,9 +111,9 @@ function Onboarding({ onSave }) {
             {step === 0 && (
               <>
                 <p className="v3-eyebrow text-warm-taupe mb-5">The Neighbourhood</p>
-                <h1 className="v3-h2 text-charcoal mb-5">Welcome to The Neighbourhood.</h1>
+                <h1 className="v3-h2 text-charcoal mb-5">Welcome to your little village.</h1>
                 <p className="v3-body-lg text-on-surface-variant mb-9">
-                  We&rsquo;re here to help you enjoy every stage of your child&rsquo;s early years.
+                  A calm companion for the everyday moments that shape your child&rsquo;s early years.
                 </p>
                 <PrimaryButton onClick={() => setStep(1)}>Get Started</PrimaryButton>
               </>
