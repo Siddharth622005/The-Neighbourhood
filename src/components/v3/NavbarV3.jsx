@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import LogoIcon from "../LogoIcon.jsx";
 
 const LINKS = [
@@ -50,6 +51,12 @@ export default function NavbarV3({ onJoin }) {
               {link.label}
             </a>
           ))}
+          <Link
+            to="/journey"
+            className="text-sm text-charcoal/70 hover:text-charcoal transition-colors duration-200"
+          >
+            Your child&rsquo;s journey
+          </Link>
         </div>
 
         <button
