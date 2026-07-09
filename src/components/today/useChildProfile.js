@@ -39,7 +39,8 @@ export default function useChildProfile() {
     }
   }, [profile]);
 
-  const saveProfile = (name, dob) => setProfile({ name: name.trim(), dob });
+  const saveProfile = (name, dob, parentName = "") =>
+    setProfile({ name: name.trim(), dob, parentName: parentName.trim() });
   const clearProfile = () => {
     setProfile(null);
     try {

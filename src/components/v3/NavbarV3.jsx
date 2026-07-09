@@ -2,13 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LogoIcon from "../LogoIcon.jsx";
 
-const LINKS = [
-  { label: "Why we exist", href: "#why" },
-  { label: "What we're building", href: "#inside" },
-  { label: "Our story", href: "#story" },
-  { label: "FAQ", href: "#faq" },
-];
-
 /**
  * Quiet, full-width bar. Transparent while the hero is on screen; once you
  * scroll, it gains a soft cream veil and a hairline so content can pass
@@ -34,34 +27,19 @@ export default function NavbarV3({ onJoin }) {
       }`}
     >
       <div className="max-w-container-max mx-auto px-margin-mobile md:px-gutter h-[72px] flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-3 group" aria-label="The Neighbourhood — back to top">
+        <Link to="/" className="flex items-center gap-3 group" aria-label="The Neighbourhood">
           <LogoIcon className="logo-draw w-8 h-8 md:w-9 md:h-9 flex-shrink-0" />
           <span className="font-semibold tracking-tight text-charcoal text-base md:text-lg whitespace-nowrap">
             The Neighbourhood
           </span>
-        </a>
+        </Link>
 
         <div className="hidden lg:flex items-center gap-10">
-          {LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm text-charcoal/70 hover:text-charcoal transition-colors duration-200"
-            >
-              {link.label}
-            </a>
-          ))}
           <Link
-            to="/today"
+            to="/"
             className="text-sm text-charcoal/70 hover:text-charcoal transition-colors duration-200"
           >
             Today
-          </Link>
-          <Link
-            to="/journey"
-            className="text-sm text-charcoal/70 hover:text-charcoal transition-colors duration-200"
-          >
-            Your child&rsquo;s journey
           </Link>
         </div>
 

@@ -268,6 +268,43 @@ body {
   filter: blur(0);
 }
 
+.onboarding-screen {
+  animation: onboardingScreenIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes onboardingScreenIn {
+  from { opacity: 0; transform: translateY(18px); filter: blur(8px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+.today-stagger {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: todayStaggerIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes todayStaggerIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.today-moment-card {
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.today-moment-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 24px 70px rgba(139, 115, 85, 0.12);
+}
+
+.today-preview-enter {
+  animation: todayPreviewIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes todayPreviewIn {
+  from { opacity: 0; transform: translateY(18px); filter: blur(6px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
 /* A quiet held breath between the reflection and the response — the
    response line arrives alone, centered, unhurried. */
 .today-response-enter {
@@ -372,6 +409,9 @@ body {
     transition: none !important;
   }
   .today-response-enter,
+  .onboarding-screen,
+  .today-stagger,
+  .today-preview-enter,
   .today-card-picked,
   .today-pick-label,
   .today-first-glow,
