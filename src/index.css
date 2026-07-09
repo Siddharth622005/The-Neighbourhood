@@ -319,16 +319,27 @@ body {
 
 /* Picking an activity: the card breathes rather than just changing state. */
 @keyframes todayCardPulse {
-  0%   { transform: scale(1); }
-  45%  { transform: scale(1.02); }
-  100% { transform: scale(1); }
+  0%   { opacity: 1; transform: translateY(0) scale(1); }
+  42%  { opacity: 1; transform: translateY(-4px) scale(1.018); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 .today-card-picked {
   animation: todayCardPulse 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+  opacity: 1;
 }
 .today-pick-label {
   opacity: 0;
-  animation: todayResponseIn 0.5s ease-out 0.25s both;
+  transform: translateY(4px);
+  animation: todayPickLabelIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+@keyframes todayPickLabelIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+.today-pick-button .material-symbols-outlined {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.today-pick-button:hover .material-symbols-outlined {
+  transform: translateX(3px);
 }
 
 /* Marking a moment as tried: the circle fills from the centre outward,

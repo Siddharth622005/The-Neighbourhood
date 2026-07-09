@@ -232,13 +232,14 @@ function MomentCard({ activity, index, isPicked, onPick }) {
       <p className="text-lg font-semibold text-charcoal mb-3">{activity.name}</p>
       <p className="text-sm leading-relaxed text-on-surface-variant mb-7">{shortWhy(activity)}</p>
       {isPicked ? (
-        <span className="today-pick-label text-sm text-warm-taupe/80 italic v3-serif">
-          Held for today
-        </span>
+        <div className="today-pick-label inline-flex items-center gap-2 rounded-full bg-surface-cream/80 border border-warm-taupe/15 px-4 py-2 text-sm text-warm-taupe">
+          <span className="material-symbols-outlined text-base" aria-hidden="true">check</span>
+          <span className="v3-serif italic">Held gently for today</span>
+        </div>
       ) : (
         <button
           onClick={() => onPick(activity.name)}
-          className="inline-flex items-center gap-2 text-sm font-medium text-charcoal hover:text-warm-taupe active:scale-[0.98] transition-all duration-200"
+          className="today-pick-button inline-flex items-center gap-2 text-sm font-medium text-charcoal hover:text-warm-taupe active:scale-[0.98] transition-all duration-200"
         >
           We&rsquo;ll try this
           <span className="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
