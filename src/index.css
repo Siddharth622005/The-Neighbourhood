@@ -248,6 +248,104 @@ body {
 .logo-draw [data-part="dot-center"] { animation-delay: 0.62s; }
 .logo-draw [data-part="dot-right"] { animation-delay: 0.69s; }
 
+/* ---------------------------------------------------------------- */
+/* Today companion vocabulary                                        */
+/* /today runs slower and quieter than the marketing site — every    */
+/* transition here is deliberately unhurried (400-700ms vs the site's */
+/* snappier ~200ms), because speed itself communicates "efficient      */
+/* tool" and this is meant to read as "unhurried companion" instead.  */
+/* ---------------------------------------------------------------- */
+
+.today-fade {
+  opacity: 0;
+  transform: translateY(10px);
+  filter: blur(4px);
+  transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s ease-out;
+}
+.today-fade.in {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* A quiet held breath between the reflection and the response — the
+   response line arrives alone, centered, unhurried. */
+.today-response-enter {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: todayResponseIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+@keyframes todayResponseIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Picking an activity: the card breathes rather than just changing state. */
+@keyframes todayCardPulse {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+.today-card-picked {
+  animation: todayCardPulse 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.today-pick-label {
+  opacity: 0;
+  animation: todayResponseIn 0.5s ease-out 0.25s both;
+}
+
+/* Marking a moment as tried: the circle fills from the centre outward,
+   like ink settling, before the label darkens a beat later. */
+.today-notice-dot {
+  position: relative;
+  overflow: hidden;
+}
+.today-notice-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: #8B7355;
+  transform: scale(0);
+  transition: transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.today-notice-dot.on::after {
+  transform: scale(1);
+}
+.today-notice-label {
+  transition: color 0.35s ease-out 0.15s;
+}
+
+/* First-ever noticed milestone: one soft, unrepeatable glow. Never
+   reused for anything else — repetition would turn this into a badge. */
+@keyframes todayFirstGlow {
+  0%   { box-shadow: 0 0 0 0 rgba(139, 115, 85, 0); }
+  35%  { box-shadow: 0 0 40px 12px rgba(139, 115, 85, 0.18); }
+  100% { box-shadow: 0 0 0 0 rgba(139, 115, 85, 0); }
+}
+.today-first-glow {
+  animation: todayFirstGlow 2.2s ease-out;
+  border-radius: 28px;
+}
+
+/* The opening gesture: a single line draws itself at the top of every
+   /today visit, the same brushstroke every time — a small daily ritual
+   marker, not a novelty. */
+.today-opening-line {
+  stroke-dasharray: 240;
+  stroke-dashoffset: 240;
+  animation: todayDrawLine 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes todayDrawLine {
+  to { stroke-dashoffset: 0; }
+}
+
+/* A day-with-nothing-tried response reads a touch softer/cooler than a
+   day-with-something-tried — never a penalty, just a different mood. */
+.today-response-quiet {
+  filter: saturate(0.85);
+}
+
 /* Calm honesty for people who ask for less motion. */
 @media (prefers-reduced-motion: reduce) {
   .v3-fade,
@@ -266,5 +364,24 @@ body {
   .blob-float,
   .blob-float-slow {
     animation: none;
+  }
+  .today-fade {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+  .today-response-enter,
+  .today-card-picked,
+  .today-pick-label,
+  .today-first-glow,
+  .today-opening-line {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+    stroke-dashoffset: 0;
+  }
+  .today-notice-dot::after {
+    transition: none !important;
   }
 }
