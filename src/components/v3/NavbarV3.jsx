@@ -41,7 +41,7 @@ export default function NavbarV3({ onJoin, onLogoClick }) {
 
         <div className="hidden lg:flex items-center gap-10">
           <Link
-            to="/"
+            to="/today"
             className="text-sm text-charcoal/70 hover:text-charcoal transition-colors duration-200"
           >
             Today

@@ -402,18 +402,11 @@ export default function TodayPage() {
     return <Onboarding onSave={handleOnboardingSave} />;
   }
 
-  const handleLogoClick = (event) => {
-    // "/" is already the current route once past onboarding, so a plain
-    // <Link to="/"> is a no-op — explicitly close any in-flow panel and
-    // scroll to the top so the logo always feels like "take me home."
-    event.preventDefault();
-    setPreviewOpen(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <div className="overflow-x-clip bg-surface-cream min-h-screen">
-      <NavbarV3 onJoin={() => setWaitlistOpen(true)} onLogoClick={handleLogoClick} />
+      {/* Logo now genuinely navigates to "/" (the marketing homepage),
+          a different route from "/today" — no custom handler needed. */}
+      <NavbarV3 onJoin={() => setWaitlistOpen(true)} />
 
       <main className="pt-32 md:pt-40 pb-24 px-margin-mobile md:px-gutter">
         <div className="max-w-container-max mx-auto">
