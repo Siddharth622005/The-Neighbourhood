@@ -8,7 +8,7 @@ import LogoIcon from "../LogoIcon.jsx";
  * underneath without noise. The vector mark draws itself in on first load
  * (.logo-draw, see index.css).
  */
-export default function NavbarV3({ onJoin, onLogoClick }) {
+export default function NavbarV3({ onJoin, onLogoClick, showJoin = true }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -47,13 +47,15 @@ export default function NavbarV3({ onJoin, onLogoClick }) {
             Today
           </Link>
 
-          <button
-            onClick={onJoin}
-            className="bg-charcoal text-surface-cream text-sm font-medium px-4 md:px-6 py-2.5 rounded-full whitespace-nowrap hover:opacity-90 hover:-translate-y-px transition-all duration-200"
-          >
-            <span className="hidden sm:inline">Join the Village</span>
-            <span className="sm:hidden">Join</span>
-          </button>
+          {showJoin && (
+            <button
+              onClick={onJoin}
+              className="bg-charcoal text-surface-cream text-sm font-medium px-4 md:px-6 py-2.5 rounded-full whitespace-nowrap hover:opacity-90 hover:-translate-y-px transition-all duration-200"
+            >
+              <span className="hidden sm:inline">Join the Village</span>
+              <span className="sm:hidden">Join</span>
+            </button>
+          )}
         </div>
       </div>
     </nav>

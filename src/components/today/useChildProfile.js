@@ -7,13 +7,17 @@ const STORAGE_KEY = "tn_child_profile_v1";
 // months is compared against these until one is exceeded.
 const STAGE_UPPER_BOUND_MONTHS = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 48, 60, 72];
 
+function parseLocalDate(value) {
+  const [year, month, day] = value.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+
 export function stageIdForDob(dob) {
-  const birth = new Date(dob);
+  const birth = parseLocalDate(dob);
   const now = new Date();
-  const months = Math.max(
-    0,
-    (now.getFullYear() - birth.getFullYear()) * 12 + (now.getMonth() - birth.getMonth())
-  );
+  let months = (now.getFullYear() - birth.getFullYear()) * 12 + (now.getMonth() - birth.getMonth());
+  if (now.getDate() < birth.getDate()) months -= 1;
+  months = Math.max(0, months);
   const idx = STAGE_UPPER_BOUND_MONTHS.findIndex((bound) => months < bound);
   return idx === -1 ? STAGE_UPPER_BOUND_MONTHS.length - 1 : idx;
 }

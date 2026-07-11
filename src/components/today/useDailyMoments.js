@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "tn_daily_moments_v1";
 
-function todayKey() {
-  return new Date().toISOString().slice(0, 10); // YYYY-MM-DD, local-ish
+export function todayKey(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 function load() {
@@ -22,6 +25,7 @@ function load() {
  */
 export default function useDailyMoments() {
   const [record, setRecord] = useState(load);
+  const currentDate = todayKey();
 
   useEffect(() => {
     if (record) {
@@ -33,25 +37,54 @@ export default function useDailyMoments() {
     }
   }, [record]);
 
-  const pendingReflection = record && record.date !== todayKey() && !record.reflected;
+  const todaysRecord = record?.date === currentDate ? record : null;
+  const reflectionRecord =
+    record && record.date !== currentDate && !record.reflected
+      ? record
+      : record?.previous && !record.previous.reflected
+        ? record.previous
+        : null;
+  const pendingReflection = Boolean(reflectionRecord);
 
   // Adds one activity to today's picks, merging with anything already
   // picked today rather than overwriting it.
   const addTodaysPick = (activityName) => {
     setRecord((prev) => {
-      if (prev && prev.date === todayKey()) {
+      if (prev && prev.date === currentDate) {
         const names = prev.activityNames.includes(activityName)
           ? prev.activityNames
           : [...prev.activityNames, activityName];
         return { ...prev, activityNames: names };
       }
-      return { date: todayKey(), activityNames: [activityName], reflected: false, tried: [] };
+      const previous =
+        prev && prev.date !== currentDate && !prev.reflected
+          ? prev
+          : prev?.previous && !prev.previous.reflected
+            ? prev.previous
+            : null;
+      return {
+        date: currentDate,
+        activityNames: [activityName],
+        reflected: false,
+        tried: [],
+        previous,
+      };
     });
   };
 
   const submitReflection = (triedNames) => {
-    setRecord((prev) => (prev ? { ...prev, reflected: true, tried: triedNames } : prev));
+    setRecord((prev) => {
+      if (!prev) return prev;
+      if (prev.date !== currentDate) return { ...prev, reflected: true, tried: triedNames };
+      if (prev.previous) {
+        return {
+          ...prev,
+          previous: { ...prev.previous, reflected: true, tried: triedNames },
+        };
+      }
+      return prev;
+    });
   };
 
-  return { record, pendingReflection, addTodaysPick, submitReflection };
+  return { record, todaysRecord, reflectionRecord, pendingReflection, addTodaysPick, submitReflection };
 }
