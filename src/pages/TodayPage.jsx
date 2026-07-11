@@ -445,27 +445,35 @@ function ActivityDetail({ activity, isOpen, onToggle }) {
 }
 
 function ActivityLibrary({ activities }) {
+  const [isVisible, setIsVisible] = useState(false);
   const [openName, setOpenName] = useState(null);
 
   return (
-    <section className="mt-14 max-w-4xl">
-      <div className="mb-6">
-        <p className="v3-eyebrow text-warm-taupe mb-3">More for this season</p>
-        <h2 className="v3-h3 text-charcoal max-w-2xl">
-          A little more context, when you want it.
-        </h2>
-      </div>
+    <section className="mt-10 max-w-4xl">
+      <button
+        type="button"
+        onClick={() => setIsVisible((current) => !current)}
+        aria-expanded={isVisible}
+        className="inline-flex items-center gap-2 text-sm font-medium text-warm-taupe hover:text-charcoal active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-warm-taupe/40"
+      >
+        {isVisible ? "Hide the fuller guide" : "Read more about these moments"}
+        <span className="material-symbols-outlined text-base" aria-hidden="true">
+          {isVisible ? "expand_less" : "expand_more"}
+        </span>
+      </button>
 
-      <div className="rounded-[28px] bg-white/35 border border-warm-taupe/10 px-6 md:px-8">
-        {activities.map((activity) => (
-          <ActivityDetail
-            key={activity.name}
-            activity={activity}
-            isOpen={openName === activity.name}
-            onToggle={() => setOpenName((current) => (current === activity.name ? null : activity.name))}
-          />
-        ))}
-      </div>
+      {isVisible && (
+        <div className="today-preview-enter mt-5 rounded-[24px] bg-white/30 border border-warm-taupe/10 px-5 md:px-7">
+          {activities.map((activity) => (
+            <ActivityDetail
+              key={activity.name}
+              activity={activity}
+              isOpen={openName === activity.name}
+              onToggle={() => setOpenName((current) => (current === activity.name ? null : activity.name))}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
