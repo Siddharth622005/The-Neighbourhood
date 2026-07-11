@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const STORAGE_KEY = "tn_daily_moments_v1";
 
@@ -18,10 +18,9 @@ function load() {
 }
 
 /**
- * Tracks yesterday's recommended activities so today's visit can gently ask
- * "which of these did you get a chance to try" — reflection, not a to-do
- * list. Nothing here is scored; it's just enough state to know what to ask
- * about and to avoid asking twice in one day.
+ * Tracks the activities offered today so tomorrow can begin with a gentle,
+ * optional reflection. Nothing here is scored; it simply remembers the
+ * choices that were available and avoids asking twice in one day.
  */
 export default function useDailyMoments() {
   const [record, setRecord] = useState(load);
@@ -46,6 +45,31 @@ export default function useDailyMoments() {
         : null;
   const pendingReflection = Boolean(reflectionRecord);
 
+  const ensureTodaysPlan = useCallback((activityNames) => {
+    setRecord((prev) => {
+      if (prev?.date === currentDate) {
+        if (prev.plannedActivityNames?.length) return prev;
+        return { ...prev, plannedActivityNames: activityNames };
+      }
+
+      const previous =
+        prev && prev.date !== currentDate && !prev.reflected
+          ? prev
+          : prev?.previous && !prev.previous.reflected
+            ? prev.previous
+            : null;
+
+      return {
+        date: currentDate,
+        activityNames: [],
+        plannedActivityNames: activityNames,
+        reflected: false,
+        tried: [],
+        previous,
+      };
+    });
+  }, [currentDate]);
+
   // Adds one activity to today's picks, merging with anything already
   // picked today rather than overwriting it.
   const addTodaysPick = (activityName) => {
@@ -65,6 +89,7 @@ export default function useDailyMoments() {
       return {
         date: currentDate,
         activityNames: [activityName],
+        plannedActivityNames: [],
         reflected: false,
         tried: [],
         previous,
@@ -86,5 +111,13 @@ export default function useDailyMoments() {
     });
   };
 
-  return { record, todaysRecord, reflectionRecord, pendingReflection, addTodaysPick, submitReflection };
+  return {
+    record,
+    todaysRecord,
+    reflectionRecord,
+    pendingReflection,
+    ensureTodaysPlan,
+    addTodaysPick,
+    submitReflection,
+  };
 }

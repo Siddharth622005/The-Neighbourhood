@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import NavbarV3 from "../components/v3/NavbarV3.jsx";
 import FooterV3 from "../components/v3/FooterV3.jsx";
 import WaitlistDialogV3 from "../components/v3/WaitlistDialogV3.jsx";
@@ -29,6 +29,30 @@ const STAGE_MOODS = [
   "A capable season of learning.",
 ];
 
+const OBSERVATION_NAME_ALIASES = {
+  "sitting play with support": ["supported sitting play"],
+  "babble back and forth": ["babbling back-and-forth"],
+  "let food be explored": ["food exploration"],
+};
+
+const EVERYDAY_CONNECTION_ACTIVITY = {
+  icon: "💬",
+  pills: ["Connection", "A few minutes", "Any moment"],
+  name: "Tell the ordinary story",
+  tagline: "Your voice makes everyday life feel safe and interesting.",
+  why: "When you put ordinary moments into words, your child hears language, rhythm, and the steady reassurance of your attention. There is nothing extra to prepare.",
+  steps: [
+    "Choose one ordinary moment: getting dressed, looking out the window, or settling after a meal.",
+    "Say what you both notice in a calm, natural voice.",
+    "Pause for their look, sound, movement, or smile before carrying on."
+  ],
+  parentNote: "The conversation does not need an answer to be shared.",
+  watchFor: [
+    "A look, sound, movement, or smile in response to your voice",
+    "Any small pause where they seem to take you in"
+  ]
+};
+
 function timeGreeting(parentName) {
   const hour = new Date().getHours();
   const name = parentName ? `, ${parentName}` : "";
@@ -56,7 +80,11 @@ function getStageActivities(stage) {
 }
 
 function getDailyPlan(stage, dayNumber) {
-  const activities = getStageActivities(stage);
+  const stageActivities = getStageActivities(stage);
+  const activities =
+    stageActivities.length >= 4
+      ? stageActivities
+      : [...stageActivities, EVERYDAY_CONNECTION_ACTIVITY];
   const primaryIndex = activities.length ? (dayNumber - 1) % activities.length : 0;
   const primary = activities[primaryIndex];
   const alternates = activities
@@ -65,12 +93,39 @@ function getDailyPlan(stage, dayNumber) {
   return { primary, alternates, activities };
 }
 
+function findActivityByName(activityName) {
+  if (activityName === EVERYDAY_CONNECTION_ACTIVITY.name) return EVERYDAY_CONNECTION_ACTIVITY;
+  return journeyStages
+    .flatMap((stage) => getStageActivities(stage))
+    .find((activity) => activity.name === activityName);
+}
+
+function normalizeName(value = "") {
+  return value
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/['"]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\bback and forth\b/g, "back forth")
+    .replace(/\bsupported\b/g, "support")
+    .replace(/\bbabbling\b/g, "babble")
+    .replace(/\bexploration\b/g, "explore")
+    .replace(/\bexplored\b/g, "explore")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function activityNamesMatch(activityName, relatedName) {
+  const candidates = [activityName, ...(OBSERVATION_NAME_ALIASES[activityName.toLowerCase()] || [])];
+  return candidates.some((candidate) => normalizeName(candidate) === normalizeName(relatedName));
+}
+
 function findObservation(stage, activityName) {
   const domain = stage.domains.find((item) =>
-    item.relatedActivities.some((activity) => activity.name === activityName)
+    item.relatedActivities.some((activity) => activityNamesMatch(activityName, activity.name))
   );
   const milestone = domain?.milestones?.[0];
-  return milestone?.guide?.watch?.replace(/\.$/, "").toLowerCase() || "how your child responded";
+  return milestone?.guide?.watch?.replace(/\.$/, "").toLowerCase() || "the way they responded";
 }
 
 function localTodayForInput() {
@@ -296,7 +351,7 @@ function PrimaryMomentCard({ activity, isPicked, onPick }) {
   const watchFor = activity.watchFor?.slice(0, 2) || [];
 
   return (
-    <section className="today-fade in max-w-3xl rounded-[28px] bg-surface-container-low/65 border border-warm-taupe/10 p-8 md:p-10 mb-10 shadow-[0_24px_80px_rgba(139,115,85,0.10)]">
+    <section className="today-fade in max-w-3xl rounded-[28px] bg-surface-container-low/65 border border-warm-taupe/10 p-8 md:p-10 mb-7 shadow-[0_24px_80px_rgba(139,115,85,0.10)]">
       <div className="flex items-start justify-between gap-5 mb-7">
         <span className="text-4xl leading-none" aria-hidden="true">{activity.icon}</span>
         <span className="rounded-full bg-surface-cream/80 border border-warm-taupe/10 px-3 py-1 text-xs text-warm-taupe">
@@ -359,6 +414,38 @@ function PrimaryMomentCard({ activity, isPicked, onPick }) {
           <p className="text-sm leading-relaxed text-on-surface-variant max-w-sm">
             No perfect version needed. A few present minutes count.
           </p>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function SeasonSummary({ stage }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <section className="today-fade in max-w-3xl mb-7">
+      <button
+        type="button"
+        onClick={() => setIsOpen((current) => !current)}
+        aria-expanded={isOpen}
+        className="w-full rounded-[24px] border border-warm-taupe/10 bg-white/25 px-5 py-4 text-left transition-all duration-200 hover:bg-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-warm-taupe/40"
+      >
+        <span className="flex items-start justify-between gap-5">
+          <span>
+            <span className="v3-eyebrow block text-warm-taupe mb-2">{stage.label}</span>
+            <span className="block text-base font-semibold text-charcoal">{stageMood(stage)}</span>
+          </span>
+          <span className="material-symbols-outlined text-warm-taupe" aria-hidden="true">
+            {isOpen ? "expand_less" : "expand_more"}
+          </span>
+        </span>
+      </button>
+
+      {isOpen && (
+        <div className="today-response-enter px-5 pt-4 pb-2">
+          <p className="text-sm leading-relaxed text-on-surface-variant max-w-2xl mb-3">{stage.note}</p>
+          <p className="v3-serif italic text-base text-charcoal leading-relaxed max-w-2xl">{REASSURANCE}</p>
         </div>
       )}
     </section>
@@ -444,19 +531,21 @@ function ActivityDetail({ activity, isOpen, onToggle }) {
   );
 }
 
-function ActivityLibrary({ activities }) {
+function ActivityLibrary({ activities, activeActivityName, onSelect }) {
   const [isVisible, setIsVisible] = useState(false);
-  const [openName, setOpenName] = useState(null);
+  const [openName, setOpenName] = useState(activeActivityName);
+  const activeActivity = activities.find((activity) => activity.name === activeActivityName);
+  const otherActivities = activities.filter((activity) => activity.name !== activeActivityName);
 
   return (
-    <section className="mt-10 max-w-4xl">
+    <section className="max-w-3xl mb-12">
       <button
         type="button"
         onClick={() => setIsVisible((current) => !current)}
         aria-expanded={isVisible}
         className="inline-flex items-center gap-2 text-sm font-medium text-warm-taupe hover:text-charcoal active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-warm-taupe/40"
       >
-        {isVisible ? "Hide the fuller guide" : "Read more about these moments"}
+        {isVisible ? "Hide the extra context" : "A little more context"}
         <span className="material-symbols-outlined text-base" aria-hidden="true">
           {isVisible ? "expand_less" : "expand_more"}
         </span>
@@ -464,151 +553,111 @@ function ActivityLibrary({ activities }) {
 
       {isVisible && (
         <div className="today-preview-enter mt-5 rounded-[24px] bg-white/30 border border-warm-taupe/10 px-5 md:px-7">
-          {activities.map((activity) => (
+          {activeActivity && (
             <ActivityDetail
-              key={activity.name}
-              activity={activity}
-              isOpen={openName === activity.name}
-              onToggle={() => setOpenName((current) => (current === activity.name ? null : activity.name))}
+              activity={activeActivity}
+              isOpen={openName === activeActivity.name}
+              onToggle={() => setOpenName((current) => (current === activeActivity.name ? null : activeActivity.name))}
             />
-          ))}
+          )}
+
+          {otherActivities.length > 0 && (
+            <div className="border-t border-warm-taupe/15 py-5">
+              <p className="v3-eyebrow text-warm-taupe mb-4">If today needs a different shape</p>
+              <div className="space-y-3">
+                {otherActivities.map((activity) => (
+                  <button
+                    key={activity.name}
+                    type="button"
+                    onClick={() => {
+                      onSelect(activity);
+                      setOpenName(activity.name);
+                    }}
+                    className="w-full rounded-[18px] border border-warm-taupe/10 bg-surface-cream/45 px-4 py-4 text-left transition-all duration-200 hover:bg-surface-cream/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-warm-taupe/40"
+                  >
+                    <span className="flex items-start justify-between gap-4">
+                      <span className="flex gap-3">
+                        <span className="text-2xl leading-none" aria-hidden="true">{activity.icon}</span>
+                        <span>
+                          <span className="block text-sm font-semibold text-charcoal">{activity.name}</span>
+                          <span className="mt-1 block text-sm leading-relaxed text-on-surface-variant">{shortWhy(activity)}</span>
+                        </span>
+                      </span>
+                      <span className="rounded-full bg-white/60 border border-warm-taupe/10 px-3 py-1 text-xs text-warm-taupe whitespace-nowrap">
+                        {estimate(activity)}
+                      </span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </section>
   );
 }
 
-function MomentCard({ activity, index, isActive, onSelect }) {
-  return (
-    <button
-      type="button"
-      onClick={() => onSelect(activity)}
-      className={`today-moment-card today-stagger text-left rounded-[24px] border border-warm-taupe/15 bg-white/45 p-6 md:p-7 shadow-[0_18px_60px_rgba(139,115,85,0.08)] ${
-        isActive ? "border-warm-taupe/30 bg-surface-container-low/70" : ""
-      }`}
-      style={{ animationDelay: `${index * 110}ms` }}
-    >
-      <div className="flex items-start justify-between gap-5 mb-6">
-        <span className="text-3xl leading-none" aria-hidden="true">{activity.icon}</span>
-        <span className="rounded-full bg-surface-cream/80 border border-warm-taupe/10 px-3 py-1 text-xs text-warm-taupe">
-          {estimate(activity)}
-        </span>
-      </div>
-      <p className="text-lg font-semibold text-charcoal mb-3">{activity.name}</p>
-      <p className="text-sm leading-relaxed text-on-surface-variant mb-7">{shortWhy(activity)}</p>
-      <span className="today-pick-button inline-flex items-center gap-2 text-sm font-medium text-charcoal">
-        {isActive ? "Shown above" : "Choose this instead"}
-        <span className="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
-      </span>
-    </button>
-  );
-}
-
 function ReflectionChoice({ name, checked, onToggle }) {
   return (
-    <button
-      type="button"
-      role="checkbox"
-      aria-checked={checked}
-      onClick={onToggle}
-      className="w-full flex items-center gap-4 py-4 text-left border-t border-warm-taupe/15 first:border-t-0 active:scale-[0.99] transition-transform duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-warm-taupe/40"
-    >
-      <span
-        className={`today-notice-dot${checked ? " on" : ""} w-5 h-5 rounded-full border flex-shrink-0 ${
-          checked ? "border-warm-taupe" : "border-warm-taupe/30"
-        }`}
+    <label className="w-full flex cursor-pointer items-center gap-4 py-4 text-left border-t border-warm-taupe/15 first:border-t-0 active:scale-[0.99] transition-transform duration-200">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onToggle}
+        className="h-5 w-5 flex-shrink-0 cursor-pointer rounded border-warm-taupe/30 text-warm-taupe focus:ring-warm-taupe/40"
       />
-      <span className={`today-notice-label text-[15px] ${checked ? "text-charcoal" : "text-on-surface-variant"}`}>
-        {name}
-      </span>
-    </button>
+      <span className={`text-[15px] ${checked ? "text-charcoal" : "text-on-surface-variant"}`}>{name}</span>
+    </label>
   );
 }
 
-function TomorrowPreview({ childName, stage, activities, onClose, onComplete }) {
-  const [step, setStep] = useState("select");
-  const [checked, setChecked] = useState(() => new Set());
-  const selectedNames = [...checked];
-  const observedName = selectedNames[0];
-  const watchText = observedName ? findObservation(stage, observedName) : "";
+function reflectionEncouragement(count, childName) {
+  if (count === 0) return "Choose anything that happened, even for a moment.";
+  if (count === 1) return `That small moment mattered. ${childName} had you with them.`;
+  if (count === 2) return "Two small moments of connection are more than enough.";
+  if (count === 3) return "A lovely collection of ordinary moments to remember.";
+  return "What a caring collection of moments. No gold stars needed.";
+}
 
-  const toggle = (name) => {
-    setChecked((prev) => {
-      const next = new Set(prev);
-      next.has(name) ? next.delete(name) : next.add(name);
+function TomorrowPreview({ childName, activities, onClose, onComplete }) {
+  const [observedNames, setObservedNames] = useState(() => new Set());
+  const selectedCount = observedNames.size;
+
+  const toggleActivity = (activityName) => {
+    setObservedNames((current) => {
+      const next = new Set(current);
+      if (next.has(activityName)) next.delete(activityName);
+      else next.add(activityName);
       return next;
     });
   };
-
-  if (step === "empty") {
-    return (
-      <PreviewShell onClose={onClose}>
-        <p className="v3-eyebrow text-warm-taupe mb-4">A quiet reset</p>
-        <h2 className="v3-h2 text-charcoal mb-4">That is completely okay.</h2>
-        <p className="text-on-surface-variant leading-relaxed mb-3">Some days have very little room.</p>
-        <p className="v3-serif italic text-xl text-charcoal leading-relaxed mb-9">Nothing is lost. We will meet you again tomorrow.</p>
-        <PrimaryButton onClick={() => onComplete([])}>Back to today</PrimaryButton>
-      </PreviewShell>
-    );
-  }
-
-  if (step === "confirm") {
-    return (
-      <PreviewShell onClose={onClose}>
-        <p className="v3-eyebrow text-warm-taupe mb-4">A small look back</p>
-        <h2 className="v3-h2 text-charcoal mb-4">Those moments still count.</h2>
-        <p className="text-on-surface-variant leading-relaxed mb-9">
-          Children grow through thousands of ordinary exchanges with the people they trust.
-        </p>
-        <PrimaryButton onClick={() => setStep("observe")}>Continue</PrimaryButton>
-      </PreviewShell>
-    );
-  }
-
-  if (step === "observe") {
-    return (
-      <PreviewShell onClose={onClose}>
-        <p className="v3-eyebrow text-warm-taupe mb-4">Looking back at {observedName}</p>
-        <h2 className="v3-h3 text-charcoal mb-8 leading-snug">
-          Did you notice {childName} {watchText}?
-        </h2>
-        <div className="flex flex-wrap gap-3">
-          {["Yes", "Not yet", "I was not sure"].map((option) => (
-            <button
-              key={option}
-              onClick={() => onComplete(selectedNames)}
-              className="px-6 py-3 rounded-full border border-warm-taupe/25 text-charcoal hover:bg-warm-taupe/10 active:scale-[0.98] transition-all duration-200"
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-      </PreviewShell>
-    );
-  }
 
   return (
     <PreviewShell onClose={onClose}>
       <p className="v3-eyebrow text-warm-taupe mb-4">Yesterday, gently</p>
       <h2 className="v3-h3 text-charcoal mb-4">
-        Did any of these moments find their way into yesterday?
+        Which of these found their way into yesterday?
       </h2>
       <p className="text-on-surface-variant leading-relaxed mb-7">
-        No scoring. No catching up. Just a soft look back.
+        Tick anything that happened, even briefly. You can choose more than one, or none.
       </p>
-      <div className="mb-8">
+      <div className="mb-5" aria-label="Yesterday's activities">
         {activities.map((activity) => (
           <ReflectionChoice
             key={activity.name}
             name={activity.name}
-            checked={checked.has(activity.name)}
-            onToggle={() => toggle(activity.name)}
+            checked={observedNames.has(activity.name)}
+            onToggle={() => toggleActivity(activity.name)}
           />
         ))}
       </div>
-      <div className="flex items-center justify-between gap-4">
-        <GhostButton onClick={onClose}>Back to today</GhostButton>
-        <PrimaryButton onClick={() => setStep(checked.size > 0 ? "confirm" : "empty")}>Continue</PrimaryButton>
+      <p className="min-h-12 v3-serif italic text-lg text-charcoal leading-relaxed mb-7" aria-live="polite">
+        {reflectionEncouragement(selectedCount, childName)}
+      </p>
+      <div className="flex flex-wrap items-center gap-4">
+        <PrimaryButton onClick={() => onComplete([...observedNames])}>Continue to today</PrimaryButton>
+        <GhostButton onClick={onClose}>Do this later</GhostButton>
       </div>
     </PreviewShell>
   );
@@ -633,7 +682,14 @@ function PreviewShell({ children, onClose }) {
 
 export default function TodayPage() {
   const { profile, saveProfile } = useChildProfile();
-  const { todaysRecord, reflectionRecord, pendingReflection, addTodaysPick, submitReflection } = useDailyMoments();
+  const {
+    todaysRecord,
+    reflectionRecord,
+    pendingReflection,
+    ensureTodaysPlan,
+    addTodaysPick,
+    submitReflection,
+  } = useDailyMoments();
   const { dayNumber, markCreated, noteStageSeen, markReflected } = useCompanionMeta();
   const [waitlistOpen, setWaitlistOpen] = useState(false);
   const [pickedToday, setPickedToday] = useState(() => new Set(todaysRecord?.activityNames || []));
@@ -646,12 +702,22 @@ export default function TodayPage() {
   const activeActivity =
     dailyPlan.activities.find((activity) => activity.name === activeActivityName) || dailyPlan.primary;
   const reflectionActivities = useMemo(() => {
-    const pickedNames = reflectionRecord?.activityNames || [];
-    const picked = pickedNames
-      .map((name) => dailyPlan.activities.find((activity) => activity.name === name))
+    const plannedNames = reflectionRecord?.plannedActivityNames || reflectionRecord?.activityNames || [];
+    const planned = plannedNames
+      .map((name) => dailyPlan.activities.find((activity) => activity.name === name) || findActivityByName(name))
       .filter(Boolean);
-    return picked.length > 0 ? picked : dailyPlan.primary ? [dailyPlan.primary] : [];
+    return planned.length > 0 ? planned : dailyPlan.primary ? [dailyPlan.primary] : [];
   }, [reflectionRecord, dailyPlan.activities, dailyPlan.primary]);
+
+  useEffect(() => {
+    if (dailyPlan.primary?.name && !dailyPlan.activities.some((activity) => activity.name === activeActivityName)) {
+      setActiveActivityName(dailyPlan.primary.name);
+    }
+  }, [activeActivityName, dailyPlan.activities, dailyPlan.primary]);
+
+  useEffect(() => {
+    ensureTodaysPlan(dailyPlan.activities.map((activity) => activity.name));
+  }, [dailyPlan.activities, ensureTodaysPlan]);
 
   const handleOnboardingSave = (childName, dob, parentName) => {
     saveProfile(childName, dob, parentName);
@@ -664,6 +730,10 @@ export default function TodayPage() {
     setActiveActivityName(activityName);
     setPickedToday((prev) => new Set(prev).add(activityName));
     if (navigator.vibrate) navigator.vibrate(8);
+  };
+
+  const handleSelectActivity = (activity) => {
+    setActiveActivityName(activity.name);
   };
 
   const handleReflectionComplete = (triedNames) => {
@@ -734,7 +804,6 @@ export default function TodayPage() {
           {panel === "reflection" ? (
             <TomorrowPreview
               childName={profile.name}
-              stage={stage}
               activities={reflectionActivities}
               onClose={() => setPanel(null)}
               onComplete={handleReflectionComplete}
@@ -756,37 +825,13 @@ export default function TodayPage() {
                 onPick={handlePickToday}
               />
 
-              <section className="today-fade in max-w-3xl rounded-[28px] bg-white/35 border border-warm-taupe/10 p-6 md:p-8 mb-12">
-                <p className="v3-eyebrow text-warm-taupe mb-3">{stage.label}</p>
-                <h2 className="v3-h3 text-charcoal mb-3">{stageMood(stage)}</h2>
-                <p className="text-on-surface-variant leading-relaxed mb-4">{stage.note}</p>
-                <p className="v3-serif italic text-xl text-charcoal leading-relaxed">{REASSURANCE}</p>
-              </section>
+              <SeasonSummary stage={stage} />
 
-              {dailyPlan.alternates.length > 0 && (
-                <section>
-                  <div className="mb-6">
-                    <p className="v3-eyebrow text-warm-taupe mb-3">If today asks for something else</p>
-                    <h2 className="v3-h3 text-charcoal max-w-2xl">
-                      Two more gentle options for {profile.name}.
-                    </h2>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6 max-w-4xl">
-                    {dailyPlan.alternates.map((activity, index) => (
-                      <MomentCard
-                        key={activity.name}
-                        activity={activity}
-                        index={index}
-                        isActive={activeActivity.name === activity.name}
-                        onSelect={(selected) => setActiveActivityName(selected.name)}
-                      />
-                    ))}
-                  </div>
-                </section>
-              )}
-
-              <ActivityLibrary activities={dailyPlan.activities} />
+              <ActivityLibrary
+                activities={dailyPlan.activities}
+                activeActivityName={activeActivity.name}
+                onSelect={handleSelectActivity}
+              />
             </>
           )}
         </div>
