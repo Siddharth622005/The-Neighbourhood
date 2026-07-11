@@ -451,7 +451,7 @@ function PrimaryMomentCard({ activity, reason, isCommitted, onCommit, onClearCom
             <div className="border-t border-warm-taupe/15 mt-6 pt-6">
               <p className="v3-eyebrow text-warm-taupe mb-3">Does this feel possible today?</p>
               <div className="flex flex-wrap items-center gap-4">
-                <PrimaryButton onClick={() => onCommit(activity.name)}>I&apos;ll make room for this</PrimaryButton>
+                <PrimaryButton onClick={() => onCommit(activity.name)}>I'll make room for this</PrimaryButton>
                 <p className="text-sm leading-relaxed text-on-surface-variant max-w-sm">
                   A few present minutes are enough.
                 </p>
@@ -627,7 +627,7 @@ function ActivityLibrary({ activities, activeActivityName, committedNames, onSel
                   }}
                   className="mt-4 text-sm font-medium text-warm-taupe underline underline-offset-4 decoration-soft-sand hover:text-charcoal active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-warm-taupe/40"
                 >
-                  {committedNames.has(activity.name) ? "Remove from today" : "I&apos;ll make room for this"}
+                  {committedNames.has(activity.name) ? "Remove from today" : "I'll make room for this"}
                 </button>
               </div>
             ))}
@@ -769,7 +769,7 @@ function StaleCommitmentNotice({ onDismiss }) {
   return (
     <section className="max-w-3xl border-l-2 border-warm-taupe/25 pl-4 mb-7">
       <div className="flex items-start justify-between gap-5">
-        <p className="v3-serif italic text-lg text-charcoal leading-relaxed">The last few days sound full. We&apos;ve set that thought down.</p>
+        <p className="v3-serif italic text-lg text-charcoal leading-relaxed">The last few days sound full. We've set that thought down.</p>
         <button type="button" onClick={onDismiss} aria-label="Dismiss" className="text-warm-taupe hover:text-charcoal">
           <span className="material-symbols-outlined text-base" aria-hidden="true">close</span>
         </button>
