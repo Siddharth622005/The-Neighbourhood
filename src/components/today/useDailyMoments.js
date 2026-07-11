@@ -17,107 +17,157 @@ function load() {
   }
 }
 
+function daysBetween(fromDate, toDate) {
+  const from = new Date(`${fromDate}T00:00:00`);
+  const to = new Date(`${toDate}T00:00:00`);
+  return Math.round((to - from) / 86400000);
+}
+
+function hasUnreflectedPlan(record) {
+  return Boolean(record?.plannedActivityNames?.length) && !record.reflected;
+}
+
+function committedActivityNames(record) {
+  if (Array.isArray(record?.commitments)) return record.commitments;
+  return record?.commitment?.status === "committed" ? [record.commitment.activityName] : [];
+}
+
 /**
- * Tracks the activities offered today so tomorrow can begin with a gentle,
- * optional reflection. Nothing here is scored; it simply remembers the
- * choices that were available and avoids asking twice in one day.
+ * Holds voluntary daily intentions alongside the four gentle options that
+ * were shown that day. Tomorrow's reflection is optional and never scored.
  */
 export default function useDailyMoments() {
   const [record, setRecord] = useState(load);
   const currentDate = todayKey();
 
   useEffect(() => {
-    if (record) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(record));
-      } catch {
-        // ignore
-      }
+    if (!record) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(record));
+    } catch {
+      // ignore
     }
   }, [record]);
 
   const todaysRecord = record?.date === currentDate ? record : null;
-  const reflectionRecord =
-    record && record.date !== currentDate && !record.reflected
+  const followUpRecord = todaysRecord?.previous && hasUnreflectedPlan(todaysRecord.previous)
+    ? todaysRecord.previous
+    : record?.date !== currentDate && hasUnreflectedPlan(record)
       ? record
-      : record?.previous && !record.previous.reflected
-        ? record.previous
-        : null;
-  const pendingReflection = Boolean(reflectionRecord);
+      : null;
+  const staleCommitment = todaysRecord?.staleCommitment || null;
+  const recentObservations = todaysRecord?.recentObservations || record?.recentObservations || [];
 
-  const ensureTodaysPlan = useCallback((activityNames) => {
-    setRecord((prev) => {
-      if (prev?.date === currentDate) {
-        if (prev.plannedActivityNames?.length) return prev;
-        return { ...prev, plannedActivityNames: activityNames };
+  const ensureToday = useCallback((activityNames) => {
+    setRecord((previousRecord) => {
+      if (previousRecord?.date === currentDate) {
+        if (previousRecord.plannedActivityNames?.length) {
+          if (previousRecord.recentObservations && Array.isArray(previousRecord.commitments)) return previousRecord;
+          return {
+            ...previousRecord,
+            recentObservations: previousRecord.recentObservations || [],
+            commitments: committedActivityNames(previousRecord),
+          };
+        }
+        return {
+          ...previousRecord,
+          plannedActivityNames: activityNames,
+          reflected: false,
+          recentObservations: previousRecord.recentObservations || [],
+          commitments: committedActivityNames(previousRecord),
+        };
       }
 
-      const previous =
-        prev && prev.date !== currentDate && !prev.reflected
-          ? prev
-          : prev?.previous && !prev.previous.reflected
-            ? prev.previous
-            : null;
+      const currentPlan = hasUnreflectedPlan(previousRecord) ? previousRecord : null;
+      const earlierPlan = hasUnreflectedPlan(previousRecord?.previous) ? previousRecord.previous : null;
+      const candidate = currentPlan || earlierPlan;
+      const age = candidate ? daysBetween(candidate.date, currentDate) : 0;
 
       return {
         date: currentDate,
-        activityNames: [],
         plannedActivityNames: activityNames,
         reflected: false,
-        tried: [],
-        previous,
+        recentObservations: previousRecord?.recentObservations || [],
+        commitments: [],
+        previous: age === 1 ? candidate : null,
+        staleCommitment: age > 1 ? candidate : null,
       };
     });
   }, [currentDate]);
 
-  // Adds one activity to today's picks, merging with anything already
-  // picked today rather than overwriting it.
-  const addTodaysPick = (activityName) => {
-    setRecord((prev) => {
-      if (prev && prev.date === currentDate) {
-        const names = prev.activityNames.includes(activityName)
-          ? prev.activityNames
-          : [...prev.activityNames, activityName];
-        return { ...prev, activityNames: names };
-      }
-      const previous =
-        prev && prev.date !== currentDate && !prev.reflected
-          ? prev
-          : prev?.previous && !prev.previous.reflected
-            ? prev.previous
-            : null;
+  const commitActivity = (activityName) => {
+    setRecord((previousRecord) => {
+      const current = previousRecord?.date === currentDate
+        ? previousRecord
+        : {
+            date: currentDate,
+            plannedActivityNames: [],
+            reflected: false,
+            recentObservations: [],
+            commitments: [],
+            previous: null,
+            staleCommitment: null,
+          };
       return {
-        date: currentDate,
-        activityNames: [activityName],
-        plannedActivityNames: [],
-        reflected: false,
-        tried: [],
-        previous,
+        ...current,
+        commitments: [...new Set([...committedActivityNames(current), activityName])],
       };
     });
   };
 
-  const submitReflection = (triedNames) => {
-    setRecord((prev) => {
-      if (!prev) return prev;
-      if (prev.date !== currentDate) return { ...prev, reflected: true, tried: triedNames };
-      if (prev.previous) {
-        return {
-          ...prev,
-          previous: { ...prev.previous, reflected: true, tried: triedNames },
-        };
-      }
-      return prev;
+  const clearCommitment = (activityName) => {
+    setRecord((previousRecord) => {
+      if (previousRecord?.date !== currentDate) return previousRecord;
+      return {
+        ...previousRecord,
+        commitments: committedActivityNames(previousRecord).filter((name) => name !== activityName),
+      };
+    });
+  };
+
+  const submitReflection = (triedNames, signal = "") => {
+    setRecord((previousRecord) => {
+      if (previousRecord?.date !== currentDate || !previousRecord.previous) return previousRecord;
+      const observation = triedNames.length
+        ? {
+            date: previousRecord.previous.date,
+            activityNames: triedNames,
+            signal,
+          }
+        : null;
+      return {
+        ...previousRecord,
+        recentObservations: observation
+          ? [...(previousRecord.recentObservations || []), observation].slice(-6)
+          : previousRecord.recentObservations || [],
+        previous: {
+          ...previousRecord.previous,
+          reflected: true,
+          tried: triedNames,
+          signal,
+          reflectedAt: Date.now(),
+        },
+      };
+    });
+  };
+
+  const dismissStaleCommitment = () => {
+    setRecord((previousRecord) => {
+      if (previousRecord?.date !== currentDate) return previousRecord;
+      return { ...previousRecord, staleCommitment: null };
     });
   };
 
   return {
-    record,
     todaysRecord,
-    reflectionRecord,
-    pendingReflection,
-    ensureTodaysPlan,
-    addTodaysPick,
+    todaysCommitments: committedActivityNames(todaysRecord),
+    followUpRecord,
+    staleCommitment,
+    recentObservations,
+    ensureToday,
+    commitActivity,
+    clearCommitment,
     submitReflection,
+    dismissStaleCommitment,
   };
 }

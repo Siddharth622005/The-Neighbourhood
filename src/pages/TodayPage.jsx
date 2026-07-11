@@ -29,12 +29,6 @@ const STAGE_MOODS = [
   "A capable season of learning.",
 ];
 
-const OBSERVATION_NAME_ALIASES = {
-  "sitting play with support": ["supported sitting play"],
-  "babble back and forth": ["babbling back-and-forth"],
-  "let food be explored": ["food exploration"],
-};
-
 const EVERYDAY_CONNECTION_ACTIVITY = {
   icon: "💬",
   pills: ["Connection", "A few minutes", "Any moment"],
@@ -74,6 +68,29 @@ function estimate(activity) {
   return activity.pills?.find((pill) => /min|time|meal|bath|walk|any/i.test(pill)) || "A few minutes";
 }
 
+function activitySymbol(activity) {
+  const attributes = activity.pills?.join(" ").toLowerCase() || "";
+  if (/motor|movement|physical/.test(attributes)) return "directions_run";
+  if (/communication|language|speech/.test(attributes)) return "chat_bubble";
+  if (/social|emotional|attachment/.test(attributes)) return "favorite";
+  if (/cognitive|thinking/.test(attributes)) return "lightbulb";
+  if (/sensory|food|meal/.test(attributes)) return "touch_app";
+  if (/creative|music|art/.test(attributes)) return "palette";
+  if (/connection/.test(attributes)) return "forum";
+  return "auto_awesome";
+}
+
+function ActivityIcon({ activity, className = "" }) {
+  return (
+    <span
+      className={`material-symbols-outlined text-warm-taupe ${className}`}
+      aria-hidden="true"
+    >
+      {activitySymbol(activity)}
+    </span>
+  );
+}
+
 function getStageActivities(stage) {
   return stage.activityThemes
     .flatMap((themeGroup) => themeGroup.activities.map((activity) => ({ ...activity, theme: themeGroup.theme })));
@@ -81,16 +98,16 @@ function getStageActivities(stage) {
 
 function getDailyPlan(stage, dayNumber) {
   const stageActivities = getStageActivities(stage);
-  const activities =
+  const availableActivities =
     stageActivities.length >= 4
       ? stageActivities
       : [...stageActivities, EVERYDAY_CONNECTION_ACTIVITY];
-  const primaryIndex = activities.length ? (dayNumber - 1) % activities.length : 0;
-  const primary = activities[primaryIndex];
-  const alternates = activities
-    .filter((_, index) => index !== primaryIndex)
-    .slice(0, 2);
-  return { primary, alternates, activities };
+  const primaryIndex = availableActivities.length ? (dayNumber - 1) % availableActivities.length : 0;
+  const activities = Array.from(
+    { length: Math.min(4, availableActivities.length) },
+    (_, offset) => availableActivities[(primaryIndex + offset) % availableActivities.length]
+  );
+  return { primary: activities[0], activities };
 }
 
 function findActivityByName(activityName) {
@@ -100,32 +117,34 @@ function findActivityByName(activityName) {
     .find((activity) => activity.name === activityName);
 }
 
-function normalizeName(value = "") {
-  return value
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/['"]/g, "")
-    .replace(/[^a-z0-9]+/g, " ")
-    .replace(/\bback and forth\b/g, "back forth")
-    .replace(/\bsupported\b/g, "support")
-    .replace(/\bbabbling\b/g, "babble")
-    .replace(/\bexploration\b/g, "explore")
-    .replace(/\bexplored\b/g, "explore")
-    .replace(/\s+/g, " ")
-    .trim();
+function recommendationReason(activity, observations, childName) {
+  const latest = observations.at(-1);
+  if (!latest) return `A gentle place to begin for ${childName}'s season.`;
+  if (latest.signal && latest.signal !== "Nothing clear yet") {
+    return `Yesterday, you noticed ${latest.signal.toLowerCase()} during a shared moment. ${activity.name} offers another gentle way to follow that.`;
+  }
+  const previousActivity = latest.activityNames?.[0];
+  return previousActivity
+    ? `Yesterday, you made room for ${previousActivity}. ${activity.name} is a gentle next invitation.`
+    : `A gentle place to begin for ${childName}'s season.`;
 }
 
-function activityNamesMatch(activityName, relatedName) {
-  const candidates = [activityName, ...(OBSERVATION_NAME_ALIASES[activityName.toLowerCase()] || [])];
-  return candidates.some((candidate) => normalizeName(candidate) === normalizeName(relatedName));
-}
-
-function findObservation(stage, activityName) {
-  const domain = stage.domains.find((item) =>
-    item.relatedActivities.some((activity) => activityNamesMatch(activityName, activity.name))
+function quietThread(observations, childName) {
+  if (observations.length < 3) return null;
+  const signals = observations
+    .map((item) => item.signal)
+    .filter((signal) => signal && signal !== "Nothing clear yet");
+  if (signals.length === 0) {
+    return `Over the last few days, you have made room for small shared moments. You are getting to know ${childName}'s rhythm.`;
+  }
+  const mostNoticed = signals.reduce(
+    (mostCommon, signal) =>
+      signals.filter((item) => item === signal).length > signals.filter((item) => item === mostCommon).length
+        ? signal
+        : mostCommon,
+    signals[0]
   );
-  const milestone = domain?.milestones?.[0];
-  return milestone?.guide?.watch?.replace(/\.$/, "").toLowerCase() || "the way they responded";
+  return `Across recent shared moments, you have often noticed ${mostNoticed.toLowerCase()}. You are getting to know what catches ${childName}'s attention.`;
 }
 
 function localTodayForInput() {
@@ -346,30 +365,43 @@ function ProfileSettings({ profile, onSave, onClose }) {
   );
 }
 
-function PrimaryMomentCard({ activity, isPicked, onPick }) {
+function PrimaryMomentCard({ activity, reason, isCommitted, onCommit, onClearCommitment }) {
+  const [isExploring, setIsExploring] = useState(false);
   const steps = activity.steps?.slice(0, 3) || [];
   const watchFor = activity.watchFor?.slice(0, 2) || [];
+
+  useEffect(() => {
+    setIsExploring(isCommitted);
+  }, [activity.name, isCommitted]);
 
   return (
     <section className="today-fade in max-w-3xl rounded-[28px] bg-surface-container-low/65 border border-warm-taupe/10 p-8 md:p-10 mb-7 shadow-[0_24px_80px_rgba(139,115,85,0.10)]">
       <div className="flex items-start justify-between gap-5 mb-7">
-        <span className="text-4xl leading-none" aria-hidden="true">{activity.icon}</span>
+        <span className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-warm-taupe/10">
+          <ActivityIcon activity={activity} className="text-2xl" />
+        </span>
         <span className="rounded-full bg-surface-cream/80 border border-warm-taupe/10 px-3 py-1 text-xs text-warm-taupe">
           {estimate(activity)}
         </span>
       </div>
-      <p className="v3-eyebrow text-warm-taupe mb-3">One good thing for today</p>
+      <p className="v3-eyebrow text-warm-taupe mb-3">
+        {isCommitted ? "A small plan for today" : "What may fit today"}
+      </p>
       <h2 className="v3-h2 text-charcoal max-w-2xl mb-4">{activity.name}</h2>
       <p className="text-on-surface-variant leading-relaxed mb-5">{shortWhy(activity)}</p>
       <p className="v3-serif italic text-xl text-charcoal leading-relaxed mb-8">
         {activity.tagline}
       </p>
+      <div className="border-l-2 border-warm-taupe/25 pl-4 mb-8 max-w-2xl">
+        <p className="v3-eyebrow text-warm-taupe mb-2">Why this may fit</p>
+        <p className="text-sm leading-relaxed text-on-surface-variant">{reason}</p>
+      </div>
 
-      {isPicked ? (
+      {isExploring ? (
         <div className="today-pick-label">
           <div className="inline-flex items-center gap-2 rounded-full bg-surface-cream/80 border border-warm-taupe/15 px-4 py-2 text-sm text-warm-taupe mb-8">
             <span className="material-symbols-outlined text-base" aria-hidden="true">check</span>
-            <span className="v3-serif italic">Here for today</span>
+            <span className="v3-serif italic">{isCommitted ? "Here for today" : "Take a look"}</span>
           </div>
 
           {steps.length > 0 && (
@@ -407,10 +439,29 @@ function PrimaryMomentCard({ activity, isPicked, onPick }) {
               {cleanQuote(activity.parentNote)}
             </p>
           )}
+
+          {isCommitted ? (
+            <div className="border-t border-warm-taupe/15 mt-6 pt-6">
+              <p className="text-sm leading-relaxed text-on-surface-variant mb-4">
+                You have made room for this moment. It can sit alongside any others that fit your day.
+              </p>
+              <GhostButton onClick={() => onClearCommitment(activity.name)}>Remove from today</GhostButton>
+            </div>
+          ) : (
+            <div className="border-t border-warm-taupe/15 mt-6 pt-6">
+              <p className="v3-eyebrow text-warm-taupe mb-3">Does this feel possible today?</p>
+              <div className="flex flex-wrap items-center gap-4">
+                <PrimaryButton onClick={() => onCommit(activity.name)}>I&apos;ll make room for this</PrimaryButton>
+                <p className="text-sm leading-relaxed text-on-surface-variant max-w-sm">
+                  A few present minutes are enough.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div className="flex flex-wrap items-center gap-4">
-          <PrimaryButton onClick={() => onPick(activity.name)}>Show me gently</PrimaryButton>
+          <PrimaryButton onClick={() => setIsExploring(true)}>See the simple way</PrimaryButton>
           <p className="text-sm leading-relaxed text-on-surface-variant max-w-sm">
             No perfect version needed. A few present minutes count.
           </p>
@@ -465,10 +516,13 @@ function ActivityDetail({ activity, isOpen, onToggle }) {
         className="w-full py-5 text-left flex items-start justify-between gap-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-warm-taupe/40"
       >
         <span className="flex gap-4">
-          <span className="text-2xl leading-none" aria-hidden="true">{activity.icon}</span>
+          <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[11px] bg-warm-taupe/10">
+            <ActivityIcon activity={activity} className="text-lg" />
+          </span>
           <span>
             <span className="block text-base font-semibold text-charcoal">{activity.name}</span>
             <span className="mt-1 block text-sm leading-relaxed text-on-surface-variant">{activity.tagline}</span>
+            <span className="mt-2 block text-sm leading-relaxed text-on-surface-variant">{shortWhy(activity)}</span>
           </span>
         </span>
         <span className="flex flex-shrink-0 items-center gap-2 text-xs text-warm-taupe">
@@ -531,21 +585,63 @@ function ActivityDetail({ activity, isOpen, onToggle }) {
   );
 }
 
-function ActivityLibrary({ activities, activeActivityName, onSelect }) {
+function ActivityLibrary({ activities, activeActivityName, committedNames, onSelect, onCommit, onClearCommitment }) {
   const [isVisible, setIsVisible] = useState(false);
   const [openName, setOpenName] = useState(activeActivityName);
-  const activeActivity = activities.find((activity) => activity.name === activeActivityName);
-  const otherActivities = activities.filter((activity) => activity.name !== activeActivityName);
+  const otherActivities = activities.filter((activity) => activity.name !== activeActivityName).slice(0, 3);
+
+  useEffect(() => {
+    setOpenName(activeActivityName);
+  }, [activeActivityName]);
 
   return (
     <section className="max-w-3xl mb-12">
+      {otherActivities.length > 0 && (
+        <div className="mb-6">
+          <p className="v3-eyebrow text-warm-taupe mb-3">Other ways to be together today</p>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {otherActivities.map((activity) => (
+              <div key={activity.name} className="min-h-[154px] rounded-[8px] border border-warm-taupe/12 bg-white/25 p-4 text-left transition-all duration-200 hover:bg-white/45">
+                <button
+                  type="button"
+                  onClick={() => {
+                    onSelect(activity);
+                    setOpenName(activity.name);
+                  }}
+                  className="w-full text-left focus:outline-none"
+                >
+                  <span className="mb-4 flex items-start justify-between gap-3">
+                    <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[11px] bg-warm-taupe/10">
+                      <ActivityIcon activity={activity} className="text-lg" />
+                    </span>
+                    <span className="text-xs text-warm-taupe whitespace-nowrap">{estimate(activity)}</span>
+                  </span>
+                  <span className="block text-sm font-semibold text-charcoal mb-2">{activity.name}</span>
+                  <span className="block text-sm leading-relaxed text-on-surface-variant">{shortWhy(activity)}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (committedNames.has(activity.name)) onClearCommitment(activity.name);
+                    else onCommit(activity.name);
+                  }}
+                  className="mt-4 text-sm font-medium text-warm-taupe underline underline-offset-4 decoration-soft-sand hover:text-charcoal active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-warm-taupe/40"
+                >
+                  {committedNames.has(activity.name) ? "Remove from today" : "I&apos;ll make room for this"}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <button
         type="button"
         onClick={() => setIsVisible((current) => !current)}
         aria-expanded={isVisible}
         className="inline-flex items-center gap-2 text-sm font-medium text-warm-taupe hover:text-charcoal active:scale-[0.98] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-warm-taupe/40"
       >
-        {isVisible ? "Hide the extra context" : "A little more context"}
+        {isVisible ? "Hide the fuller guide" : "See the fuller guide"}
         <span className="material-symbols-outlined text-base" aria-hidden="true">
           {isVisible ? "expand_less" : "expand_more"}
         </span>
@@ -553,79 +649,54 @@ function ActivityLibrary({ activities, activeActivityName, onSelect }) {
 
       {isVisible && (
         <div className="today-preview-enter mt-5 rounded-[24px] bg-white/30 border border-warm-taupe/10 px-5 md:px-7">
-          {activeActivity && (
+          {activities.map((activity) => (
             <ActivityDetail
-              activity={activeActivity}
-              isOpen={openName === activeActivity.name}
-              onToggle={() => setOpenName((current) => (current === activeActivity.name ? null : activeActivity.name))}
+              key={activity.name}
+              activity={activity}
+              isOpen={openName === activity.name}
+              onToggle={() => setOpenName((current) => (current === activity.name ? null : activity.name))}
             />
-          )}
+          ))}
 
-          {otherActivities.length > 0 && (
-            <div className="border-t border-warm-taupe/15 py-5">
-              <p className="v3-eyebrow text-warm-taupe mb-4">If today needs a different shape</p>
-              <div className="space-y-3">
-                {otherActivities.map((activity) => (
-                  <button
-                    key={activity.name}
-                    type="button"
-                    onClick={() => {
-                      onSelect(activity);
-                      setOpenName(activity.name);
-                    }}
-                    className="w-full rounded-[18px] border border-warm-taupe/10 bg-surface-cream/45 px-4 py-4 text-left transition-all duration-200 hover:bg-surface-cream/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-warm-taupe/40"
-                  >
-                    <span className="flex items-start justify-between gap-4">
-                      <span className="flex gap-3">
-                        <span className="text-2xl leading-none" aria-hidden="true">{activity.icon}</span>
-                        <span>
-                          <span className="block text-sm font-semibold text-charcoal">{activity.name}</span>
-                          <span className="mt-1 block text-sm leading-relaxed text-on-surface-variant">{shortWhy(activity)}</span>
-                        </span>
-                      </span>
-                      <span className="rounded-full bg-white/60 border border-warm-taupe/10 px-3 py-1 text-xs text-warm-taupe whitespace-nowrap">
-                        {estimate(activity)}
-                      </span>
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       )}
     </section>
   );
 }
 
-function ReflectionChoice({ name, checked, onToggle }) {
+function ReflectionChoice({ activity, checked, onToggle }) {
   return (
-    <label className="w-full flex cursor-pointer items-center gap-4 py-4 text-left border-t border-warm-taupe/15 first:border-t-0 active:scale-[0.99] transition-transform duration-200">
+    <label className="flex cursor-pointer items-center gap-4 border-t border-warm-taupe/15 py-4 first:border-t-0">
       <input
         type="checkbox"
         checked={checked}
         onChange={onToggle}
         className="h-5 w-5 flex-shrink-0 cursor-pointer rounded border-warm-taupe/30 text-warm-taupe focus:ring-warm-taupe/40"
       />
-      <span className={`text-[15px] ${checked ? "text-charcoal" : "text-on-surface-variant"}`}>{name}</span>
+      <span className="flex min-w-0 items-center gap-3">
+        <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[10px] bg-warm-taupe/10">
+          <ActivityIcon activity={activity} className="text-base" />
+        </span>
+        <span className={`text-[15px] ${checked ? "text-charcoal" : "text-on-surface-variant"}`}>{activity.name}</span>
+      </span>
     </label>
   );
 }
 
 function reflectionEncouragement(count, childName) {
-  if (count === 0) return "Choose anything that happened, even for a moment.";
+  if (count === 0) return "A small memory is enough, if one comes to mind.";
   if (count === 1) return `That small moment mattered. ${childName} had you with them.`;
-  if (count === 2) return "Two small moments of connection are more than enough.";
-  if (count === 3) return "A lovely collection of ordinary moments to remember.";
-  return "What a caring collection of moments. No gold stars needed.";
+  if (count === 2) return "Two small moments of connection. That is a lovely part of a day.";
+  if (count === 3) return "A caring collection of little moments. No gold stars needed.";
+  return "What a beautiful collection of ordinary moments together.";
 }
 
-function TomorrowPreview({ childName, activities, onClose, onComplete }) {
-  const [observedNames, setObservedNames] = useState(() => new Set());
-  const selectedCount = observedNames.size;
+function TomorrowPreview({ childName, activities, preview = false, onComplete, onDefer }) {
+  const [triedNames, setTriedNames] = useState(() => new Set());
+  const [signal, setSignal] = useState("");
 
   const toggleActivity = (activityName) => {
-    setObservedNames((current) => {
+    setTriedNames((current) => {
       const next = new Set(current);
       if (next.has(activityName)) next.delete(activityName);
       else next.add(activityName);
@@ -634,32 +705,76 @@ function TomorrowPreview({ childName, activities, onClose, onComplete }) {
   };
 
   return (
-    <PreviewShell onClose={onClose}>
-      <p className="v3-eyebrow text-warm-taupe mb-4">Yesterday, gently</p>
-      <h2 className="v3-h3 text-charcoal mb-4">
-        Which of these found their way into yesterday?
-      </h2>
-      <p className="text-on-surface-variant leading-relaxed mb-7">
-        Tick anything that happened, even briefly. You can choose more than one, or none.
-      </p>
-      <div className="mb-5" aria-label="Yesterday's activities">
+    <section className="today-preview-enter max-w-3xl rounded-[24px] bg-white/35 border border-warm-taupe/15 p-6 md:p-7 mb-7">
+      <p className="v3-eyebrow text-warm-taupe mb-3">{preview ? "Preview: next visit" : "Yesterday's little moments"}</p>
+      <h2 className="v3-h3 text-charcoal mb-3">Which of these found their way into the day?</h2>
+      <p className="text-on-surface-variant leading-relaxed mb-5">Tick anything that happened, even briefly. You can choose more than one, or none.</p>
+      <div className="mb-5" aria-label="Activities from yesterday">
         {activities.map((activity) => (
           <ReflectionChoice
             key={activity.name}
-            name={activity.name}
-            checked={observedNames.has(activity.name)}
+            activity={activity}
+            checked={triedNames.has(activity.name)}
             onToggle={() => toggleActivity(activity.name)}
           />
         ))}
       </div>
       <p className="min-h-12 v3-serif italic text-lg text-charcoal leading-relaxed mb-7" aria-live="polite">
-        {reflectionEncouragement(selectedCount, childName)}
+        {reflectionEncouragement(triedNames.size, childName)}
       </p>
+
+      {triedNames.size > 0 && (
+        <div className="border-t border-warm-taupe/15 pt-5 mb-7">
+          <p className="v3-eyebrow text-warm-taupe mb-3">A small detail to carry forward <span className="normal-case tracking-normal">Optional</span></p>
+          <div className="flex flex-wrap gap-3" role="group" aria-label="What you noticed">
+            {["A look", "A sound", "A smile", "Nothing clear yet"].map((option) => (
+              <button
+                key={option}
+                type="button"
+                aria-pressed={signal === option}
+                onClick={() => setSignal(option)}
+                className={`rounded-full border px-4 py-2.5 text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-warm-taupe/40 ${
+                  signal === option
+                    ? "border-warm-taupe bg-warm-taupe/10 text-charcoal"
+                    : "border-warm-taupe/20 text-on-surface-variant hover:bg-warm-taupe/5"
+                }`}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-wrap items-center gap-4">
-        <PrimaryButton onClick={() => onComplete([...observedNames])}>Continue to today</PrimaryButton>
-        <GhostButton onClick={onClose}>Do this later</GhostButton>
+        <PrimaryButton onClick={() => onComplete([...triedNames], signal)}>
+          Continue to today
+        </PrimaryButton>
+        {!preview && <GhostButton onClick={onDefer}>Do this later</GhostButton>}
       </div>
-    </PreviewShell>
+    </section>
+  );
+}
+
+function QuietThread({ children }) {
+  return (
+    <section className="max-w-3xl border-l-2 border-warm-taupe/25 pl-4 mb-7">
+      <p className="v3-eyebrow text-warm-taupe mb-2">A quiet thread</p>
+      <p className="v3-serif italic text-lg text-charcoal leading-relaxed max-w-2xl">{children}</p>
+    </section>
+  );
+}
+
+function StaleCommitmentNotice({ onDismiss }) {
+  return (
+    <section className="max-w-3xl border-l-2 border-warm-taupe/25 pl-4 mb-7">
+      <div className="flex items-start justify-between gap-5">
+        <p className="v3-serif italic text-lg text-charcoal leading-relaxed">The last few days sound full. We&apos;ve set that thought down.</p>
+        <button type="button" onClick={onDismiss} aria-label="Dismiss" className="text-warm-taupe hover:text-charcoal">
+          <span className="material-symbols-outlined text-base" aria-hidden="true">close</span>
+        </button>
+      </div>
+    </section>
   );
 }
 
@@ -683,17 +798,23 @@ function PreviewShell({ children, onClose }) {
 export default function TodayPage() {
   const { profile, saveProfile } = useChildProfile();
   const {
-    todaysRecord,
-    reflectionRecord,
-    pendingReflection,
-    ensureTodaysPlan,
-    addTodaysPick,
+    todaysCommitments,
+    followUpRecord,
+    staleCommitment,
+    recentObservations,
+    ensureToday,
+    commitActivity,
+    clearCommitment,
     submitReflection,
+    dismissStaleCommitment,
   } = useDailyMoments();
   const { dayNumber, markCreated, noteStageSeen, markReflected } = useCompanionMeta();
   const [waitlistOpen, setWaitlistOpen] = useState(false);
-  const [pickedToday, setPickedToday] = useState(() => new Set(todaysRecord?.activityNames || []));
   const [panel, setPanel] = useState(null);
+  const [followUpVisible, setFollowUpVisible] = useState(true);
+  const [tomorrowPreview, setTomorrowPreview] = useState(() =>
+    import.meta.env.DEV && new URLSearchParams(window.location.search).get("preview") === "tomorrow"
+  );
 
   const stageId = profile ? stageIdForDob(profile.dob) : 0;
   const stage = useMemo(() => journeyStages.find((item) => item.id === stageId), [stageId]);
@@ -701,13 +822,23 @@ export default function TodayPage() {
   const [activeActivityName, setActiveActivityName] = useState(dailyPlan.primary?.name);
   const activeActivity =
     dailyPlan.activities.find((activity) => activity.name === activeActivityName) || dailyPlan.primary;
-  const reflectionActivities = useMemo(() => {
-    const plannedNames = reflectionRecord?.plannedActivityNames || reflectionRecord?.activityNames || [];
-    const planned = plannedNames
-      .map((name) => dailyPlan.activities.find((activity) => activity.name === name) || findActivityByName(name))
-      .filter(Boolean);
-    return planned.length > 0 ? planned : dailyPlan.primary ? [dailyPlan.primary] : [];
-  }, [reflectionRecord, dailyPlan.activities, dailyPlan.primary]);
+  const committedNames = useMemo(() => new Set(todaysCommitments), [todaysCommitments]);
+  const reflectionActivities = useMemo(
+    () => (followUpRecord?.plannedActivityNames || []).map(findActivityByName).filter(Boolean),
+    [followUpRecord]
+  );
+  const reasonForToday = useMemo(
+    () => recommendationReason(activeActivity, recentObservations, profile?.name || "your child"),
+    [activeActivity, profile?.name, recentObservations]
+  );
+  const currentThread = useMemo(
+    () => quietThread(recentObservations, profile?.name || "your child"),
+    [profile?.name, recentObservations]
+  );
+
+  useEffect(() => {
+    ensureToday(dailyPlan.activities.map((activity) => activity.name));
+  }, [dailyPlan.activities, ensureToday]);
 
   useEffect(() => {
     if (dailyPlan.primary?.name && !dailyPlan.activities.some((activity) => activity.name === activeActivityName)) {
@@ -716,8 +847,8 @@ export default function TodayPage() {
   }, [activeActivityName, dailyPlan.activities, dailyPlan.primary]);
 
   useEffect(() => {
-    ensureTodaysPlan(dailyPlan.activities.map((activity) => activity.name));
-  }, [dailyPlan.activities, ensureTodaysPlan]);
+    setFollowUpVisible(true);
+  }, [followUpRecord?.date]);
 
   const handleOnboardingSave = (childName, dob, parentName) => {
     saveProfile(childName, dob, parentName);
@@ -725,21 +856,27 @@ export default function TodayPage() {
     noteStageSeen(stageIdForDob(dob));
   };
 
-  const handlePickToday = (activityName) => {
-    addTodaysPick(activityName);
+  const handleCommitToday = (activityName) => {
+    commitActivity(activityName);
     setActiveActivityName(activityName);
-    setPickedToday((prev) => new Set(prev).add(activityName));
     if (navigator.vibrate) navigator.vibrate(8);
+  };
+
+  const closeTomorrowPreview = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("preview");
+    window.history.replaceState({}, "", url);
+    setTomorrowPreview(false);
   };
 
   const handleSelectActivity = (activity) => {
     setActiveActivityName(activity.name);
   };
 
-  const handleReflectionComplete = (triedNames) => {
-    submitReflection(triedNames);
+  const handleFollowUpComplete = (triedNames, signal) => {
+    submitReflection(triedNames, signal);
     markReflected();
-    setPanel(null);
+    setFollowUpVisible(false);
   };
 
   if (!profile) {
@@ -765,13 +902,19 @@ export default function TodayPage() {
               </h1>
             </div>
             <div className="hidden sm:flex items-center gap-3">
-              {pendingReflection && (
+              {import.meta.env.DEV && (
                 <button
-                  onClick={() => setPanel("reflection")}
-                  className="inline-flex items-center gap-2 rounded-full border border-warm-taupe/20 bg-white/35 px-5 py-3 text-sm font-medium text-charcoal hover:bg-white/55 active:scale-[0.98] transition-all duration-200"
+                  type="button"
+                  onClick={() => {
+                    if (tomorrowPreview) closeTomorrowPreview();
+                    else setTomorrowPreview(true);
+                  }}
+                  className="inline-flex items-center gap-2 rounded-full border border-warm-taupe/20 bg-white/25 px-4 py-3 text-sm font-medium text-charcoal hover:bg-white/50 active:scale-[0.98] transition-all duration-200"
                 >
-                  Look back gently
-                  <span className="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
+                  {tomorrowPreview ? "Back to today" : "Preview next visit"}
+                  <span className="material-symbols-outlined text-base" aria-hidden="true">
+                    {tomorrowPreview ? "arrow_back" : "visibility"}
+                  </span>
                 </button>
               )}
               <button
@@ -784,13 +927,19 @@ export default function TodayPage() {
           </div>
 
           <div className="sm:hidden mb-8 flex flex-wrap gap-3">
-            {pendingReflection && (
+            {import.meta.env.DEV && (
               <button
-                onClick={() => setPanel("reflection")}
-                className="inline-flex items-center gap-2 rounded-full border border-warm-taupe/20 bg-white/35 px-5 py-3 text-sm font-medium text-charcoal active:scale-[0.98] transition-all duration-200"
+                type="button"
+                onClick={() => {
+                  if (tomorrowPreview) closeTomorrowPreview();
+                  else setTomorrowPreview(true);
+                }}
+                className="inline-flex items-center gap-2 rounded-full border border-warm-taupe/20 bg-white/25 px-4 py-3 text-sm font-medium text-charcoal active:scale-[0.98] transition-all duration-200"
               >
-                Look back gently
-                <span className="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
+                {tomorrowPreview ? "Back to today" : "Preview next visit"}
+                <span className="material-symbols-outlined text-base" aria-hidden="true">
+                  {tomorrowPreview ? "arrow_back" : "visibility"}
+                </span>
               </button>
             )}
             <button
@@ -801,14 +950,7 @@ export default function TodayPage() {
             </button>
           </div>
 
-          {panel === "reflection" ? (
-            <TomorrowPreview
-              childName={profile.name}
-              activities={reflectionActivities}
-              onClose={() => setPanel(null)}
-              onComplete={handleReflectionComplete}
-            />
-          ) : panel === "profile" ? (
+          {panel === "profile" ? (
             <ProfileSettings
               profile={profile}
               onSave={(childName, dob, parentName) => {
@@ -817,12 +959,33 @@ export default function TodayPage() {
               }}
               onClose={() => setPanel(null)}
             />
+          ) : tomorrowPreview ? (
+            <TomorrowPreview
+              preview
+              childName={profile.name}
+              activities={dailyPlan.activities}
+              onComplete={closeTomorrowPreview}
+              onDefer={closeTomorrowPreview}
+            />
+          ) : followUpVisible && reflectionActivities.length > 0 ? (
+            <TomorrowPreview
+              childName={profile.name}
+              activities={reflectionActivities}
+              onComplete={handleFollowUpComplete}
+              onDefer={() => setFollowUpVisible(false)}
+            />
           ) : (
             <>
+              {staleCommitment && <StaleCommitmentNotice onDismiss={dismissStaleCommitment} />}
+
+              {currentThread && <QuietThread>{currentThread}</QuietThread>}
+
               <PrimaryMomentCard
                 activity={activeActivity}
-                isPicked={pickedToday.has(activeActivity.name)}
-                onPick={handlePickToday}
+                reason={reasonForToday}
+                isCommitted={committedNames.has(activeActivity.name)}
+                onCommit={handleCommitToday}
+                onClearCommitment={clearCommitment}
               />
 
               <SeasonSummary stage={stage} />
@@ -830,7 +993,10 @@ export default function TodayPage() {
               <ActivityLibrary
                 activities={dailyPlan.activities}
                 activeActivityName={activeActivity.name}
+                committedNames={committedNames}
                 onSelect={handleSelectActivity}
+                onCommit={handleCommitToday}
+                onClearCommitment={clearCommitment}
               />
             </>
           )}
