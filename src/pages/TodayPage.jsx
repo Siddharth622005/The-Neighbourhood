@@ -813,7 +813,7 @@ export default function TodayPage() {
   const [panel, setPanel] = useState(null);
   const [followUpVisible, setFollowUpVisible] = useState(true);
   const [tomorrowPreview, setTomorrowPreview] = useState(() =>
-    import.meta.env.DEV && new URLSearchParams(window.location.search).get("preview") === "tomorrow"
+    new URLSearchParams(window.location.search).get("preview") === "tomorrow"
   );
 
   const stageId = profile ? stageIdForDob(profile.dob) : 0;
@@ -869,6 +869,13 @@ export default function TodayPage() {
     setTomorrowPreview(false);
   };
 
+  const openTomorrowPreview = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("preview", "tomorrow");
+    window.history.replaceState({}, "", url);
+    setTomorrowPreview(true);
+  };
+
   const handleSelectActivity = (activity) => {
     setActiveActivityName(activity.name);
   };
@@ -902,21 +909,19 @@ export default function TodayPage() {
               </h1>
             </div>
             <div className="hidden sm:flex items-center gap-3">
-              {import.meta.env.DEV && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (tomorrowPreview) closeTomorrowPreview();
-                    else setTomorrowPreview(true);
-                  }}
-                  className="inline-flex items-center gap-2 rounded-full border border-warm-taupe/20 bg-white/25 px-4 py-3 text-sm font-medium text-charcoal hover:bg-white/50 active:scale-[0.98] transition-all duration-200"
-                >
-                  {tomorrowPreview ? "Back to today" : "Preview next visit"}
-                  <span className="material-symbols-outlined text-base" aria-hidden="true">
-                    {tomorrowPreview ? "arrow_back" : "visibility"}
-                  </span>
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => {
+                  if (tomorrowPreview) closeTomorrowPreview();
+                  else openTomorrowPreview();
+                }}
+                className="inline-flex items-center gap-2 rounded-full border border-warm-taupe/20 bg-white/25 px-4 py-3 text-sm font-medium text-charcoal hover:bg-white/50 active:scale-[0.98] transition-all duration-200"
+              >
+                {tomorrowPreview ? "Back to today" : "Preview next visit"}
+                <span className="material-symbols-outlined text-base" aria-hidden="true">
+                  {tomorrowPreview ? "arrow_back" : "visibility"}
+                </span>
+              </button>
               <button
                 onClick={() => setPanel("profile")}
                 className="inline-flex items-center gap-2 rounded-full border border-warm-taupe/20 bg-white/25 px-4 py-3 text-sm font-medium text-charcoal hover:bg-white/50 active:scale-[0.98] transition-all duration-200"
@@ -927,21 +932,19 @@ export default function TodayPage() {
           </div>
 
           <div className="sm:hidden mb-8 flex flex-wrap gap-3">
-            {import.meta.env.DEV && (
-              <button
-                type="button"
-                onClick={() => {
-                  if (tomorrowPreview) closeTomorrowPreview();
-                  else setTomorrowPreview(true);
-                }}
-                className="inline-flex items-center gap-2 rounded-full border border-warm-taupe/20 bg-white/25 px-4 py-3 text-sm font-medium text-charcoal active:scale-[0.98] transition-all duration-200"
-              >
-                {tomorrowPreview ? "Back to today" : "Preview next visit"}
-                <span className="material-symbols-outlined text-base" aria-hidden="true">
-                  {tomorrowPreview ? "arrow_back" : "visibility"}
-                </span>
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => {
+                if (tomorrowPreview) closeTomorrowPreview();
+                else openTomorrowPreview();
+              }}
+              className="inline-flex items-center gap-2 rounded-full border border-warm-taupe/20 bg-white/25 px-4 py-3 text-sm font-medium text-charcoal active:scale-[0.98] transition-all duration-200"
+            >
+              {tomorrowPreview ? "Back to today" : "Preview next visit"}
+              <span className="material-symbols-outlined text-base" aria-hidden="true">
+                {tomorrowPreview ? "arrow_back" : "visibility"}
+              </span>
+            </button>
             <button
               onClick={() => setPanel("profile")}
               className="inline-flex items-center gap-2 rounded-full border border-warm-taupe/20 bg-white/25 px-4 py-3 text-sm font-medium text-charcoal active:scale-[0.98] transition-all duration-200"
