@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import LandingPageV3 from "./pages/LandingPageV3.jsx";
 
 const TodayPage = lazy(() => import("./pages/TodayPage.jsx"));
+const OneDayPage = lazy(() => import("./pages/OneDayPage.jsx"));
 
 export default function App() {
   return (
@@ -13,6 +14,14 @@ export default function App() {
         element={
           <Suspense fallback={null}>
             <TodayPage />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/day"
+        element={
+          <Suspense fallback={null}>
+            <OneDayPage />
           </Suspense>
         }
       />
