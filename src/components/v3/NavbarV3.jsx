@@ -2,13 +2,22 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LogoIcon from "../LogoIcon.jsx";
 
+// Anchor to homepage sections. Prefixed with "/" so the links resolve
+// correctly even when the navbar is shown on /today.
+const LINKS = [
+  { label: "Why we exist", href: "/#why" },
+  { label: "What we're building", href: "/#inside" },
+  { label: "Our story", href: "/#story" },
+  { label: "FAQ", href: "/#faq" },
+];
+
 /**
  * Quiet, full-width bar. Transparent while the hero is on screen; once you
  * scroll, it gains a soft cream veil and a hairline so content can pass
  * underneath without noise. The vector mark draws itself in on first load
  * (.logo-draw, see index.css).
  */
-export default function NavbarV3({ onJoin, onLogoClick, showJoin = true }) {
+export default function NavbarV3({ onJoin, onLogoClick }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -39,6 +48,18 @@ export default function NavbarV3({ onJoin, onLogoClick, showJoin = true }) {
           </span>
         </Link>
 
+        <div className="hidden lg:flex items-center gap-10">
+          {LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-sm text-charcoal/70 hover:text-charcoal transition-colors duration-200"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+
         <div className="flex items-center gap-6 md:gap-8">
           <Link
             to="/today"
@@ -47,15 +68,13 @@ export default function NavbarV3({ onJoin, onLogoClick, showJoin = true }) {
             Today
           </Link>
 
-          {showJoin && (
-            <button
-              onClick={onJoin}
-              className="bg-charcoal text-surface-cream text-sm font-medium px-4 md:px-6 py-2.5 rounded-full whitespace-nowrap hover:opacity-90 hover:-translate-y-px transition-all duration-200"
-            >
-              <span className="hidden sm:inline">Join the Village</span>
-              <span className="sm:hidden">Join</span>
-            </button>
-          )}
+          <button
+            onClick={onJoin}
+            className="bg-charcoal text-surface-cream text-sm font-medium px-4 md:px-6 py-2.5 rounded-full whitespace-nowrap hover:opacity-90 hover:-translate-y-px transition-all duration-200"
+          >
+            <span className="hidden sm:inline">Join the Village</span>
+            <span className="sm:hidden">Join</span>
+          </button>
         </div>
       </div>
     </nav>
