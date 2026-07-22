@@ -5,7 +5,12 @@ import neighboursCircle from "../../assets/neighbours-circle.jpg";
  *
  * The headline stays emotional (it's the brand line, and the mobile app's
  * welcome screen opens with the same words). The subhead carries the
- * product promise, so the H1 never has to do two jobs at once.
+ * promise, so the H1 never has to do two jobs at once.
+ *
+ * One clause per layer — physical spaces, community, digital guidance —
+ * because a subhead that only described the daily plan shrank a
+ * three-layer company to one feature, and contradicted a headline that
+ * promises a village. "What today is for" belongs to the Today section.
  *
  * One CTA. "Start with your child" rather than "Join the waitlist" —
  * personalization begins immediately, the button should feel like it's
@@ -27,8 +32,7 @@ export default function HeroV4({ onJoin }) {
               className="v3-enter v3-body-lg text-on-surface-variant mt-7 max-w-md"
               data-delay="2"
             >
-              The Neighbourhood learns your child, and tells you what today is
-              for.
+              Real spaces. Real neighbours. Guidance that knows your child.
             </p>
 
             <div className="v3-enter mt-10 flex flex-wrap items-center gap-x-7 gap-y-4" data-delay="3">
