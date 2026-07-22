@@ -16,8 +16,12 @@ const LINKS = [
  * scroll, it gains a soft cream veil and a hairline so content can pass
  * underneath without noise. The vector mark draws itself in on first load
  * (.logo-draw, see index.css).
+ *
+ * `links` and `homePath` default to the v3 homepage, so existing callers
+ * are unaffected. Pages served from another route (e.g. /next) pass their
+ * own, otherwise every nav click would bounce the visitor back to "/".
  */
-export default function NavbarV3({ onJoin, onLogoClick }) {
+export default function NavbarV3({ onJoin, onLogoClick, links = LINKS, homePath = "/" }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -37,7 +41,7 @@ export default function NavbarV3({ onJoin, onLogoClick }) {
     >
       <div className="max-w-container-max mx-auto px-margin-mobile md:px-gutter h-[72px] flex items-center justify-between">
         <Link
-          to="/"
+          to={homePath}
           onClick={onLogoClick}
           className="flex items-center gap-3 group"
           aria-label="The Neighbourhood — back to home"
@@ -49,7 +53,7 @@ export default function NavbarV3({ onJoin, onLogoClick }) {
         </Link>
 
         <div className="hidden lg:flex items-center gap-10">
-          {LINKS.map((link) => (
+          {links.map((link) => (
             <a
               key={link.href}
               href={link.href}

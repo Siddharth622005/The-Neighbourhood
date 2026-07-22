@@ -15,7 +15,7 @@ export default function Values() {
   const { ref, inView } = useScrollReveal(0.2);
 
   return (
-    <section className="py-section-gap md:py-32 px-margin-mobile md:px-gutter max-w-container-max mx-auto">
+    <section id="values" className="py-section-gap md:py-32 px-margin-mobile md:px-gutter max-w-container-max mx-auto">
       <div className="grid lg:grid-cols-12 gap-12">
         <div className="lg:col-span-4">
           <p className="v3-eyebrow text-warm-taupe mb-6">How we behave</p>
