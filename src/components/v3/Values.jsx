@@ -1,14 +1,31 @@
 import useScrollReveal from "../useScrollReveal.js";
 import WordReveal from "../WordReveal.jsx";
 
-// Our values, spoken like a person instead of a values poster. Each word
-// opens on an oversized taupe initial — a drop cap, not an acronym legend.
+// Our values, spoken like a person instead of a values poster. The five
+// words are Esther Wojcicki's TRICK framework — so the oversized taupe
+// initial on each line isn't only a drop cap, it spells the acronym
+// down the column.
 const VALUES = [
-  { word: "Trust", line: "Earned slowly, through honesty and consistency. Never assumed." },
-  { word: "Respect", line: "For every family's structure, pace, and way of doing things." },
-  { word: "Independence", line: "Children who can think for themselves. Parents who feel capable." },
-  { word: "Collaboration", line: "None of this works alone. That's rather the point." },
-  { word: "Kindness", line: "The default setting — for children, for parents, for each other." },
+  {
+    word: "Trust",
+    line: "We help you trust your child's pace instead of racing them against a milestone chart.",
+  },
+  {
+    word: "Respect",
+    line: "Your child's pace and personality are data, not a deviation to correct. We build guidance around who they actually are.",
+  },
+  {
+    word: "Independence",
+    line: "We nudge you toward letting your child try and stumble a little — not toward doing it for them, and not toward doing it for you either.",
+  },
+  {
+    word: "Collaboration",
+    line: "Guidance you shape with us, and with the neighbours around you — not instructions handed down from an app.",
+  },
+  {
+    word: "Kindness",
+    line: "No judgment for the days that don't go to plan. For your child, and for you.",
+  },
 ];
 
 export default function Values() {
@@ -23,6 +40,10 @@ export default function Values() {
             text="Values we live by."
             className="v3-h2 text-charcoal"
           />
+          <p className="text-on-surface-variant leading-relaxed mt-6 max-w-xs">
+            Built on <span className="text-charcoal font-medium">TRICK</span> &mdash; Esther
+            Wojcicki&rsquo;s five principles for raising capable, grounded kids.
+          </p>
         </div>
 
         <div ref={ref} className="lg:col-span-8">
