@@ -4,6 +4,7 @@ import LandingPageV3 from "./pages/LandingPageV3.jsx";
 
 const TodayPage = lazy(() => import("./pages/TodayPage.jsx"));
 const OneDayPage = lazy(() => import("./pages/OneDayPage.jsx"));
+const HomeV4 = lazy(() => import("./pages/HomeV4.jsx"));
 
 export default function App() {
   return (
@@ -22,6 +23,14 @@ export default function App() {
         element={
           <Suspense fallback={null}>
             <OneDayPage />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/next"
+        element={
+          <Suspense fallback={null}>
+            <HomeV4 />
           </Suspense>
         }
       />

@@ -1,0 +1,62 @@
+import neighboursCircle from "../../assets/neighbours-circle.jpg";
+
+/**
+ * Section 1 — Hero.
+ *
+ * The headline stays emotional (it's the brand line, and the mobile app's
+ * welcome screen opens with the same words). The subhead carries the
+ * product promise, so the H1 never has to do two jobs at once.
+ *
+ * One CTA. "Start with your child" rather than "Join the waitlist" —
+ * personalization begins immediately, the button should feel like it's
+ * about their child, not our mailing list.
+ */
+export default function HeroV4({ onJoin }) {
+  return (
+    <header id="top" className="relative overflow-hidden">
+      <div className="max-w-container-max mx-auto pt-36 pb-20 md:pt-44 md:pb-28">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          {/* Type first — on mobile the words land before any image. */}
+          <div className="lg:col-span-7 px-margin-mobile md:px-gutter">
+            <h1 className="v3-enter v3-display text-charcoal max-w-2xl">
+              Raising a child was never meant to be{" "}
+              <em className="v3-serif text-warm-taupe">done alone.</em>
+            </h1>
+
+            <p
+              className="v3-enter v3-body-lg text-on-surface-variant mt-7 max-w-md"
+              data-delay="2"
+            >
+              The Neighbourhood learns your child, and tells you what today is
+              for.
+            </p>
+
+            <div className="v3-enter mt-10 flex flex-wrap items-center gap-x-7 gap-y-4" data-delay="3">
+              <button
+                onClick={onJoin}
+                className="bg-charcoal text-surface-cream px-9 py-4 rounded-full font-medium text-lg hover:opacity-90 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200"
+              >
+                Start with your child
+              </button>
+              <span className="text-sm text-on-surface-variant/70">
+                Takes less than 30 seconds
+              </span>
+            </div>
+          </div>
+
+          {/* Photograph bleeds off the right edge on desktop. */}
+          <div className="v3-enter lg:col-span-5" data-delay="3">
+            <div className="relative lg:-mr-[8vw]">
+              <img
+                src={neighboursCircle}
+                alt="Parents sitting together, mid-conversation"
+                className="w-full h-[320px] md:h-[440px] lg:h-[540px] object-cover rounded-l-3xl lg:rounded-r-none rounded-r-3xl"
+                loading="eager"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
