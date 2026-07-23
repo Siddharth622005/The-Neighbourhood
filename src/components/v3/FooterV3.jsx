@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import LogoIcon from "../LogoIcon.jsx";
 
 export default function FooterV3({ minimal = false }) {
@@ -26,15 +25,6 @@ export default function FooterV3({ minimal = false }) {
             Safe Spaces, Warm Hearts, Bright Futures.
           </p>
         </div>
-
-        <nav className="flex flex-wrap justify-center gap-x-10 gap-y-3">
-          <Link
-            to="/today"
-            className="text-sm text-on-surface-variant hover:text-charcoal transition-colors"
-          >
-            Today
-          </Link>
-        </nav>
 
         <p className="text-xs text-on-surface-variant/60 border-t border-warm-taupe/10 pt-8 w-full text-center">
           &copy; {new Date().getFullYear()} The Neighbourhood &middot; Gurugram, India

@@ -126,33 +126,46 @@ export default function OneDayPage() {
     <div className="overflow-x-clip bg-surface-cream min-h-screen">
       <NavbarV3 onJoin={() => setWaitlistOpen(true)} />
 
-      {/* HERO — orientation, not intrigue. Headline is final. */}
+      {/* HERO — orientation, not intrigue. Headline is final. One photograph,
+          one CTA, and no animation performing for attention: everything
+          arrives together, still. */}
       <header className="pt-40 md:pt-48 pb-20 px-margin-mobile md:px-gutter">
-        <div className="max-w-container-max mx-auto">
-          <p className="v3-enter v3-eyebrow text-warm-taupe mb-6">One day in the village</p>
-          <h1 className="v3-enter v3-display text-charcoal max-w-3xl" data-delay="1">
-            Raising a child was never meant to be done{" "}
-            <em className="v3-serif text-warm-taupe">alone.</em>
-          </h1>
-          <p className="v3-enter v3-body-lg text-on-surface-variant mt-7 max-w-2xl" data-delay="2">
-            The Neighbourhood is a village for your child&rsquo;s first six years
-            &mdash; calm preschools, a daily companion on your phone, and parents
-            who become real neighbours. Joining is free, and it starts the day
-            you do.
-          </p>
-          <div className="v3-enter mt-10 flex flex-wrap items-center gap-6" data-delay="3">
-            <button
-              onClick={() => setWaitlistOpen(true)}
-              className="bg-charcoal text-surface-cream px-9 py-4 rounded-full font-medium text-lg hover:opacity-90 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200"
-            >
-              Join the Village
-            </button>
-            <a
-              href="#morning"
-              className="text-charcoal/70 hover:text-charcoal text-base underline underline-offset-4 decoration-soft-sand transition-colors"
-            >
-              Or scroll through one day
-            </a>
+        <div className="max-w-container-max mx-auto grid lg:grid-cols-12 gap-14 items-center">
+          <div className="lg:col-span-7">
+            <p className="v3-eyebrow text-warm-taupe mb-6">One day in the village</p>
+            <h1 className="v3-display text-charcoal max-w-3xl">
+              Raising a child was never meant to be done{" "}
+              <em className="v3-serif text-warm-taupe">alone.</em>
+            </h1>
+            <p className="v3-body-lg text-on-surface-variant mt-7 max-w-2xl">
+              The Neighbourhood is a village for your child&rsquo;s first six years
+              &mdash; calm preschools, a daily companion on your phone, and parents
+              who become real neighbours. Joining is free, and it starts the day
+              you do.
+            </p>
+            <div className="mt-10 flex flex-wrap items-center gap-6">
+              <button
+                onClick={() => setWaitlistOpen(true)}
+                className="bg-charcoal text-surface-cream px-9 py-4 rounded-full font-medium text-lg hover:opacity-90 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200"
+              >
+                Join the Village
+              </button>
+              <a
+                href="#morning"
+                className="text-charcoal/70 hover:text-charcoal text-base underline underline-offset-4 decoration-soft-sand transition-colors"
+              >
+                Or scroll through one day
+              </a>
+            </div>
+          </div>
+          <div className="hidden lg:block lg:col-span-5">
+            <div className="rounded-[28px] overflow-hidden aspect-[4/3]">
+              <img
+                src={neighboursCircle}
+                alt="Parents sitting together in easy conversation while their children read on a rug nearby, in warm evening light"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </header>

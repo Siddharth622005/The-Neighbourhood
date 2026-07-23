@@ -1,4 +1,4 @@
-import neighboursCircle from "../../assets/neighbours-circle.jpg";
+import heroFamilyVideo from "../../assets/hero-family-video.mp4";
 
 /**
  * Section 1 — Hero.
@@ -16,14 +16,14 @@ import neighboursCircle from "../../assets/neighbours-circle.jpg";
  * personalization begins immediately, the button should feel like it's
  * about their child, not our mailing list.
  *
- * The photo sits fully inside its column rather than bleeding off the
+ * The video sits fully inside its column rather than bleeding off the
  * right edge — a previous version clipped it against the viewport.
  *
  * Two soft blob shapes sit behind the photo, stacked like cards — the
  * same layered-circle idea sites like Huckleberry use behind an
  * illustration, borrowed as a shape technique only: ours are large,
  * pale, brand-coloured (soft sand / sage) rather than saturated, since
- * the page is photography-led and editorial, not flat-illustration led.
+ * the page is footage-led and editorial, not flat-illustration led.
  * Paired with a small grounding caption card that names a moment, not a
  * fabricated fact — no invented location.
  */
@@ -59,7 +59,7 @@ export default function HeroV4({ onJoin }) {
             </div>
           </div>
 
-          {/* Photograph stays fully inside its column — no viewport-edge
+          {/* Video stays fully inside its column — no viewport-edge
               clipping on the right. */}
           <div
             className="v3-enter lg:col-span-5 px-margin-mobile md:px-gutter lg:pl-0 relative"
@@ -78,11 +78,18 @@ export default function HeroV4({ onJoin }) {
             />
 
             <div className="relative z-10">
-              <img
-                src={neighboursCircle}
-                alt="Parents sitting together, mid-conversation"
+              <video
+                src={heroFamilyVideo}
                 className="w-full h-[320px] md:h-[440px] lg:h-[540px] object-cover rounded-3xl"
-                loading="eager"
+                aria-label="A warm glimpse of family life inside The Neighbourhood"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                onCanPlay={(event) => {
+                  event.currentTarget.play().catch(() => {});
+                }}
               />
 
               {/* Grounding caption card — names the moment, not an
@@ -93,10 +100,10 @@ export default function HeroV4({ onJoin }) {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sage opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-sage" />
                   </span>
-                  <span className="v3-eyebrow text-warm-taupe">Real families</span>
+                  <span className="v3-eyebrow text-warm-taupe">The feeling we&rsquo;re building</span>
                 </div>
                 <p className="text-charcoal text-sm mt-1.5 leading-snug">
-                  A weekday evening, together.
+                  Warmth, rhythm, and room to grow.
                 </p>
               </div>
             </div>

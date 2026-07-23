@@ -36,7 +36,7 @@ export default function HomeV4() {
         onJoin={openWaitlist}
         links={V4_LINKS}
         homePath="/next"
-        todayLabel="My baby"
+        todayLabel={null}
       />
       <main>
         <HeroV4 onJoin={openWaitlist} />

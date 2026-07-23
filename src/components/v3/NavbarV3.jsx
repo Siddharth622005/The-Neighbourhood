@@ -29,6 +29,10 @@ export default function NavbarV3({
   todayLabel = "Today",
 }) {
   const [scrolled, setScrolled] = useState(false);
+  const logoPath =
+    typeof window !== "undefined" && window.location.pathname.startsWith("/next")
+      ? "/next"
+      : homePath;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -47,7 +51,7 @@ export default function NavbarV3({
     >
       <div className="max-w-container-max mx-auto px-margin-mobile md:px-gutter h-[72px] flex items-center justify-between">
         <Link
-          to={homePath}
+          to={logoPath}
           onClick={onLogoClick}
           className="flex items-center gap-3 group"
           aria-label="The Neighbourhood — back to home"
@@ -71,12 +75,14 @@ export default function NavbarV3({
         </div>
 
         <div className="flex items-center gap-6 md:gap-8">
-          <Link
-            to="/today"
-            className="hidden lg:inline text-sm text-charcoal/70 hover:text-charcoal transition-colors duration-200"
-          >
-            {todayLabel}
-          </Link>
+          {todayLabel ? (
+            <Link
+              to="/today"
+              className="hidden lg:inline text-sm text-charcoal/70 hover:text-charcoal transition-colors duration-200"
+            >
+              {todayLabel}
+            </Link>
+          ) : null}
 
           <button
             onClick={onJoin}

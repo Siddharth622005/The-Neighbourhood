@@ -42,12 +42,6 @@ export default function Welcome() {
         <h2 className={`v3-fade ${inView ? "in-view" : ""} v3-h2 text-charcoal`} data-delay="1">
           Welcome to <span className="v3-serif text-warm-taupe">The Neighbourhood.</span>
         </h2>
-        <p
-          className={`v3-fade ${inView ? "in-view" : ""} v3-body-lg text-on-surface-variant mt-6`}
-          data-delay="2"
-        >
-          A quick hello from us, before you begin.
-        </p>
       </div>
 
       <div

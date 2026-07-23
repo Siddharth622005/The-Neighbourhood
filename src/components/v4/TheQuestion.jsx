@@ -1,64 +1,84 @@
 import useScrollReveal from "../useScrollReveal.js";
+import WordReveal from "../WordReveal.jsx";
 
-/**
- * Section 2 — The Question.
- *
- * Emotional recognition before any feature. The three fragments are the
- * parent's own voice; the turn reframes their anxiety as evidence of
- * their attention.
- *
- * The illustration sits opposite the questions rather than between them
- * and the turn — the anxiety → relief beat has to stay unbroken, so on
- * mobile it falls below the turn instead of interrupting it.
- */
-const QUESTIONS = [
-  { text: "Am I doing enough?", indent: "lg:ml-0" },
-  { text: "What should we even do today?", indent: "lg:ml-10" },
-  { text: "Is he supposed to be doing that by now?", indent: "lg:ml-20" },
+const TRUTHS = [
+  {
+    number: "01",
+    title: "The village has scattered.",
+    body: "Grandparents might live a flight away. Neighbours stay strangers. The question you would have asked over a cup of chai becomes a 2am search — and a search engine doesn't know your child.",
+  },
+  {
+    number: "02",
+    title: "Plenty of advice. Limited context.",
+    body: "Books, apps, reels, relatives — every answer is written for an average child who doesn't exist. Advice that ignores your child's temperament, your home, your reality isn't guidance. It's noise.",
+  },
+  {
+    number: "03",
+    title: "Childhood moved indoors.",
+    body: "The courtyards and streets where children once wandered freely became screens. Play got quieter, more supervised, more alone — and children feel the difference, even if they can't name it.",
+  },
 ];
 
+function Truth({ truth }) {
+  const { ref, inView } = useScrollReveal(0.3);
+
+  return (
+    <div
+      ref={ref}
+      className={`v3-fade ${inView ? "in-view" : ""} grid md:grid-cols-12 gap-4 md:gap-8 py-12 md:py-14 border-t border-warm-taupe/15`}
+    >
+      <span className="md:col-span-1 v3-eyebrow text-soft-sand pt-2" aria-hidden="true">
+        {truth.number}
+      </span>
+      <h3 className="md:col-span-5 -ml-3 v3-h3 text-charcoal">{truth.title}</h3>
+      <p className="md:col-span-6 v3-body-lg text-on-surface-variant max-w-xl">
+        {truth.body}
+      </p>
+    </div>
+  );
+}
+
+/**
+ * Section 3 — Why We Exist.
+ *
+ * Mirrors the main homepage copy while keeping the /next anchor stable for
+ * the V4 navbar.
+ */
 export default function TheQuestion() {
-  const { ref, inView } = useScrollReveal(0.15);
+  const closing = useScrollReveal(0.4);
 
   return (
     <section
-      ref={ref}
       id="the-question"
-      className="max-w-container-max mx-auto px-margin-mobile md:px-gutter py-28 md:py-40"
+      className="py-section-gap md:py-32 px-margin-mobile md:px-gutter max-w-container-max mx-auto"
     >
-      <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-        <div className="lg:col-span-7">
-          {QUESTIONS.map((q, i) => (
-            <p
-              key={q.text}
-              className={`v3-fade ${inView ? "in-view" : ""} ${q.indent} v3-serif text-charcoal/80 text-3xl md:text-4xl leading-tight mb-9 md:mb-12`}
-              data-delay={i === 0 ? undefined : String(i)}
-            >
-              &ldquo;{q.text}&rdquo;
-            </p>
-          ))}
+      <div className="max-w-3xl mb-16 md:mb-20">
+        <p className="v3-eyebrow text-warm-taupe mb-6">Why we exist</p>
+        <WordReveal
+          text="You love your child more than anything. Some days, raising them is still a lot."
+          className="v3-h2 text-charcoal"
+        />
+        <p className="v3-body-lg text-on-surface-variant mt-6 max-w-2xl">
+          That's not a contradiction, and it isn't a failing. Parenting today
+          asks one person — sometimes two — to do what an entire neighbourhood
+          once did together.
+        </p>
+      </div>
 
-          {/* The turn arrives last, after a deliberate gap. */}
-          <p
-            className={`v3-fade ${inView ? "in-view" : ""} mt-10 md:mt-14 max-w-xl text-xl md:text-2xl leading-relaxed text-charcoal font-medium`}
-            data-delay="3"
-          >
-            None of these questions mean you&rsquo;re doing badly. They mean
-            you&rsquo;re paying attention.
-          </p>
-        </div>
+      <div>
+        {TRUTHS.map((truth) => (
+          <Truth key={truth.number} truth={truth} />
+        ))}
+      </div>
 
-        <div className={`v3-fade ${inView ? "in-view" : ""} lg:col-span-5 order-last`} data-delay="2">
-          {/* Placeholder for a real photograph — swap for an image similar
-              to the reference (a parent with a child, framed the same way
-              the hero photo is) once it's ready. */}
-          <div className="w-full max-w-[26rem] mx-auto aspect-square rounded-3xl border-2 border-dashed border-warm-taupe/30 bg-warm-taupe/5 flex flex-col items-center justify-center gap-2 text-center px-6">
-            <span className="v3-eyebrow text-warm-taupe">Image placeholder</span>
-            <p className="text-sm text-on-surface-variant/70 max-w-[16rem]">
-              A parent-and-child photo goes here, same framing as the hero.
-            </p>
-          </div>
-        </div>
+      <div
+        ref={closing.ref}
+        className={`v3-fade ${closing.inView ? "in-view" : ""} border-t border-warm-taupe/15 pt-14 md:pt-16 max-w-3xl`}
+      >
+        <p className="v3-serif text-2xl md:text-[1.75rem] leading-relaxed text-charcoal">
+          None of this is your fault. The support systems were dismantled long
+          before you became a parent.
+        </p>
       </div>
     </section>
   );
