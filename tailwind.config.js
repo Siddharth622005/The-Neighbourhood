@@ -58,6 +58,11 @@ export default {
         charcoal: "#2C2C2C",
         "warm-taupe": "#8B7355",
         "soft-sand": "#C9A58E",
+        // Matches lib/theme.ts in the mobile app — the shared accent/
+        // success colour across both platforms. Added here because v4
+        // components (HeroV4, Welcome) were already using bg-sage before
+        // this existed on the website, silently rendering transparent.
+        sage: "#A8B5A4",
       },
       borderRadius: {
         DEFAULT: "0.25rem",

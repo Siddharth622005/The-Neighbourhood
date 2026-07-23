@@ -1,5 +1,4 @@
 import useScrollReveal from "../useScrollReveal.js";
-import motherAndBaby from "../../assets/mother-and-baby.svg";
 
 /**
  * Section 2 — The Question.
@@ -50,15 +49,14 @@ export default function TheQuestion() {
         </div>
 
         <div className={`v3-fade ${inView ? "in-view" : ""} lg:col-span-5 order-last`} data-delay="2">
-          {/* The SVG declares width/height="100%" with no intrinsic size, so
-              it collapses unless the box is given real dimensions. */}
-          <div className="w-full max-w-[26rem] mx-auto aspect-square">
-            <img
-              src={motherAndBaby}
-              alt=""
-              aria-hidden="true"
-              className="w-full h-full object-contain"
-            />
+          {/* Placeholder for a real photograph — swap for an image similar
+              to the reference (a parent with a child, framed the same way
+              the hero photo is) once it's ready. */}
+          <div className="w-full max-w-[26rem] mx-auto aspect-square rounded-3xl border-2 border-dashed border-warm-taupe/30 bg-warm-taupe/5 flex flex-col items-center justify-center gap-2 text-center px-6">
+            <span className="v3-eyebrow text-warm-taupe">Image placeholder</span>
+            <p className="text-sm text-on-surface-variant/70 max-w-[16rem]">
+              A parent-and-child photo goes here, same framing as the hero.
+            </p>
           </div>
         </div>
       </div>

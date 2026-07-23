@@ -8,9 +8,9 @@ import useScrollReveal from "../useScrollReveal.js";
  * crisp at any size, and it lets the activity card cross-fade between
  * three ages — showing personalization instead of describing it.
  *
- * The card mirrors the mobile app's dashboard exactly (same tokens, same
- * one-card layout, same "why" line), so the screenshot reads as the page
- * continuing into the product rather than an image pasted on top.
+ * The card mirrors the mobile app's dashboard tokens and "why" line, so
+ * the preview reads as the page continuing into the product rather than an
+ * image pasted on top.
  */
 const PLANS = [
   {
@@ -37,9 +37,9 @@ const PLANS = [
 ];
 
 const ANNOTATIONS = [
-  "One activity. Never a list.",
-  "The reason it was chosen — in plain language.",
-  "Ten minutes, with things already in your kitchen.",
+  "A few ideas, not an endless list.",
+  "The reason each one was chosen — in plain language.",
+  "Short activities, with things already in your kitchen.",
 ];
 
 export default function Today({ onJoin }) {
@@ -76,21 +76,21 @@ export default function Today({ onJoin }) {
         {/* Copy */}
         <div className="lg:col-span-6">
           <h2 className={`v3-fade ${inView ? "in-view" : ""} v3-h2 text-charcoal max-w-lg`}>
-            One thing to do today. The right one.
+            Simple ideas for today, chosen with care.
           </h2>
           <p
             className={`v3-fade ${inView ? "in-view" : ""} v3-body-lg text-on-surface-variant mt-6 max-w-md`}
             data-delay="1"
           >
-            Every morning, a single activity chosen for your child&rsquo;s exact
-            age and where they are right now. Ten minutes. Things you already
-            have at home.
+            Every morning, a small set of activities chosen for your
+            child&rsquo;s exact age and where they are right now. Ten minutes.
+            Things you already have at home.
           </p>
           <p
             className={`v3-fade ${inView ? "in-view" : ""} mt-5 text-lg text-charcoal max-w-md`}
             data-delay="2"
           >
-            And underneath it, the reason why.
+            And underneath each one, the reason why.
           </p>
 
           {/* Annotations — the three things the card is doing. */}
@@ -108,7 +108,7 @@ export default function Today({ onJoin }) {
             className={`v3-fade ${inView ? "in-view" : ""} mt-10 bg-charcoal text-surface-cream px-8 py-4 rounded-full font-medium hover:opacity-90 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200`}
             data-delay="3"
           >
-            See today&rsquo;s activity for your child
+            See today&rsquo;s ideas for your child
           </button>
         </div>
 
@@ -135,7 +135,7 @@ export default function Today({ onJoin }) {
                   style={{ opacity: visible ? 1 : 0 }}
                 >
                   <p className="text-[10px] font-semibold tracking-[0.16em] text-warm-taupe">
-                    TODAY&rsquo;S ACTIVITY
+                    TODAY&rsquo;S IDEAS
                   </p>
                   <p className="mt-2 text-[22px] leading-tight font-bold text-charcoal">
                     {plan.title}

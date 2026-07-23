@@ -21,7 +21,13 @@ const LINKS = [
  * are unaffected. Pages served from another route (e.g. /next) pass their
  * own, otherwise every nav click would bounce the visitor back to "/".
  */
-export default function NavbarV3({ onJoin, onLogoClick, links = LINKS, homePath = "/" }) {
+export default function NavbarV3({
+  onJoin,
+  onLogoClick,
+  links = LINKS,
+  homePath = "/",
+  todayLabel = "Today",
+}) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -69,7 +75,7 @@ export default function NavbarV3({ onJoin, onLogoClick, links = LINKS, homePath 
             to="/today"
             className="hidden lg:inline text-sm text-charcoal/70 hover:text-charcoal transition-colors duration-200"
           >
-            Today
+            {todayLabel}
           </Link>
 
           <button

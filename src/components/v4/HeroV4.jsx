@@ -18,6 +18,14 @@ import neighboursCircle from "../../assets/neighbours-circle.jpg";
  *
  * The photo sits fully inside its column rather than bleeding off the
  * right edge — a previous version clipped it against the viewport.
+ *
+ * Two soft blob shapes sit behind the photo, stacked like cards — the
+ * same layered-circle idea sites like Huckleberry use behind an
+ * illustration, borrowed as a shape technique only: ours are large,
+ * pale, brand-coloured (soft sand / sage) rather than saturated, since
+ * the page is photography-led and editorial, not flat-illustration led.
+ * Paired with a small grounding caption card that names a moment, not a
+ * fabricated fact — no invented location.
  */
 export default function HeroV4({ onJoin }) {
   return (
@@ -53,13 +61,45 @@ export default function HeroV4({ onJoin }) {
 
           {/* Photograph stays fully inside its column — no viewport-edge
               clipping on the right. */}
-          <div className="v3-enter lg:col-span-5 px-margin-mobile md:px-gutter lg:pl-0" data-delay="3">
-            <img
-              src={neighboursCircle}
-              alt="Parents sitting together, mid-conversation"
-              className="w-full h-[320px] md:h-[440px] lg:h-[540px] object-cover rounded-3xl"
-              loading="eager"
+          <div
+            className="v3-enter lg:col-span-5 px-margin-mobile md:px-gutter lg:pl-0 relative"
+            data-delay="3"
+          >
+            {/* Two soft blobs stacked behind the photo like cards, both
+                pushed fully outside a corner so they actually read as
+                shapes rather than mostly hiding behind the rectangle. */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-16 -left-16 w-56 h-56 md:-bottom-20 md:-left-20 md:w-72 md:h-72 rounded-full bg-soft-sand/45 z-0"
             />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -top-10 -right-10 w-40 h-40 md:-top-14 md:-right-14 md:w-52 md:h-52 rounded-full bg-sage/35 z-0"
+            />
+
+            <div className="relative z-10">
+              <img
+                src={neighboursCircle}
+                alt="Parents sitting together, mid-conversation"
+                className="w-full h-[320px] md:h-[440px] lg:h-[540px] object-cover rounded-3xl"
+                loading="eager"
+              />
+
+              {/* Grounding caption card — names the moment, not an
+                  unverifiable fact like a specific city. */}
+              <div className="absolute -bottom-5 left-5 md:-bottom-6 md:left-8 bg-white rounded-2xl shadow-lg shadow-charcoal/10 px-5 py-3.5 max-w-[15rem]">
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sage opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-sage" />
+                  </span>
+                  <span className="v3-eyebrow text-warm-taupe">Real families</span>
+                </div>
+                <p className="text-charcoal text-sm mt-1.5 leading-snug">
+                  A weekday evening, together.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
