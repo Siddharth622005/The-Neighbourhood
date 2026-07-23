@@ -1281,7 +1281,7 @@
         "color": "#378ADD",
         "milestones": [
           {
-            "text": "Says 1–3 words with meaning",
+            "text": "Says 1–2 words with meaning",
             "guide": {
               "try": "Label objects and people consistently every day. When she says an approximation of a word, enthusiastically confirm it: ‘Yes! Ball!’",
               "watch": "At least one word used consistently to mean the same thing — doesn’t need perfect pronunciation.",
@@ -1472,19 +1472,19 @@
         "color": "#1D9E75",
         "milestones": [
           {
-            "text": "Stands alone briefly",
-            "guide": {
-              "try": "Practise letting go of support for a second or two while staying close. Praise every attempt even if she sits straight back down.",
-              "watch": "She releases her hold and balances unsupported for at least 1–2 seconds.",
-              "see": "Cannot bear weight on legs at all by 15 months."
-            }
-          },
-          {
             "text": "Takes first independent steps",
             "guide": {
               "try": "Sit a step away, hold out your hands, and call her. Walking can arrive anywhere from 9 to 18 months and still be normal — there's no need to rush it.",
               "watch": "One, two, then a few steps independently before sitting or falling.",
               "see": "No attempt at independent steps by 15 months, alongside no cruising either."
+            }
+          },
+          {
+            "text": "Stands alone briefly",
+            "guide": {
+              "try": "Practise letting go of support for a second or two while staying close. Praise every attempt even if she sits straight back down.",
+              "watch": "She releases her hold and balances unsupported for at least 1–2 seconds.",
+              "see": "Cannot bear weight on legs at all by 15 months."
             }
           },
           {
@@ -1514,7 +1514,7 @@
         "color": "#378ADD",
         "milestones": [
           {
-            "text": "Says 1–2 words with meaning",
+            "text": "Says 1–3 words with meaning",
             "guide": {
               "try": "Label objects and people consistently every day. When she says an approximation of a word, confirm it warmly: ‘Yes! Ball!’",
               "watch": "At least one word used consistently to mean the same thing — pronunciation doesn't need to be perfect.",

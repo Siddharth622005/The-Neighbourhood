@@ -20,6 +20,10 @@ const TIMELINE_STAGES = [
       {
         "domain": "Social & Emotional",
         "milestone": "Stares at faces intently"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Follows moving objects with eyes"
       }
     ]
   },
@@ -38,6 +42,10 @@ const TIMELINE_STAGES = [
       {
         "domain": "Social & Emotional",
         "milestone": "Recognises familiar people"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Interested in mirror reflections"
       }
     ]
   },
@@ -56,6 +64,10 @@ const TIMELINE_STAGES = [
       {
         "domain": "Social & Emotional",
         "milestone": "Shows stranger anxiety"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Searches for hidden objects"
       }
     ]
   },
@@ -69,11 +81,15 @@ const TIMELINE_STAGES = [
       },
       {
         "domain": "Communication",
-        "milestone": "Says 1–3 words with meaning"
+        "milestone": "Says 1–2 words with meaning"
       },
       {
         "domain": "Social & Emotional",
         "milestone": "Imitates actions in play"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Understands object permanence"
       }
     ]
   },
@@ -83,15 +99,19 @@ const TIMELINE_STAGES = [
     "highlights": [
       {
         "domain": "Motor",
-        "milestone": "Stands alone briefly"
+        "milestone": "Takes first independent steps"
       },
       {
         "domain": "Communication",
-        "milestone": "Says 1–2 words with meaning"
+        "milestone": "Says 1–3 words with meaning"
       },
       {
         "domain": "Social & Emotional",
         "milestone": "Shows clear preference for a primary caregiver"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Finds an object after watching it hidden"
       }
     ]
   },
@@ -110,6 +130,10 @@ const TIMELINE_STAGES = [
       {
         "domain": "Social & Emotional",
         "milestone": "Asserts ‘me’ or ‘mine’ over toys"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Uses a spoon with some spilling"
       }
     ]
   },
@@ -128,6 +152,10 @@ const TIMELINE_STAGES = [
       {
         "domain": "Social & Emotional",
         "milestone": "Plays alongside another child (parallel play)"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Sorts objects into two groups with help"
       }
     ]
   },
@@ -146,6 +174,10 @@ const TIMELINE_STAGES = [
       {
         "domain": "Social & Emotional",
         "milestone": "Shows empathy toward another child's distress"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Names a few familiar objects in books unprompted"
       }
     ]
   },
@@ -164,6 +196,10 @@ const TIMELINE_STAGES = [
       {
         "domain": "Social & Emotional",
         "milestone": "Begins brief cooperative play with a peer"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Counts to 2 or 3 by rote"
       }
     ]
   },
@@ -182,6 +218,10 @@ const TIMELINE_STAGES = [
       {
         "domain": "Social & Emotional",
         "milestone": "Takes turns with heavy adult support"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Sorts by colour reliably"
       }
     ]
   },
@@ -200,6 +240,10 @@ const TIMELINE_STAGES = [
       {
         "domain": "Social & Emotional",
         "milestone": "Engages in short cooperative play with a peer"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Counts to 5 by rote"
       }
     ]
   },
@@ -218,6 +262,10 @@ const TIMELINE_STAGES = [
       {
         "domain": "Social & Emotional",
         "milestone": "Begins genuine cooperative play toward a shared goal"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Names 2–3 colours correctly"
       }
     ]
   },
@@ -236,6 +284,10 @@ const TIMELINE_STAGES = [
       {
         "domain": "Social & Emotional",
         "milestone": "Shows interest in friendships"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Counts to 10"
       }
     ]
   },
@@ -254,6 +306,10 @@ const TIMELINE_STAGES = [
       {
         "domain": "Social & Emotional",
         "milestone": "Has preferred friends"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Counts to 20"
       }
     ]
   },
@@ -272,6 +328,10 @@ const TIMELINE_STAGES = [
       {
         "domain": "Social & Emotional",
         "milestone": "Distinguishes real from pretend"
+      },
+      {
+        "domain": "Cognitive",
+        "milestone": "Writes letters and simple words"
       }
     ]
   }

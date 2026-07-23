@@ -98,7 +98,7 @@ export default function LongArc() {
         {/* Selected stage */}
         <div className="mt-12 md:mt-14 min-h-[190px]">
           <p className="v3-eyebrow text-warm-taupe">{stage.label}</p>
-          <div className="mt-5 grid sm:grid-cols-3 gap-8 sm:gap-10 max-w-4xl">
+          <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 max-w-5xl">
             {highlights.map((h) => (
               <div key={h.domain}>
                 <p className="text-[11px] uppercase tracking-[0.16em] text-on-surface-variant/70">

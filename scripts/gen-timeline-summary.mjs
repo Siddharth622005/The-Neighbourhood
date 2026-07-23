@@ -2,9 +2,11 @@
  * Regenerates src/data/timelineSummary.js from src/data/journeyStages.json.
  *
  * The homepage timeline only needs each stage's label plus one milestone per
- * domain. Importing the full journeyStages.json put a 181KB chunk (~57KB
- * gzip) on a marketing page to render ~45 short strings — this keeps the
- * derived file honest without paying that cost.
+ * domain — all four (Motor, Communication, Social & Emotional, Cognitive),
+ * matching the section copy's claim to cover all four. Importing the full
+ * journeyStages.json put a 181KB chunk (~57KB gzip) on a marketing page to
+ * render ~60 short strings — this keeps the derived file honest without
+ * paying that cost.
  *
  *   npm run gen:timeline
  */
@@ -22,7 +24,6 @@ const rows = stages.map((s) => ({
   id: s.id,
   label: s.label,
   highlights: s.domains
-    .slice(0, 3)
     .filter((d) => d.milestones?.length)
     .map((d) => ({ domain: d.name, milestone: d.milestones[0].text })),
 }));

@@ -3,18 +3,16 @@ import WordReveal from "../WordReveal.jsx";
 
 /**
  * The trust beat. We don't have advisor headshots or press logos, and we
- * won't invent them. What we do have is true: a real founder's story and a
- * real body of research. Told plainly, this is stronger than a logo wall.
+ * won't invent them. What we do have is true: a real founder's story, told
+ * plainly.
  */
 export default function FounderStory() {
   const story = useScrollReveal(0.2);
   const quote = useScrollReveal(0.35);
-  const science = useScrollReveal(0.3);
 
   return (
     <section id="story" className="py-section-gap md:py-32 px-margin-mobile md:px-gutter max-w-container-max mx-auto">
-      <div className="grid lg:grid-cols-12 gap-14 lg:gap-20">
-        <div className="lg:col-span-7">
+      <div className="max-w-2xl mx-auto">
           <p className="v3-eyebrow text-warm-taupe mb-6">Our story</p>
           <WordReveal
             text="It started with a couple who couldn't find what their daughter needed."
@@ -67,29 +65,6 @@ export default function FounderStory() {
               Sakshi &amp; Rachit, Founders
             </footer>
           </blockquote>
-        </div>
-
-        <div className="lg:col-span-5">
-          <div
-            ref={science.ref}
-            className={`v3-fade ${science.inView ? "in-view" : ""} lg:sticky lg:top-28 rounded-[28px] bg-surface-container/50 border border-warm-taupe/10 p-8 md:p-10`}
-          >
-            <span className="material-symbols-outlined text-warm-taupe text-3xl mb-5 block" aria-hidden="true">
-              biotech
-            </span>
-            <h3 className="v3-h3 text-charcoal mb-4">Grounded in real science</h3>
-            <p className="text-on-surface-variant leading-relaxed">
-              Our spaces and programs draw on real research into how calm,
-              connected environments shape a child's developing mind and
-              immune system alike. It's why The Aangan feels the way it does:
-              not decorated to impress parents, but designed to regulate
-              children.
-            </p>
-            <p className="text-on-surface-variant leading-relaxed mt-4">
-              Not trends. Research.
-            </p>
-          </div>
-        </div>
       </div>
     </section>
   );
