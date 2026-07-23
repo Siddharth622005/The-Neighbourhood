@@ -1,6 +1,5 @@
 import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import LandingPageV3 from "./pages/LandingPageV3.jsx";
 
 const TodayPage = lazy(() => import("./pages/TodayPage.jsx"));
 const OneDayPage = lazy(() => import("./pages/OneDayPage.jsx"));
@@ -12,7 +11,14 @@ const FaqPage = lazy(() => import("./pages/FaqPage.jsx"));
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<LandingPageV3 />} />
+      <Route
+        path="/"
+        element={
+          <Suspense fallback={null}>
+            <HomeV4 />
+          </Suspense>
+        }
+      />
       <Route
         path="/today"
         element={
@@ -30,15 +36,7 @@ export default function App() {
         }
       />
       <Route
-        path="/next"
-        element={
-          <Suspense fallback={null}>
-            <HomeV4 />
-          </Suspense>
-        }
-      />
-      <Route
-        path="/next/story"
+        path="/story"
         element={
           <Suspense fallback={null}>
             <StoryPage />
@@ -46,7 +44,7 @@ export default function App() {
         }
       />
       <Route
-        path="/next/values"
+        path="/values"
         element={
           <Suspense fallback={null}>
             <ValuesPage />
@@ -54,13 +52,17 @@ export default function App() {
         }
       />
       <Route
-        path="/next/faq"
+        path="/faq"
         element={
           <Suspense fallback={null}>
             <FaqPage />
           </Suspense>
         }
       />
+      <Route path="/next" element={<Navigate to="/" replace />} />
+      <Route path="/next/story" element={<Navigate to="/story" replace />} />
+      <Route path="/next/values" element={<Navigate to="/values" replace />} />
+      <Route path="/next/faq" element={<Navigate to="/faq" replace />} />
       <Route path="/v1" element={<Navigate to="/" replace />} />
       <Route path="/v2" element={<Navigate to="/" replace />} />
       <Route path="/v3" element={<Navigate to="/" replace />} />

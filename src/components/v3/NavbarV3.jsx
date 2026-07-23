@@ -5,10 +5,10 @@ import LogoIcon from "../LogoIcon.jsx";
 // Anchor to homepage sections. Prefixed with "/" so the links resolve
 // correctly even when the navbar is shown on /today.
 const LINKS = [
-  { label: "Why we exist", href: "/#why" },
-  { label: "What we're building", href: "/#inside" },
-  { label: "Our story", href: "/#story" },
-  { label: "FAQ", href: "/#faq" },
+  { label: "Why we exist", href: "/#the-question" },
+  { label: "What we're building", href: "/#today" },
+  { label: "Our story", href: "/story" },
+  { label: "FAQ", href: "/faq" },
 ];
 
 /**
@@ -30,10 +30,6 @@ export default function NavbarV3({
 }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const logoPath =
-    typeof window !== "undefined" && window.location.pathname.startsWith("/next")
-      ? "/next"
-      : homePath;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -67,7 +63,7 @@ export default function NavbarV3({
       >
       <div className="max-w-container-max mx-auto px-margin-mobile md:px-gutter h-[72px] flex items-center justify-between">
         <Link
-          to={logoPath}
+          to={homePath}
           onClick={(e) => {
             closeMenu();
             onLogoClick?.(e);

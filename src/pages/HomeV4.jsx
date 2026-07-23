@@ -31,12 +31,7 @@ export default function HomeV4() {
 
   return (
     <div className="overflow-x-clip bg-surface-cream">
-      <NavbarV3
-        onJoin={openWaitlist}
-        links={V4_LINKS}
-        homePath="/next"
-        todayLabel={null}
-      />
+      <NavbarV3 onJoin={openWaitlist} links={V4_LINKS} todayLabel={null} />
       <main>
         <HeroV4 onJoin={openWaitlist} />
         <Welcome />

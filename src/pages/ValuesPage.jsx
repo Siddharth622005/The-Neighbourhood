@@ -15,7 +15,7 @@ export default function ValuesPage() {
 
   return (
     <div className="overflow-x-clip bg-surface-cream">
-      <NavbarV3 onJoin={openWaitlist} links={V4_LINKS} homePath="/next" />
+      <NavbarV3 onJoin={openWaitlist} links={V4_LINKS} />
       <main className="pt-16 md:pt-20">
         <Values />
       </main>
