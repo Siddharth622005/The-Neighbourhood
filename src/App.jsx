@@ -5,6 +5,9 @@ import LandingPageV3 from "./pages/LandingPageV3.jsx";
 const TodayPage = lazy(() => import("./pages/TodayPage.jsx"));
 const OneDayPage = lazy(() => import("./pages/OneDayPage.jsx"));
 const HomeV4 = lazy(() => import("./pages/HomeV4.jsx"));
+const StoryPage = lazy(() => import("./pages/StoryPage.jsx"));
+const ValuesPage = lazy(() => import("./pages/ValuesPage.jsx"));
+const FaqPage = lazy(() => import("./pages/FaqPage.jsx"));
 
 export default function App() {
   return (
@@ -31,6 +34,30 @@ export default function App() {
         element={
           <Suspense fallback={null}>
             <HomeV4 />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/next/story"
+        element={
+          <Suspense fallback={null}>
+            <StoryPage />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/next/values"
+        element={
+          <Suspense fallback={null}>
+            <ValuesPage />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/next/faq"
+        element={
+          <Suspense fallback={null}>
+            <FaqPage />
           </Suspense>
         }
       />

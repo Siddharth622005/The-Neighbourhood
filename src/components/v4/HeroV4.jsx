@@ -15,6 +15,9 @@ import neighboursCircle from "../../assets/neighbours-circle.jpg";
  * One CTA. "Start with your child" rather than "Join the waitlist" —
  * personalization begins immediately, the button should feel like it's
  * about their child, not our mailing list.
+ *
+ * The photo sits fully inside its column rather than bleeding off the
+ * right edge — a previous version clipped it against the viewport.
  */
 export default function HeroV4({ onJoin }) {
   return (
@@ -48,16 +51,15 @@ export default function HeroV4({ onJoin }) {
             </div>
           </div>
 
-          {/* Photograph bleeds off the right edge on desktop. */}
-          <div className="v3-enter lg:col-span-5" data-delay="3">
-            <div className="relative lg:-mr-[8vw]">
-              <img
-                src={neighboursCircle}
-                alt="Parents sitting together, mid-conversation"
-                className="w-full h-[320px] md:h-[440px] lg:h-[540px] object-cover rounded-l-3xl lg:rounded-r-none rounded-r-3xl"
-                loading="eager"
-              />
-            </div>
+          {/* Photograph stays fully inside its column — no viewport-edge
+              clipping on the right. */}
+          <div className="v3-enter lg:col-span-5 px-margin-mobile md:px-gutter lg:pl-0" data-delay="3">
+            <img
+              src={neighboursCircle}
+              alt="Parents sitting together, mid-conversation"
+              className="w-full h-[320px] md:h-[440px] lg:h-[540px] object-cover rounded-3xl"
+              loading="eager"
+            />
           </div>
         </div>
       </div>
