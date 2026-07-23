@@ -7,7 +7,6 @@ import HeroV4 from "../components/v4/HeroV4.jsx";
 import Welcome from "../components/v4/Welcome.jsx";
 import TheQuestion from "../components/v4/TheQuestion.jsx";
 import Today from "../components/v4/Today.jsx";
-import Companion from "../components/v4/Companion.jsx";
 import GroundedIn from "../components/v4/GroundedIn.jsx";
 import LongArc from "../components/v4/LongArc.jsx";
 import Invitation from "../components/v4/Invitation.jsx";
@@ -18,8 +17,8 @@ import { V4_LINKS } from "./navLinks.js";
  * Nara Baby (premium minimalism) and Kinedu (educational confidence).
  *
  * Flow: Hero → Welcome → Why we exist (The Question) → What we're
- * building (Today) → AI Companion → Grounded In (trust) → Every child on
- * their own clock (The Long Arc) → Invitation.
+ * building (Today) → Grounded In (trust) → Every child on their own
+ * clock (The Long Arc) → Invitation.
  *
  * Story, Values and FAQ live on their own routes now (/next/story,
  * /next/values, /next/faq) — reachable from the navbar, not part of the
@@ -43,7 +42,6 @@ export default function HomeV4() {
         <Welcome />
         <TheQuestion />
         <Today onJoin={openWaitlist} />
-        <Companion />
         <GroundedIn />
         <LongArc />
         <Invitation onJoin={openWaitlist} />
