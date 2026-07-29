@@ -30,14 +30,20 @@ export default function Invitation({ onJoin }) {
         ref={ref}
         className={`v3-fade ${inView ? "in-view" : ""} max-w-container-max mx-auto bg-charcoal rounded-[40px] px-8 py-24 md:py-32 text-center relative overflow-hidden`}
       >
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-24 -right-16 w-72 h-72 md:w-96 md:h-96 rounded-full bg-soft-sand/[0.06]"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-28 -left-20 w-64 h-64 md:w-80 md:h-80 rounded-full bg-sage/[0.06]"
-        />
+        {/* The blobs live in their own clipping layer rather than directly
+            in the card.
+            They sit outside the card's edges by design, and an absolutely
+            positioned child that extends past its parent still counts
+            toward scrollHeight — so the card became scrollable (756px of
+            content in a 644px box) even though overflow is hidden. Focusing
+            the button inside then scrolled it by exactly the blob's 112px
+            overshoot, pushing all the text upward. This wrapper is pinned to
+            the card's own box, so the overflow is absorbed here and the card
+            itself has nothing to scroll. */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -top-24 -right-16 w-72 h-72 md:w-96 md:h-96 rounded-full bg-soft-sand/[0.06]" />
+          <div className="absolute -bottom-28 -left-20 w-64 h-64 md:w-80 md:h-80 rounded-full bg-sage/[0.06]" />
+        </div>
 
         <div className="relative z-10 max-w-2xl mx-auto">
           <p className="v3-eyebrow text-soft-sand/70 mb-8">An invitation</p>
