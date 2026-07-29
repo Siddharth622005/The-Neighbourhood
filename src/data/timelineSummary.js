@@ -81,7 +81,7 @@ const TIMELINE_STAGES = [
       },
       {
         "domain": "Communication",
-        "milestone": "Says 1–2 words with meaning"
+        "milestone": "Says 1–3 words with meaning"
       },
       {
         "domain": "Social & Emotional",
@@ -95,182 +95,50 @@ const TIMELINE_STAGES = [
   },
   {
     "id": 4,
-    "label": "12–15 months",
+    "label": "1–2 years",
     "highlights": [
       {
         "domain": "Motor",
-        "milestone": "Takes first independent steps"
+        "milestone": "Walks independently"
       },
       {
         "domain": "Communication",
-        "milestone": "Says 1–3 words with meaning"
+        "milestone": "Vocabulary grows to 50+ words by 2"
       },
       {
         "domain": "Social & Emotional",
-        "milestone": "Shows clear preference for a primary caregiver"
+        "milestone": "Parallel play alongside others"
       },
       {
         "domain": "Cognitive",
-        "milestone": "Finds an object after watching it hidden"
+        "milestone": "Sorts by shape and colour"
       }
     ]
   },
   {
     "id": 5,
-    "label": "15–18 months",
+    "label": "2–3 years",
     "highlights": [
       {
         "domain": "Motor",
-        "milestone": "Walks steadily without support"
+        "milestone": "Jumps with both feet"
       },
       {
         "domain": "Communication",
-        "milestone": "Vocabulary of 5–10 words"
+        "milestone": "Speaks in 3–4 word sentences"
       },
       {
         "domain": "Social & Emotional",
-        "milestone": "Asserts ‘me’ or ‘mine’ over toys"
+        "milestone": "Begins cooperative play"
       },
       {
         "domain": "Cognitive",
-        "milestone": "Uses a spoon with some spilling"
+        "milestone": "Names colours and counts to 3"
       }
     ]
   },
   {
     "id": 6,
-    "label": "18–21 months",
-    "highlights": [
-      {
-        "domain": "Motor",
-        "milestone": "Runs stiffly"
-      },
-      {
-        "domain": "Communication",
-        "milestone": "Vocabulary of roughly 20 words"
-      },
-      {
-        "domain": "Social & Emotional",
-        "milestone": "Plays alongside another child (parallel play)"
-      },
-      {
-        "domain": "Cognitive",
-        "milestone": "Sorts objects into two groups with help"
-      }
-    ]
-  },
-  {
-    "id": 7,
-    "label": "21–24 months",
-    "highlights": [
-      {
-        "domain": "Motor",
-        "milestone": "Runs with better control, stops without falling"
-      },
-      {
-        "domain": "Communication",
-        "milestone": "Vocabulary of 50+ words"
-      },
-      {
-        "domain": "Social & Emotional",
-        "milestone": "Shows empathy toward another child's distress"
-      },
-      {
-        "domain": "Cognitive",
-        "milestone": "Names a few familiar objects in books unprompted"
-      }
-    ]
-  },
-  {
-    "id": 8,
-    "label": "24–27 months",
-    "highlights": [
-      {
-        "domain": "Motor",
-        "milestone": "Jumps forward with both feet together"
-      },
-      {
-        "domain": "Communication",
-        "milestone": "Speaks in consistent 2-word phrases"
-      },
-      {
-        "domain": "Social & Emotional",
-        "milestone": "Begins brief cooperative play with a peer"
-      },
-      {
-        "domain": "Cognitive",
-        "milestone": "Counts to 2 or 3 by rote"
-      }
-    ]
-  },
-  {
-    "id": 9,
-    "label": "27–30 months",
-    "highlights": [
-      {
-        "domain": "Motor",
-        "milestone": "Pedals a tricycle with effort"
-      },
-      {
-        "domain": "Communication",
-        "milestone": "Uses simple pronouns, even if mixed up"
-      },
-      {
-        "domain": "Social & Emotional",
-        "milestone": "Takes turns with heavy adult support"
-      },
-      {
-        "domain": "Cognitive",
-        "milestone": "Sorts by colour reliably"
-      }
-    ]
-  },
-  {
-    "id": 10,
-    "label": "30–33 months",
-    "highlights": [
-      {
-        "domain": "Motor",
-        "milestone": "Jumps off a low step with both feet"
-      },
-      {
-        "domain": "Communication",
-        "milestone": "Consistent 3–4 word sentences"
-      },
-      {
-        "domain": "Social & Emotional",
-        "milestone": "Engages in short cooperative play with a peer"
-      },
-      {
-        "domain": "Cognitive",
-        "milestone": "Counts to 5 by rote"
-      }
-    ]
-  },
-  {
-    "id": 11,
-    "label": "33–36 months",
-    "highlights": [
-      {
-        "domain": "Motor",
-        "milestone": "Walks up stairs alternating feet independently"
-      },
-      {
-        "domain": "Communication",
-        "milestone": "Speaks in 3–4 word sentences understood by familiar adults"
-      },
-      {
-        "domain": "Social & Emotional",
-        "milestone": "Begins genuine cooperative play toward a shared goal"
-      },
-      {
-        "domain": "Cognitive",
-        "milestone": "Names 2–3 colours correctly"
-      }
-    ]
-  },
-  {
-    "id": 12,
     "label": "3–4 years",
     "highlights": [
       {
@@ -292,7 +160,7 @@ const TIMELINE_STAGES = [
     ]
   },
   {
-    "id": 13,
+    "id": 7,
     "label": "4–5 years",
     "highlights": [
       {
@@ -314,7 +182,7 @@ const TIMELINE_STAGES = [
     ]
   },
   {
-    "id": 14,
+    "id": 8,
     "label": "5–6 years",
     "highlights": [
       {

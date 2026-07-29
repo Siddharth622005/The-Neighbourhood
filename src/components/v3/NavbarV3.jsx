@@ -26,7 +26,6 @@ export default function NavbarV3({
   onLogoClick,
   links = LINKS,
   homePath = "/",
-  todayLabel = "Today",
 }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -90,15 +89,6 @@ export default function NavbarV3({
         </div>
 
         <div className="flex items-center gap-4 md:gap-8">
-          {todayLabel ? (
-            <Link
-              to="/today"
-              className="hidden lg:inline text-sm text-charcoal/70 hover:text-charcoal transition-colors duration-200"
-            >
-              {todayLabel}
-            </Link>
-          ) : null}
-
           <button
             onClick={onJoin}
             className="hidden sm:inline-flex bg-charcoal text-surface-cream text-sm font-medium px-4 md:px-6 py-2.5 rounded-full whitespace-nowrap hover:opacity-90 hover:-translate-y-px transition-all duration-200"
@@ -149,16 +139,6 @@ export default function NavbarV3({
                 {link.label}
               </a>
             ))}
-            {todayLabel ? (
-              <Link
-                to="/today"
-                onClick={closeMenu}
-                className={`v3-fade ${menuOpen ? "in-view" : ""} v3-serif text-charcoal text-3xl py-3 border-b border-warm-taupe/15`}
-                style={{ transitionDelay: menuOpen ? `${links.length * 60}ms` : "0ms" }}
-              >
-                {todayLabel}
-              </Link>
-            ) : null}
           </div>
 
           <button
