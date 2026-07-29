@@ -300,6 +300,10 @@ export default function WaitlistDialogV3({ open, onClose }) {
                     placeholder="Phone number"
                     className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
                   />
+                  <p className="-mt-2 px-1 text-xs leading-relaxed text-on-surface-variant/70">
+                    We'll only use this for your waitlist spot and important
+                    launch updates. No spam, no selling your number.
+                  </p>
                   <label className="sr-only" htmlFor="waitlist-email">Email address (optional)</label>
                   <input
                     id="waitlist-email"
@@ -312,6 +316,10 @@ export default function WaitlistDialogV3({ open, onClose }) {
                   {status === "error" && (
                     <p className="text-sm text-error px-1" role="alert">{errorMessage}</p>
                   )}
+                  <p className="px-1 text-xs leading-relaxed text-on-surface-variant/70">
+                    By joining, you agree to hear from The Neighbourhood about
+                    your place in the village. You can opt out anytime.
+                  </p>
                   <button
                     type="submit"
                     disabled={status === "loading"}
