@@ -6,12 +6,18 @@ create table if not exists waitlist (
   name text,
   phone text,
   email text,
+  child_stage text,
+  child_name text,
   referred_by bigint references waitlist(id) on delete set null,
   created_at timestamptz not null default now()
 );
 
--- name/phone are nullable at the database level (older routes only ever
--- collected email) but the V3 waitlist dialog requires and sends both.
+alter table waitlist add column if not exists child_stage text;
+alter table waitlist add column if not exists child_name text;
+
+-- name/phone/child fields are nullable at the database level (older routes only ever
+-- collected email) but the V3 waitlist dialog requires parent name, phone,
+-- and child stage.
 -- Only email carries a uniqueness constraint — phone numbers are typed by
 -- hand and far more error-prone, so we don't want a typo to lock someone
 -- out of ever joining; duplicate emails are still rejected.

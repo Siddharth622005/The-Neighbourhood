@@ -2,6 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { supabase, isSupabaseConfigured } from "../../lib/supabaseClient.js";
 
 const REFERRAL_BOOST = 3;
+const CHILD_STAGES = [
+  "Expecting / due soon",
+  "0–3 months",
+  "3–6 months",
+  "6–12 months",
+  "1–2 years",
+  "2–3 years",
+  "3–5 years",
+  "Still figuring it out",
+];
 
 /**
  * Same waitlist flow as the shared dialog (Supabase insert + queue position
@@ -10,6 +20,9 @@ const REFERRAL_BOOST = 3;
  */
 export default function WaitlistDialogV3({ open, onClose }) {
   const [mode, setMode] = useState("join"); // join | lookup
+  const [joinStep, setJoinStep] = useState("child"); // child | parent
+  const [childStage, setChildStage] = useState("");
+  const [childName, setChildName] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -23,6 +36,9 @@ export default function WaitlistDialogV3({ open, onClose }) {
   useEffect(() => {
     if (!open) {
       setMode("join");
+      setJoinStep("child");
+      setChildStage("");
+      setChildName("");
       setStatus("form");
       setName("");
       setPhone("");
@@ -35,11 +51,19 @@ export default function WaitlistDialogV3({ open, onClose }) {
     const onKeyDown = (e) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKeyDown);
     // Move focus into the dialog when it opens.
-    inputRef.current?.focus();
+    window.setTimeout(() => inputRef.current?.focus(), 0);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, onClose]);
 
   if (!open) return null;
+
+  const handleChildStep = (e) => {
+    e.preventDefault();
+    if (!childStage) return;
+    setErrorMessage("");
+    setJoinStep("parent");
+    window.setTimeout(() => inputRef.current?.focus(), 0);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,17 +82,31 @@ export default function WaitlistDialogV3({ open, onClose }) {
       const params = new URLSearchParams(window.location.search);
       const refId = params.get("ref");
       const trimmedEmail = email.trim().toLowerCase();
+      const signup = {
+        name: name.trim(),
+        phone: phone.trim(),
+        email: trimmedEmail || null,
+        child_stage: childStage || null,
+        child_name: childName.trim() || null,
+        referred_by: refId ? Number(refId) : null,
+      };
 
-      const { data: inserted, error: insertError } = await supabase
+      let { data: inserted, error: insertError } = await supabase
         .from("waitlist")
-        .insert({
-          name: name.trim(),
-          phone: phone.trim(),
-          email: trimmedEmail || null,
-          referred_by: refId ? Number(refId) : null,
-        })
+        .insert(signup)
         .select("id, created_at")
         .single();
+
+      if (insertError?.code === "PGRST204" || insertError?.message?.includes("child_")) {
+        const { child_stage, child_name, ...legacySignup } = signup;
+        const retry = await supabase
+          .from("waitlist")
+          .insert(legacySignup)
+          .select("id, created_at")
+          .single();
+        inserted = retry.data;
+        insertError = retry.error;
+      }
 
       if (insertError) {
         if (insertError.code === "23505") {
@@ -183,62 +221,126 @@ export default function WaitlistDialogV3({ open, onClose }) {
 
         {status !== "success" && mode === "join" && (
           <>
-            <p className="v3-eyebrow text-warm-taupe mb-4">Join the village</p>
-            <h3 className="v3-h3 text-charcoal mb-3">
-              Save your family's place.
-            </h3>
-            <p className="text-on-surface-variant leading-relaxed mb-7">
-              Be one of the founding families. What we build, we build with
-              you.
+            <p className="v3-eyebrow text-warm-taupe mb-4">
+              Step {joinStep === "child" ? "1" : "2"} of 2
             </p>
+            {joinStep === "child" ? (
+              <>
+                <h3 className="v3-h3 text-charcoal mb-3">Start with your child.</h3>
+                <p className="text-on-surface-variant leading-relaxed mb-7">
+                  A little context helps us shape the village around the stage
+                  your family is in.
+                </p>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <label className="sr-only" htmlFor="waitlist-name">Your name</label>
-              <input
-                id="waitlist-name"
-                ref={inputRef}
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Your name"
-                className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
-              />
-              <label className="sr-only" htmlFor="waitlist-phone">Phone number</label>
-              <input
-                id="waitlist-phone"
-                type="tel"
-                required
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="Phone number"
-                className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
-              />
-              <label className="sr-only" htmlFor="waitlist-email">Email address (optional)</label>
-              <input
-                id="waitlist-email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email (optional)"
-                className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
-              />
-              {status === "error" && (
-                <p className="text-sm text-error px-1" role="alert">{errorMessage}</p>
-              )}
-              <button
-                type="submit"
-                disabled={status === "loading"}
-                className="w-full bg-charcoal text-surface-cream px-8 py-3.5 rounded-full font-medium text-lg hover:opacity-90 transition-opacity disabled:opacity-60"
-              >
-                {status === "loading" ? "Saving your place…" : "Join the Village"}
-              </button>
-            </form>
+                <form onSubmit={handleChildStep} className="space-y-4">
+                  <label className="block text-sm font-medium text-charcoal px-1" htmlFor="waitlist-child-stage">
+                    What is your child's age or due date?
+                  </label>
+                  <select
+                    id="waitlist-child-stage"
+                    ref={inputRef}
+                    required
+                    value={childStage}
+                    onChange={(e) => setChildStage(e.target.value)}
+                    className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
+                  >
+                    <option value="">Select a stage</option>
+                    {CHILD_STAGES.map((stage) => (
+                      <option key={stage} value={stage}>{stage}</option>
+                    ))}
+                  </select>
+
+                  <label className="sr-only" htmlFor="waitlist-child-name">Child's name or nickname</label>
+                  <input
+                    id="waitlist-child-name"
+                    type="text"
+                    value={childName}
+                    onChange={(e) => setChildName(e.target.value)}
+                    placeholder="Child's name / nickname (optional)"
+                    className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
+                  />
+
+                  <button
+                    type="submit"
+                    className="w-full bg-charcoal text-surface-cream px-8 py-3.5 rounded-full font-medium text-lg hover:opacity-90 transition-opacity"
+                  >
+                    Continue
+                  </button>
+                </form>
+              </>
+            ) : (
+              <>
+                <h3 className="v3-h3 text-charcoal mb-3">
+                  Save your family's place.
+                </h3>
+                <p className="text-on-surface-variant leading-relaxed mb-7">
+                  Be one of the founding families. What we build, we build with
+                  you.
+                </p>
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <label className="sr-only" htmlFor="waitlist-name">Parent name</label>
+                  <input
+                    id="waitlist-name"
+                    ref={inputRef}
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Parent name"
+                    className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
+                  />
+                  <label className="sr-only" htmlFor="waitlist-phone">Phone number</label>
+                  <input
+                    id="waitlist-phone"
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Phone number"
+                    className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
+                  />
+                  <label className="sr-only" htmlFor="waitlist-email">Email address (optional)</label>
+                  <input
+                    id="waitlist-email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
+                  />
+                  {status === "error" && (
+                    <p className="text-sm text-error px-1" role="alert">{errorMessage}</p>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={status === "loading"}
+                    className="w-full bg-charcoal text-surface-cream px-8 py-3.5 rounded-full font-medium text-lg hover:opacity-90 transition-opacity disabled:opacity-60"
+                  >
+                    {status === "loading" ? "Saving your place…" : "Join the Village"}
+                  </button>
+                </form>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStatus("form");
+                    setErrorMessage("");
+                    setJoinStep("child");
+                    window.setTimeout(() => inputRef.current?.focus(), 0);
+                  }}
+                  className="w-full text-center text-sm text-on-surface-variant/70 hover:text-charcoal transition-colors mt-5"
+                >
+                  Back to child details
+                </button>
+              </>
+            )}
 
             <button
               type="button"
               onClick={() => {
                 setMode("lookup");
+                setJoinStep("child");
                 setErrorMessage("");
                 setStatus("form");
               }}
