@@ -17,9 +17,9 @@ import stages from "../../data/timelineSummary.js";
  * 12 and 14, which the nine-stage dataset has never contained. Both are
  * corrected to match the data.
  *
- * The track and its nodes are built from palette tokens only: Lavender
- * Mist for the unfilled rail, Warm Orange for the drawn line, Golden
- * Amber for the selected node.
+ * The track and its nodes are built from palette tokens only: soft sand
+ * for the unfilled rail and resting nodes, warm taupe for the drawn line
+ * and the selected node.
  */
 
 // Only a few labels are drawn, so the node row never reads as clutter.
@@ -45,12 +45,12 @@ export default function LongArc() {
         <div className="relative">
           {/* The line draws itself, once. */}
           <div
-            className="absolute inset-x-0 top-[7px] h-px bg-lavender-mist"
+            className="absolute inset-x-0 top-[7px] h-px bg-soft-sand/40"
             aria-hidden="true"
           />
           <div
             aria-hidden="true"
-            className="absolute inset-x-0 top-[7px] h-px origin-left bg-warm-orange transition-transform duration-[900ms] ease-out"
+            className="absolute inset-x-0 top-[7px] h-px origin-left bg-warm-taupe transition-transform duration-[900ms] ease-out"
             style={{ transform: inView ? "scaleX(1)" : "scaleX(0)" }}
           />
 
@@ -69,8 +69,8 @@ export default function LongArc() {
                     <span
                       className={`block rounded-circle transition-all duration-300 ${
                         isActive
-                          ? "h-[15px] w-[15px] bg-golden-amber"
-                          : "h-[9px] w-[9px] bg-lavender-mist group-hover:bg-warm-orange"
+                          ? "h-[15px] w-[15px] bg-warm-taupe"
+                          : "h-[9px] w-[9px] bg-soft-sand group-hover:bg-warm-taupe/60"
                       }`}
                     />
                   </button>

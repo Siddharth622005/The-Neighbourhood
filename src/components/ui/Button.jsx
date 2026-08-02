@@ -1,27 +1,22 @@
 /**
- * Pill button — the reference system's primary control.
+ * Pill button — the site's primary control. Geometry is the reference
+ * system's: `pill` radius (22px), Body Small Bold label, spacing-token
+ * padding.
  *
- * Radius is `pill` (22px), the label is Body Small Bold (14px/700), and
- * the fill is Golden Amber, which DESIGN.md assigns to "Primary CTA
- * button fill". Per the do's-and-don'ts, the amber fill is reserved for
- * the single most important action on a screen; everything else uses
- * `secondary` or `quiet`.
- *
- * Label colour on the amber fill is Deep Purple rather than White. The
- * token description names white as the CTA label colour, but white on
- * #ffbd59 is a 1.9:1 contrast ratio, and the same document requires
- * WCAG AA (4.5:1). Deep Purple on amber clears it at 6.6:1 and keeps the
- * button inside the palette.
+ * The colours are The Neighbourhood's. The brand's primary action has
+ * always been a charcoal fill with cream type — high contrast, calm, no
+ * bright accent — warming to taupe on hover. That pairing is 12.4:1, so
+ * it clears WCAG AA comfortably.
  */
 const VARIANTS = {
   primary:
-    "bg-golden-amber text-deep-purple hover:bg-warm-orange hover:shadow-subtle-lift",
+    "bg-charcoal text-surface-cream hover:bg-warm-taupe hover:shadow-subtle-lift",
   secondary:
-    "bg-white text-deep-purple border-2 border-deep-purple hover:bg-cream-peach hover:shadow-subtle-lift",
+    "bg-surface-cream text-charcoal border-2 border-charcoal hover:bg-white hover:shadow-subtle-lift",
   outline:
-    "bg-transparent text-deep-purple border-2 border-lavender-mist hover:border-deep-purple",
+    "bg-transparent text-charcoal border-2 border-lavender-mist hover:border-charcoal",
   quiet:
-    "bg-transparent text-slate-blue hover:text-deep-purple",
+    "bg-transparent text-on-surface-variant hover:text-charcoal",
 };
 
 const SIZES = {

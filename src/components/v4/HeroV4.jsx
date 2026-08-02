@@ -22,8 +22,8 @@ export default function HeroV4({ onJoin }) {
       {/* Soft palette shapes behind the column. Large, pale and slow —
           the page is footage-led, so these stay well under the type. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="blob-float absolute -left-2xl top-3xl h-3xl w-3xl rounded-circle bg-light-amber/60 md:h-[220px] md:w-[220px]" />
-        <div className="blob-float-slow absolute -right-xl top-2xl h-3xl w-3xl rounded-circle bg-lavender-mist/40 md:h-[180px] md:w-[180px]" />
+        <div className="blob-float absolute -left-2xl top-3xl h-3xl w-3xl rounded-circle bg-soft-sand/45 md:h-[220px] md:w-[220px]" />
+        <div className="blob-float-slow absolute -right-xl top-2xl h-3xl w-3xl rounded-circle bg-sage/35 md:h-[180px] md:w-[180px]" />
       </div>
 
       <Container className="relative">
@@ -91,10 +91,10 @@ export default function HeroV4({ onJoin }) {
           <div className="absolute -bottom-lg left-lg max-w-[16rem] rounded-card border border-lavender-mist bg-white p-md shadow-subtle-lift md:left-xl">
             <div className="flex items-center gap-sm">
               <span className="relative flex h-xs w-xs">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-circle bg-warm-orange opacity-75" />
-                <span className="relative inline-flex h-xs w-xs rounded-circle bg-warm-orange" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-circle bg-sage opacity-75" />
+                <span className="relative inline-flex h-xs w-xs rounded-circle bg-sage" />
               </span>
-              <span className="type-caption text-warm-orange">
+              <span className="type-caption text-warm-taupe">
                 The feeling we&rsquo;re building
               </span>
             </div>

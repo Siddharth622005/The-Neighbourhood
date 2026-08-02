@@ -22,11 +22,11 @@ export default function Welcome() {
           className="absolute bottom-2xl left-0 hidden h-3xl w-3xl rounded-circle opacity-70 md:block"
           style={{
             backgroundImage:
-              "radial-gradient(circle, var(--color-warm-orange) 1.6px, transparent 1.6px)",
+              "radial-gradient(circle, var(--color-warm-taupe) 1.6px, transparent 1.6px)",
             backgroundSize: "11px 11px",
           }}
         />
-        <div className="blob-float absolute right-2xl top-xl hidden h-3xl w-3xl rounded-circle bg-lavender-mist/30 md:block" />
+        <div className="blob-float absolute right-2xl top-xl hidden h-3xl w-3xl rounded-circle bg-sage/20 md:block" />
       </div>
 
       <div ref={ref} className="relative grid items-center gap-2xl md:grid-cols-2 md:gap-3xl">

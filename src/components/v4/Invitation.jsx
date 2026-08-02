@@ -36,7 +36,7 @@ export default function Invitation({ onJoin }) {
             className="pointer-events-none absolute inset-0 overflow-hidden"
           >
             <div className="blob-float absolute -right-2xl -top-2xl h-[280px] w-[280px] rounded-circle bg-white/40" />
-            <div className="blob-float-slow absolute -bottom-2xl -left-2xl h-[240px] w-[240px] rounded-circle bg-warm-orange/20" />
+            <div className="blob-float-slow absolute -bottom-2xl -left-2xl h-[240px] w-[240px] rounded-circle bg-sage/25" />
           </div>
 
           <div className="relative z-10 mx-auto max-w-measure-lg">

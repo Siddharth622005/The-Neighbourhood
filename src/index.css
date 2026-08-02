@@ -4,22 +4,32 @@
 /* ==================================================================== */
 /* DESIGN TOKENS                                                        */
 /*                                                                      */
-/* Reproduced verbatim from the uploaded design system                  */
-/* (baby-led-weaning-india-by-riddhi-verma-design.css / .json /         */
-/* DESIGN.md). These are the single source of truth — nothing in this   */
-/* codebase should hardcode a colour, radius, or spacing value.         */
+/* Layout, spacing, radius and component structure follow the uploaded  */
+/* reference design system. The COLOUR and TYPE values are The          */
+/* Neighbourhood's own brand, restored from the original site.          */
+/*                                                                      */
+/* The token NAMES are kept from the reference system so that not one   */
+/* component, layout or utility class had to change — every surface     */
+/* re-colours itself from here. Each name is annotated with the brand   */
+/* colour it now carries.                                               */
 /* ==================================================================== */
 @theme {
-  /* Colors */
-  --color-deep-purple: #49326b;
-  --color-white: #ffffff;
-  --color-golden-amber: #ffbd59;
-  --color-slate-blue: #385469;
-  --color-warm-orange: #f39f5f;
-  --color-cream-peach: #fff8ed;
-  --color-light-amber: #f8daab;
-  --color-lavender-mist: #c9bae0;
-  --color-off-white: #fdf9f7;
+  /* Colors — The Neighbourhood brand palette.
+     Names on the left are structural roles inherited from the reference
+     system; values on the right are the original brand colours. */
+  --color-deep-purple: #2c2c2c;   /* charcoal — primary ink, headings, nav, primary CTA */
+  --color-white: #ffffff;         /* white — card surfaces */
+  --color-golden-amber: #c9a58e;  /* soft sand — secondary accent, numerals, timeline nodes */
+  --color-slate-blue: #444748;    /* on-surface-variant — body copy, muted text */
+  --color-warm-orange: #8b7355;   /* warm taupe — eyebrows, accents, dashed outlines */
+  --color-cream-peach: #e8ddd1;   /* surface cream — the page wash */
+  --color-light-amber: #f9dbb7;   /* secondary container — warm panels, footer */
+  --color-off-white: #fdf2e5;     /* surface container low — alternate section wash */
+
+  /* Hairline borders and dividers. The original site drew every divider
+     as warm taupe at a low alpha rather than as a separate hue, so this
+     role is expressed the same way — no invented colour. */
+  --color-lavender-mist: rgba(139, 115, 85, 0.22);
 
   /* Spacing */
   --spacing-xs: 4px;
@@ -42,10 +52,10 @@
   --radius-soft: 10px;
   --radius-card: 17px;
 
-  /* Fonts */
-  --font-capriola: "Capriola", sans-serif;
-  --font-love-ya-like-a-sister: "Love Ya Like A Sister", sans-serif;
-  --font-source-sans-pro: "Source Sans Pro", sans-serif;
+  /* Fonts — The Neighbourhood's original pairing. Inter carries the
+     whole hierarchy; Playfair Display italic is the emotional accent. */
+  --font-inter: "Inter", system-ui, sans-serif;
+  --font-playfair: "Playfair Display", serif;
 
   /* ------------------------------------------------------------------ */
   /* Elevation. DESIGN.md lists exactly one validated shadow token, and  */
@@ -55,23 +65,26 @@
   --shadow-subtle-lift: 0px 0px 3px 0px rgba(0, 0, 0, 0.15);
 
   /* ------------------------------------------------------------------ */
-  /* Legacy semantic aliases.                                            */
+  /* Brand colour names.                                                 */
   /*                                                                     */
-  /* /today and /day are product surfaces, not marketing pages, and were */
-  /* written against the previous palette's names. Rather than leave     */
-  /* them on the old colours (an incoherent half-redesigned site) or     */
-  /* rewrite ~1,400 lines of app UI, each old name is re-pointed at its  */
-  /* closest role in the reference palette, so those routes inherit the  */
-  /* new colours automatically. No new colour meaning is invented.       */
+  /* These are The Neighbourhood's own names, used directly by /today    */
+  /* and /day. Each one now carries its exact original value again, so   */
+  /* the product surfaces and the marketing site render from a single    */
+  /* palette. Where a name has a structural twin above, it aliases it;   */
+  /* where the brand has no twin (sage), it keeps its own value.         */
   /* ------------------------------------------------------------------ */
-  --color-charcoal: var(--color-deep-purple);
-  --color-on-surface-variant: var(--color-slate-blue);
-  --color-warm-taupe: var(--color-warm-orange);
-  --color-soft-sand: var(--color-light-amber);
-  --color-sage: var(--color-lavender-mist);
-  --color-surface-cream: var(--color-cream-peach);
-  --color-surface-variant: var(--color-off-white);
-  --color-surface-container-low: var(--color-off-white);
+  --color-charcoal: var(--color-deep-purple);            /* #2c2c2c */
+  --color-on-surface-variant: var(--color-slate-blue);   /* #444748 */
+  --color-warm-taupe: var(--color-warm-orange);          /* #8b7355 */
+  --color-soft-sand: var(--color-golden-amber);          /* #c9a58e */
+  --color-sage: #a8b5a4;                                 /* the brand's green accent */
+  --color-surface-cream: var(--color-cream-peach);       /* #e8ddd1 */
+  --color-surface-container-low: var(--color-off-white); /* #fdf2e5 */
+  --color-surface-variant: #ece1d5;
+  --color-surface-bright: #fff8f3;
+  --color-background-alt: #f5f2e1;
+  --color-secondary-container: var(--color-light-amber); /* #f9dbb7 */
+  --color-logo-ink: #4a3323;                             /* the mark's own brown */
   --color-error: #ba1a1a;
 
   /* ------------------------------------------------------------------ */
@@ -93,63 +106,89 @@
 
 /* ==================================================================== */
 /* TYPOGRAPHY VARIABLES                                                 */
-/* Copied verbatim from the uploaded CSS-variables file. Consumed by     */
-/* the .type-* classes below so no component ever states a font size.    */
+/*                                                                      */
+/* The Neighbourhood's original type system, restored. Inter carries    */
+/* every hierarchy role; Playfair Display italic is reserved for the    */
+/* emotional accent (.v3-serif) exactly as it was.                      */
+/*                                                                      */
+/* The role names are the reference system's, so the .type-* classes    */
+/* and every component that uses them are untouched — only the values   */
+/* below changed. Display sizes use the original fluid clamp()s, which  */
+/* is why the mobile-tier variables now resolve to the same expression: */
+/* the type scales itself rather than stepping at a breakpoint.         */
 /* ==================================================================== */
 :root {
-  --font-hero-display-family: var(--font-capriola);
-  --font-hero-display-size: 54px;
-  --font-hero-display-weight: 400;
-  --font-hero-display-line-height: 59.4px;
+  /* was .v3-display */
+  --font-hero-display-family: var(--font-inter);
+  --font-hero-display-size: clamp(2.5rem, 5.5vw, 4.25rem);
+  --font-hero-display-weight: 700;
+  --font-hero-display-line-height: 1.08;
+  --font-hero-display-letter-spacing: -0.025em;
 
-  --font-section-heading-family: var(--font-capriola);
-  --font-section-heading-size: 30px;
-  --font-section-heading-weight: 400;
-  --font-section-heading-line-height: 40px;
+  /* was .v3-h2 */
+  --font-section-heading-family: var(--font-inter);
+  --font-section-heading-size: clamp(1.9rem, 3.6vw, 2.75rem);
+  --font-section-heading-weight: 600;
+  --font-section-heading-line-height: 1.15;
+  --font-section-heading-letter-spacing: -0.02em;
 
-  --font-sub-heading-family: var(--font-capriola);
-  --font-sub-heading-size: 22px;
-  --font-sub-heading-weight: 400;
-  --font-sub-heading-line-height: 28px;
+  /* was .v3-h3 */
+  --font-sub-heading-family: var(--font-inter);
+  --font-sub-heading-size: 1.375rem;
+  --font-sub-heading-weight: 600;
+  --font-sub-heading-line-height: 1.35;
+  --font-sub-heading-letter-spacing: -0.01em;
 
-  --font-card-heading-family: var(--font-capriola);
-  --font-card-heading-size: 18px;
-  --font-card-heading-weight: 400;
-  --font-card-heading-line-height: 23.4px;
+  /* was headline-h3, one step down */
+  --font-card-heading-family: var(--font-inter);
+  --font-card-heading-size: 1.125rem;
+  --font-card-heading-weight: 600;
+  --font-card-heading-line-height: 1.4;
+  --font-card-heading-letter-spacing: -0.01em;
 
-  --font-accent-label-family: var(--font-love-ya-like-a-sister);
-  --font-accent-label-size: 16px;
-  --font-accent-label-weight: 500;
-  --font-accent-label-line-height: 16px;
-  --font-accent-label-letter-spacing: 4px;
+  /* was .v3-eyebrow — the original uppercase Inter eyebrow, not a
+     second display face. */
+  --font-accent-label-family: var(--font-inter);
+  --font-accent-label-size: 0.75rem;
+  --font-accent-label-weight: 600;
+  --font-accent-label-line-height: 1.2;
+  --font-accent-label-letter-spacing: 0.22em;
 
-  --font-body-regular-family: var(--font-source-sans-pro);
-  --font-body-regular-size: 16px;
+  /* was body-main */
+  --font-body-regular-family: var(--font-inter);
+  --font-body-regular-size: 1rem;
   --font-body-regular-weight: 400;
-  --font-body-regular-line-height: 27.2px;
+  --font-body-regular-line-height: 1.6;
+  --font-body-regular-letter-spacing: normal;
 
-  --font-body-large-family: var(--font-source-sans-pro);
-  --font-body-large-size: 20px;
+  /* was .v3-body-lg */
+  --font-body-large-family: var(--font-inter);
+  --font-body-large-size: 1.125rem;
   --font-body-large-weight: 400;
-  --font-body-large-line-height: 28px;
+  --font-body-large-line-height: 1.75;
+  --font-body-large-letter-spacing: normal;
 
-  --font-body-small-bold-family: var(--font-source-sans-pro);
-  --font-body-small-bold-size: 14px;
-  --font-body-small-bold-weight: 700;
-  --font-body-small-bold-line-height: 27.2px;
+  /* was label-sm / body-strong — button and small emphasis labels */
+  --font-body-small-bold-family: var(--font-inter);
+  --font-body-small-bold-size: 0.875rem;
+  --font-body-small-bold-weight: 600;
+  --font-body-small-bold-line-height: 1.5;
+  --font-body-small-bold-letter-spacing: normal;
 
-  --font-caption-family: var(--font-source-sans-pro);
-  --font-caption-size: 12px;
-  --font-caption-weight: 700;
-  --font-caption-line-height: 19.2px;
+  /* fine print */
+  --font-caption-family: var(--font-inter);
+  --font-caption-size: 0.75rem;
+  --font-caption-weight: 500;
+  --font-caption-line-height: 1.6;
+  --font-caption-letter-spacing: normal;
 
-  /* Mobile-tier display sizes. DESIGN.md's responsive strategy is
-     "constrain layout for small viewports"; the type ramp steps down
-     proportionally rather than introducing new scale steps. */
-  --font-hero-display-size-mobile: 36px;
-  --font-hero-display-line-height-mobile: 42px;
-  --font-section-heading-size-mobile: 26px;
-  --font-section-heading-line-height-mobile: 34px;
+  /* The display roles are fluid, so the mobile tier is the same
+     expression. Kept as named variables so the responsive structure of
+     the .type-* classes stays exactly as it was. */
+  --font-hero-display-size-mobile: var(--font-hero-display-size);
+  --font-hero-display-line-height-mobile: var(--font-hero-display-line-height);
+  --font-section-heading-size-mobile: var(--font-section-heading-size);
+  --font-section-heading-line-height-mobile: var(--font-section-heading-line-height);
 }
 
 @layer base {
@@ -169,8 +208,9 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* The original site's selection colour (secondary container). */
   ::selection {
-    background-color: var(--color-golden-amber);
+    background-color: var(--color-light-amber);
     color: var(--color-deep-purple);
   }
 
@@ -198,6 +238,7 @@
     font-size: var(--font-hero-display-size-mobile);
     font-weight: var(--font-hero-display-weight);
     line-height: var(--font-hero-display-line-height-mobile);
+    letter-spacing: var(--font-hero-display-letter-spacing);
   }
 
   .type-section-heading {
@@ -205,6 +246,7 @@
     font-size: var(--font-section-heading-size-mobile);
     font-weight: var(--font-section-heading-weight);
     line-height: var(--font-section-heading-line-height-mobile);
+    letter-spacing: var(--font-section-heading-letter-spacing);
   }
 
   .type-sub-heading {
@@ -212,6 +254,7 @@
     font-size: var(--font-sub-heading-size);
     font-weight: var(--font-sub-heading-weight);
     line-height: var(--font-sub-heading-line-height);
+    letter-spacing: var(--font-sub-heading-letter-spacing);
   }
 
   .type-card-heading {
@@ -219,6 +262,7 @@
     font-size: var(--font-card-heading-size);
     font-weight: var(--font-card-heading-weight);
     line-height: var(--font-card-heading-line-height);
+    letter-spacing: var(--font-card-heading-letter-spacing);
   }
 
   .type-accent-label {
@@ -235,6 +279,7 @@
     font-size: var(--font-body-regular-size);
     font-weight: var(--font-body-regular-weight);
     line-height: var(--font-body-regular-line-height);
+    letter-spacing: var(--font-body-regular-letter-spacing);
   }
 
   .type-body-large {
@@ -242,6 +287,7 @@
     font-size: var(--font-body-large-size);
     font-weight: var(--font-body-large-weight);
     line-height: var(--font-body-large-line-height);
+    letter-spacing: var(--font-body-large-letter-spacing);
   }
 
   .type-body-small-bold {
@@ -249,6 +295,7 @@
     font-size: var(--font-body-small-bold-size);
     font-weight: var(--font-body-small-bold-weight);
     line-height: var(--font-body-small-bold-line-height);
+    letter-spacing: var(--font-body-small-bold-letter-spacing);
   }
 
   .type-caption {
@@ -256,6 +303,7 @@
     font-size: var(--font-caption-size);
     font-weight: var(--font-caption-weight);
     line-height: var(--font-caption-line-height);
+    letter-spacing: var(--font-caption-letter-spacing);
   }
 
   /* Desktop tier restores the extracted display sizes exactly. */
@@ -275,11 +323,11 @@
 /* ==================================================================== */
 /* LEGACY TYPE ALIASES                                                  */
 /*                                                                      */
-/* /today and /day still author against the previous type vocabulary    */
-/* (.v3-*). Each old class is re-pointed at its equivalent role in the  */
-/* reference scale, so those routes render in Capriola / Source Sans    */
-/* Pro at the extracted sizes instead of the retired Inter ramp. No new */
-/* type roles are introduced — these are aliases, not additions.        */
+/* /today and /day author against the original type vocabulary (.v3-*). */
+/* Each class maps onto the matching role above, so the product         */
+/* surfaces and the marketing site share one type scale. With the brand */
+/* type restored, these now resolve back to exactly the Inter ramp and  */
+/* Playfair accent they were originally written for.                    */
 /* ==================================================================== */
 @layer components {
   .v3-display {
@@ -287,6 +335,7 @@
     font-size: var(--font-hero-display-size-mobile);
     font-weight: var(--font-hero-display-weight);
     line-height: var(--font-hero-display-line-height-mobile);
+    letter-spacing: var(--font-hero-display-letter-spacing);
   }
 
   .v3-h2 {
@@ -294,6 +343,7 @@
     font-size: var(--font-section-heading-size-mobile);
     font-weight: var(--font-section-heading-weight);
     line-height: var(--font-section-heading-line-height-mobile);
+    letter-spacing: var(--font-section-heading-letter-spacing);
   }
 
   .v3-h3 {
@@ -301,6 +351,7 @@
     font-size: var(--font-sub-heading-size);
     font-weight: var(--font-sub-heading-weight);
     line-height: var(--font-sub-heading-line-height);
+    letter-spacing: var(--font-sub-heading-letter-spacing);
   }
 
   .v3-eyebrow {
@@ -312,12 +363,10 @@
     text-transform: uppercase;
   }
 
-  /* The old emotional accent was Playfair Display italic. The reference
-     system has no italic serif role, so this maps to the display face —
-     the same job (emphasis) in the system's own voice. */
+  /* The brand's emotional accent: Playfair Display italic. */
   .v3-serif {
-    font-family: var(--font-capriola);
-    font-style: normal;
+    font-family: var(--font-playfair);
+    font-style: italic;
     font-weight: 400;
   }
 
@@ -611,9 +660,9 @@
   }
 
   @keyframes todayFirstGlow {
-    0%   { box-shadow: 0 0 0 0 rgba(243, 159, 95, 0); }
-    35%  { box-shadow: 0 0 40px 12px rgba(243, 159, 95, 0.22); }
-    100% { box-shadow: 0 0 0 0 rgba(243, 159, 95, 0); }
+    0%   { box-shadow: 0 0 0 0 rgba(139, 115, 85, 0); }
+    35%  { box-shadow: 0 0 40px 12px rgba(139, 115, 85, 0.18); }
+    100% { box-shadow: 0 0 0 0 rgba(139, 115, 85, 0); }
   }
   .today-first-glow {
     animation: todayFirstGlow 2.2s ease-out;

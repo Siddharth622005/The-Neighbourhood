@@ -4,11 +4,16 @@
  * eyebrows; it is the only place the second display face appears, which
  * is what keeps the dual-typeface system legible rather than noisy.
  */
+/* Both the structural role names and the brand's own colour names are
+   accepted, so callers can use whichever reads more clearly. */
 const TONES = {
-  "warm-orange": "text-warm-orange",
-  "golden-amber": "text-golden-amber",
-  "deep-purple": "text-deep-purple",
-  "slate-blue": "text-slate-blue",
+  "warm-orange": "text-warm-taupe",
+  "warm-taupe": "text-warm-taupe",
+  "golden-amber": "text-soft-sand",
+  "soft-sand": "text-soft-sand",
+  "deep-purple": "text-charcoal",
+  charcoal: "text-charcoal",
+  "slate-blue": "text-on-surface-variant",
 };
 
 export default function AccentLabel({
