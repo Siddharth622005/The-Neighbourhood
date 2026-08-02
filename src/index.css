@@ -15,62 +15,68 @@
 /* ==================================================================== */
 @theme {
   /* ------------------------------------------------------------------ */
-  /* THE NEIGHBOURHOOD PALETTE (refined)                                 */
+  /* ROOT PALETTE — the live site                                        */
   /*                                                                     */
-  /* An evolution of the original cream/taupe/sage brand, warmed and     */
-  /* given one confident accent. Three things changed and why:           */
-  /*                                                                     */
-  /*  - body copy was #444748, a COOL grey on a warm cream page. That    */
-  /*    mismatch greyed out every paragraph; it is now a warm brown.     */
-  /*  - every colour sat at low chroma, so nothing could carry emphasis. */
-  /*    Terracotta is now the single confident accent.                   */
-  /*  - the page wash had grey in it, dragging the whole page down half  */
-  /*    a step. It keeps its identity but sits lighter and warmer.       */
-  /*                                                                     */
-  /* Contrast ratios are noted where they matter; all body-size pairings */
-  /* clear WCAG AA.                                                      */
+  /* These are the colours currently in production. They stay at the     */
+  /* root because the legacy site at "/" is a faithful copy of what is   */
+  /* live, and because Tailwind folds alpha modifiers (bg-sage/35) down  */
+  /* to a literal at build time from THESE values — a scoped override    */
+  /* cannot reach them. The refined palette is applied per-edition       */
+  /* instead; see .edition-v2 at the end of this file.                   */
   /* ------------------------------------------------------------------ */
 
   /* Action */
-  --color-primary: #a04a28;        /* terracotta — CTAs, eyebrows, links. 5.0:1 on bg, 6.0:1 under white */
-  --color-primary-hover: #8a3e20;  /* deepens on hover, so the button presses into the page */
-  --color-secondary: #5f7566;      /* deep sage — secondary buttons, tags. 5.0:1 under white */
-  --color-accent: #d79a48;         /* marigold — DECORATIVE ONLY, 2.4:1 on white (no ochre clears AA) */
+  --color-primary: #2c2c2c;
+  --color-primary-hover: #8b7355;
+  --color-secondary: #a8b5a4;
+  --color-accent: #c9a58e;
 
-  /* Surfaces, lightest-last */
-  --color-background: #f3e9dc;     /* the page wash */
-  --color-surface: #faf3e9;        /* alternating section bands */
-  --color-card: #fdf8f1;           /* warm white — cards read as paper on the page, not holes in it */
-  --color-elevated: #ffffff;       /* modals and the sticky nav veil — only true white reads as "above" */
-  --color-border: #e2d3c0;         /* warm sand hairline */
+  /* Surfaces */
+  --color-background: #e8ddd1;
+  --color-surface: #fdf2e5;
+  --color-card: #ffffff;
+  --color-elevated: #ffffff;
+  --color-border: rgba(139, 115, 85, 0.22);
 
   /* Text */
-  --color-heading: #2b231c;        /* warm espresso, not neutral black. 12.9:1 on bg */
-  --color-body: #4a3f35;           /* warm brown — the fix for the cool grey. 8.5:1 on bg */
-  --color-muted: #6b5d4f;          /* captions and fine print, still 4.9:1 on bg */
+  --color-heading: #2c2c2c;
+  --color-body: #444748;
+  --color-muted: #6b5d4f;
 
   /* Semantic */
-  --color-success: #3f7a4f;        /* 5.1:1 under white */
-  --color-warning: #9a6110;        /* a deepened accent — cautions without alarming. 5.1:1 */
-  --color-error: #b23a2e;          /* the old red, warmed to fit. 5.9:1 */
+  --color-success: #3f7a4f;
+  --color-warning: #9a6110;
+  --color-error: #ba1a1a;
 
   --color-white: #ffffff;
 
-  /* ------------------------------------------------------------------ */
-  /* Structural role names.                                              */
-  /*                                                                     */
-  /* Inherited from the reference design system and used throughout the  */
-  /* components. Each is re-pointed at a palette role above, so the      */
-  /* refresh needed no sweep through the markup.                         */
-  /* ------------------------------------------------------------------ */
+  /* Structural role names, inherited from the reference design system
+     and used by the components under src/components/ui. */
   --color-deep-purple: var(--color-heading);
   --color-slate-blue: var(--color-body);
-  --color-warm-orange: var(--color-primary);
+  --color-warm-orange: #8b7355;
   --color-golden-amber: var(--color-accent);
   --color-cream-peach: var(--color-background);
   --color-off-white: var(--color-surface);
   --color-lavender-mist: var(--color-border);
-  --color-light-amber: #f6e3c4;   /* a tint of the accent — invitation panel, footer */
+  --color-light-amber: #f9dbb7;
+
+  /* The brand's own names, stated as literals so that alpha modifiers
+     used by the legacy markup (bg-charcoal/50, border-warm-taupe/15 ...)
+     fold to the live site's exact colours. */
+  --color-charcoal: #2c2c2c;
+  --color-on-surface-variant: #444748;
+  --color-warm-taupe: #8b7355;
+  --color-soft-sand: #c9a58e;
+  --color-sage: #a8b5a4;
+  --color-surface-cream: #e8ddd1;
+  --color-surface-container: #f7ece0;
+  --color-surface-container-low: #fdf2e5;
+  --color-surface-variant: #ece1d5;
+  --color-surface-bright: #fff8f3;
+  --color-background-alt: #f5f2e1;
+  --color-secondary-container: #f9dbb7;
+  --color-logo-ink: #4a3323;
 
   /* Spacing */
   --spacing-xs: 4px;
@@ -85,6 +91,12 @@
   --spacing-section-pad: 32px;
   --spacing-section-pad-lg: 40px;
   --spacing-section-pad-xl: 48px;
+
+  /* Used only by the legacy site under src/legacy, which was authored
+     against the previous Tailwind config. */
+  --spacing-margin-mobile: 20px;
+  --spacing-gutter: 24px;
+  --spacing-section-gap: 80px;
 
   /* Border Radius */
   --radius-pill: 22px;
@@ -104,30 +116,7 @@
   /* so this is the only shadow in the system. Its colour is warmed to   */
   /* the palette's brown; a neutral black shadow greys a cream page.     */
   /* ------------------------------------------------------------------ */
-  --shadow-subtle-lift: 0px 0px 3px 0px rgba(74, 63, 53, 0.18);
-
-  /* ------------------------------------------------------------------ */
-  /* Brand colour names.                                                 */
-  /*                                                                     */
-  /* The Neighbourhood's own names, used directly by /today and /day.    */
-  /* Each maps onto a palette role above so the product surfaces and the */
-  /* marketing site render from a single palette.                        */
-  /* ------------------------------------------------------------------ */
-  --color-charcoal: var(--color-heading);
-  --color-on-surface-variant: var(--color-body);
-  --color-warm-taupe: var(--color-primary);
-  --color-soft-sand: var(--color-accent);
-  /* A lighter tint of Secondary. The functional sage is dark enough to
-     carry white text (5:1), which turns murky when dropped to 20-35%
-     behind artwork — the decorative blobs need their own value. */
-  --color-sage: #9bae9f;
-  --color-surface-cream: var(--color-background);
-  --color-surface-container-low: var(--color-surface);
-  --color-surface-variant: var(--color-surface);
-  --color-surface-bright: var(--color-elevated);
-  --color-background-alt: var(--color-surface);
-  --color-secondary-container: var(--color-light-amber);
-  --color-logo-ink: var(--color-heading);
+  --shadow-subtle-lift: 0px 0px 3px 0px rgba(0, 0, 0, 0.15);
 
   /* ------------------------------------------------------------------ */
   /* Measure widths.                                                     */
@@ -140,6 +129,8 @@
   /* Tailwind's default width scale — only these explicit tokens.        */
   /* ------------------------------------------------------------------ */
   --container-page: 1200px;
+  --container-container-max: 1200px; /* legacy: max-w-container-max */
+
   --container-measure-sm: 420px;
   --container-measure: 560px;
   --container-measure-lg: 680px;
@@ -244,8 +235,8 @@
   }
 
   body {
-    background-color: var(--color-background);
-    color: var(--color-body);
+    background-color: var(--color-surface-cream);
+    color: var(--color-charcoal);
     font-family: var(--font-body-regular-family);
     font-size: var(--font-body-regular-size);
     font-weight: var(--font-body-regular-weight);
@@ -261,7 +252,7 @@
   /* The system's one interaction signal for focus: a 3px outline in a
      palette colour (DESIGN.md → Interaction Signals). */
   :focus-visible {
-    outline: 3px solid var(--color-primary);
+    outline: 3px solid var(--color-charcoal);
     outline-offset: 2px;
     border-radius: var(--radius-soft);
   }
@@ -1032,3 +1023,80 @@
   color: var(--color-deep-purple);
   border-color: var(--color-deep-purple);
 }
+
+/* ==================================================================== */
+/* V2 EDITION — /v2                                                     */
+/*                                                                      */
+/* The refined brand palette: warmer, with terracotta as the single     */
+/* confident accent. Scoped rather than applied at the root, because    */
+/* "/" must keep serving the design that is live today.                 */
+/*                                                                      */
+/* Type is unchanged from the root — the refresh was colour only.       */
+/* ==================================================================== */
+.edition-v2 {
+  /* Action */
+  --color-primary: #a04a28;        /* terracotta — 5.0:1 on bg, 6.0:1 under white */
+  --color-primary-hover: #8a3e20;
+  --color-secondary: #5f7566;      /* deep sage — 5.0:1 under white */
+  --color-accent: #d79a48;         /* marigold — decorative only, 2.4:1 on white */
+
+  /* Surfaces */
+  --color-background: #f3e9dc;
+  --color-surface: #faf3e9;
+  --color-card: #fdf8f1;
+  --color-elevated: #ffffff;
+  --color-border: #e2d3c0;
+
+  /* Text */
+  --color-heading: #2b231c;        /* 12.9:1 on bg */
+  --color-body: #4a3f35;           /* 8.5:1 on bg */
+  --color-muted: #6b5d4f;          /* 4.9:1 on bg */
+
+  /* Semantic */
+  --color-success: #3f7a4f;
+  --color-warning: #9a6110;
+  --color-error: #b23a2e;
+
+  /* Structural role names */
+  --color-deep-purple: var(--color-heading);
+  --color-slate-blue: var(--color-body);
+  --color-warm-orange: var(--color-primary);
+  --color-golden-amber: var(--color-accent);
+  --color-cream-peach: var(--color-background);
+  --color-off-white: var(--color-surface);
+  --color-lavender-mist: var(--color-border);
+  --color-light-amber: #f6e3c4;
+
+  /* Brand names */
+  --color-charcoal: var(--color-heading);
+  --color-on-surface-variant: var(--color-body);
+  --color-warm-taupe: var(--color-primary);
+  --color-soft-sand: var(--color-accent);
+  --color-surface-cream: var(--color-background);
+  --color-surface-container-low: var(--color-surface);
+  --color-surface-variant: var(--color-surface);
+  --color-surface-bright: var(--color-elevated);
+  --color-background-alt: var(--color-surface);
+  --color-secondary-container: var(--color-light-amber);
+  --color-logo-ink: var(--color-heading);
+
+  /* A lighter tint of Secondary. The functional sage carries white text
+     at 5:1, which turns murky when dropped to 20-35% behind artwork. */
+  --color-sage: #9bae9f;
+
+  color: var(--color-body);
+}
+
+/* Alpha modifiers are folded to a literal at build time from the ROOT
+   palette, so unlike the solid utilities they do not re-resolve here.
+   Every one reachable from this edition is restated. */
+.edition-v2 .bg-cream-peach\/95   { background-color: rgba(243, 233, 220, 0.95); }
+.edition-v2 .bg-deep-purple\/50   { background-color: rgba(43, 35, 28, 0.5); }
+.edition-v2 .bg-soft-sand\/45     { background-color: rgba(215, 154, 72, 0.45); }
+.edition-v2 .bg-soft-sand\/40     { background-color: rgba(215, 154, 72, 0.4); }
+.edition-v2 .bg-sage\/35          { background-color: rgba(155, 174, 159, 0.35); }
+.edition-v2 .bg-sage\/25          { background-color: rgba(155, 174, 159, 0.25); }
+.edition-v2 .bg-sage\/20          { background-color: rgba(155, 174, 159, 0.2); }
+.edition-v2 .bg-warm-taupe\/60    { background-color: rgba(160, 74, 40, 0.6); }
+.edition-v2 .border-warm-orange\/30 { border-color: rgba(160, 74, 40, 0.3); }
+.edition-v2 .text-slate-blue\/60  { color: rgba(74, 63, 53, 0.6); }

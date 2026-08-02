@@ -24,16 +24,26 @@ import Faq from "../components/v3/Faq.jsx";
  * An edition is nothing more than a wrapper class that redefines design
  * tokens for its subtree (see src/index.css), plus the webfont it needs.
  *
- *   typekit   — /type       sama-latin + emmeline over the brand palette
+ *   v2        — /v2         the redesign, on the refined brand palette
+ *   typekit   — /type       v2's palette, set in sama-latin
  *   reference — /reference  the uploaded design system verbatim: its own
  *                           palette AND its own fonts, with no
  *                           Neighbourhood branding applied
  *
- * The default site at "/" carries no wrapper class and is unaffected.
+ * "/" carries no wrapper class: it serves src/legacy, a copy of the
+ * design that is live in production, rendered from the root palette.
  */
 const EDITIONS = {
+  v2: {
+    className: "edition-v2",
+    basePath: "/v2",
+    stylesheet: null,
+  },
   typekit: {
-    className: "edition-typekit",
+    // Stacks both classes: the refined palette from v2, the sama-latin
+    // type from typekit. They set disjoint tokens, so neither wins over
+    // the other.
+    className: "edition-v2 edition-typekit",
     basePath: "/type",
     stylesheet: "https://use.typekit.net/gzw2wee.css",
   },
