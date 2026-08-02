@@ -3,20 +3,21 @@
  * system's: `pill` radius (22px), Body Small Bold label, spacing-token
  * padding.
  *
- * The colours are The Neighbourhood's. The brand's primary action has
- * always been a charcoal fill with cream type — high contrast, calm, no
- * bright accent — warming to taupe on hover. That pairing is 12.4:1, so
- * it clears WCAG AA comfortably.
+ * The primary action carries the palette's terracotta rather than the
+ * heading espresso. Those were one token until the palette refresh
+ * separated "the darkest ink" from "the thing you should click", which
+ * is what lets the CTA read as warm and inviting while headings stay
+ * calm. White on terracotta is 6.0:1, deepening to 7.5:1 on hover.
  */
 const VARIANTS = {
   primary:
-    "bg-charcoal text-surface-cream hover:bg-warm-taupe hover:shadow-subtle-lift",
+    "bg-primary text-white hover:bg-primary-hover hover:shadow-subtle-lift",
   secondary:
-    "bg-surface-cream text-charcoal border-2 border-charcoal hover:bg-white hover:shadow-subtle-lift",
+    "bg-card text-heading border-2 border-heading hover:bg-elevated hover:shadow-subtle-lift",
   outline:
-    "bg-transparent text-charcoal border-2 border-lavender-mist hover:border-charcoal",
+    "bg-transparent text-heading border-2 border-border hover:border-primary",
   quiet:
-    "bg-transparent text-on-surface-variant hover:text-charcoal",
+    "bg-transparent text-muted hover:text-primary",
 };
 
 const SIZES = {

@@ -8,10 +8,14 @@ import { forwardRef } from "react";
  * Forwards its ref so the scroll-reveal hook can observe a card directly
  * without an extra wrapper element.
  */
+// "white" resolves to the palette's warm card colour rather than true
+// white: on a cream page, a pure-white card reads as a hole punched in
+// the page. True white is reserved for genuinely elevated surfaces
+// (the dialog, the sticky nav veil).
 const SURFACES = {
-  white: "bg-white",
-  "off-white": "bg-off-white",
-  "cream-peach": "bg-cream-peach",
+  white: "bg-card",
+  "off-white": "bg-surface",
+  "cream-peach": "bg-background",
   "light-amber": "bg-light-amber",
 };
 

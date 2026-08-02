@@ -14,22 +14,63 @@
 /* colour it now carries.                                               */
 /* ==================================================================== */
 @theme {
-  /* Colors — The Neighbourhood brand palette.
-     Names on the left are structural roles inherited from the reference
-     system; values on the right are the original brand colours. */
-  --color-deep-purple: #2c2c2c;   /* charcoal — primary ink, headings, nav, primary CTA */
-  --color-white: #ffffff;         /* white — card surfaces */
-  --color-golden-amber: #c9a58e;  /* soft sand — secondary accent, numerals, timeline nodes */
-  --color-slate-blue: #444748;    /* on-surface-variant — body copy, muted text */
-  --color-warm-orange: #8b7355;   /* warm taupe — eyebrows, accents, dashed outlines */
-  --color-cream-peach: #e8ddd1;   /* surface cream — the page wash */
-  --color-light-amber: #f9dbb7;   /* secondary container — warm panels, footer */
-  --color-off-white: #fdf2e5;     /* surface container low — alternate section wash */
+  /* ------------------------------------------------------------------ */
+  /* THE NEIGHBOURHOOD PALETTE (refined)                                 */
+  /*                                                                     */
+  /* An evolution of the original cream/taupe/sage brand, warmed and     */
+  /* given one confident accent. Three things changed and why:           */
+  /*                                                                     */
+  /*  - body copy was #444748, a COOL grey on a warm cream page. That    */
+  /*    mismatch greyed out every paragraph; it is now a warm brown.     */
+  /*  - every colour sat at low chroma, so nothing could carry emphasis. */
+  /*    Terracotta is now the single confident accent.                   */
+  /*  - the page wash had grey in it, dragging the whole page down half  */
+  /*    a step. It keeps its identity but sits lighter and warmer.       */
+  /*                                                                     */
+  /* Contrast ratios are noted where they matter; all body-size pairings */
+  /* clear WCAG AA.                                                      */
+  /* ------------------------------------------------------------------ */
 
-  /* Hairline borders and dividers. The original site drew every divider
-     as warm taupe at a low alpha rather than as a separate hue, so this
-     role is expressed the same way — no invented colour. */
-  --color-lavender-mist: rgba(139, 115, 85, 0.22);
+  /* Action */
+  --color-primary: #a04a28;        /* terracotta — CTAs, eyebrows, links. 5.0:1 on bg, 6.0:1 under white */
+  --color-primary-hover: #8a3e20;  /* deepens on hover, so the button presses into the page */
+  --color-secondary: #5f7566;      /* deep sage — secondary buttons, tags. 5.0:1 under white */
+  --color-accent: #d79a48;         /* marigold — DECORATIVE ONLY, 2.4:1 on white (no ochre clears AA) */
+
+  /* Surfaces, lightest-last */
+  --color-background: #f3e9dc;     /* the page wash */
+  --color-surface: #faf3e9;        /* alternating section bands */
+  --color-card: #fdf8f1;           /* warm white — cards read as paper on the page, not holes in it */
+  --color-elevated: #ffffff;       /* modals and the sticky nav veil — only true white reads as "above" */
+  --color-border: #e2d3c0;         /* warm sand hairline */
+
+  /* Text */
+  --color-heading: #2b231c;        /* warm espresso, not neutral black. 12.9:1 on bg */
+  --color-body: #4a3f35;           /* warm brown — the fix for the cool grey. 8.5:1 on bg */
+  --color-muted: #6b5d4f;          /* captions and fine print, still 4.9:1 on bg */
+
+  /* Semantic */
+  --color-success: #3f7a4f;        /* 5.1:1 under white */
+  --color-warning: #9a6110;        /* a deepened accent — cautions without alarming. 5.1:1 */
+  --color-error: #b23a2e;          /* the old red, warmed to fit. 5.9:1 */
+
+  --color-white: #ffffff;
+
+  /* ------------------------------------------------------------------ */
+  /* Structural role names.                                              */
+  /*                                                                     */
+  /* Inherited from the reference design system and used throughout the  */
+  /* components. Each is re-pointed at a palette role above, so the      */
+  /* refresh needed no sweep through the markup.                         */
+  /* ------------------------------------------------------------------ */
+  --color-deep-purple: var(--color-heading);
+  --color-slate-blue: var(--color-body);
+  --color-warm-orange: var(--color-primary);
+  --color-golden-amber: var(--color-accent);
+  --color-cream-peach: var(--color-background);
+  --color-off-white: var(--color-surface);
+  --color-lavender-mist: var(--color-border);
+  --color-light-amber: #f6e3c4;   /* a tint of the accent — invitation panel, footer */
 
   /* Spacing */
   --spacing-xs: 4px;
@@ -60,32 +101,33 @@
   /* ------------------------------------------------------------------ */
   /* Elevation. DESIGN.md lists exactly one validated shadow token, and  */
   /* is explicit that depth stays flat beyond that evidence boundary —   */
-  /* so this is the only shadow in the system.                           */
+  /* so this is the only shadow in the system. Its colour is warmed to   */
+  /* the palette's brown; a neutral black shadow greys a cream page.     */
   /* ------------------------------------------------------------------ */
-  --shadow-subtle-lift: 0px 0px 3px 0px rgba(0, 0, 0, 0.15);
+  --shadow-subtle-lift: 0px 0px 3px 0px rgba(74, 63, 53, 0.18);
 
   /* ------------------------------------------------------------------ */
   /* Brand colour names.                                                 */
   /*                                                                     */
-  /* These are The Neighbourhood's own names, used directly by /today    */
-  /* and /day. Each one now carries its exact original value again, so   */
-  /* the product surfaces and the marketing site render from a single    */
-  /* palette. Where a name has a structural twin above, it aliases it;   */
-  /* where the brand has no twin (sage), it keeps its own value.         */
+  /* The Neighbourhood's own names, used directly by /today and /day.    */
+  /* Each maps onto a palette role above so the product surfaces and the */
+  /* marketing site render from a single palette.                        */
   /* ------------------------------------------------------------------ */
-  --color-charcoal: var(--color-deep-purple);            /* #2c2c2c */
-  --color-on-surface-variant: var(--color-slate-blue);   /* #444748 */
-  --color-warm-taupe: var(--color-warm-orange);          /* #8b7355 */
-  --color-soft-sand: var(--color-golden-amber);          /* #c9a58e */
-  --color-sage: #a8b5a4;                                 /* the brand's green accent */
-  --color-surface-cream: var(--color-cream-peach);       /* #e8ddd1 */
-  --color-surface-container-low: var(--color-off-white); /* #fdf2e5 */
-  --color-surface-variant: #ece1d5;
-  --color-surface-bright: #fff8f3;
-  --color-background-alt: #f5f2e1;
-  --color-secondary-container: var(--color-light-amber); /* #f9dbb7 */
-  --color-logo-ink: #4a3323;                             /* the mark's own brown */
-  --color-error: #ba1a1a;
+  --color-charcoal: var(--color-heading);
+  --color-on-surface-variant: var(--color-body);
+  --color-warm-taupe: var(--color-primary);
+  --color-soft-sand: var(--color-accent);
+  /* A lighter tint of Secondary. The functional sage is dark enough to
+     carry white text (5:1), which turns murky when dropped to 20-35%
+     behind artwork — the decorative blobs need their own value. */
+  --color-sage: #9bae9f;
+  --color-surface-cream: var(--color-background);
+  --color-surface-container-low: var(--color-surface);
+  --color-surface-variant: var(--color-surface);
+  --color-surface-bright: var(--color-elevated);
+  --color-background-alt: var(--color-surface);
+  --color-secondary-container: var(--color-light-amber);
+  --color-logo-ink: var(--color-heading);
 
   /* ------------------------------------------------------------------ */
   /* Measure widths.                                                     */
@@ -202,8 +244,8 @@
   }
 
   body {
-    background-color: var(--color-cream-peach);
-    color: var(--color-deep-purple);
+    background-color: var(--color-background);
+    color: var(--color-body);
     font-family: var(--font-body-regular-family);
     font-size: var(--font-body-regular-size);
     font-weight: var(--font-body-regular-weight);
@@ -211,16 +253,15 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* The original site's selection colour (secondary container). */
   ::selection {
     background-color: var(--color-light-amber);
-    color: var(--color-deep-purple);
+    color: var(--color-heading);
   }
 
   /* The system's one interaction signal for focus: a 3px outline in a
      palette colour (DESIGN.md → Interaction Signals). */
   :focus-visible {
-    outline: 3px solid var(--color-deep-purple);
+    outline: 3px solid var(--color-primary);
     outline-offset: 2px;
     border-radius: var(--radius-soft);
   }
@@ -873,6 +914,21 @@
   --color-surface-variant: #fdf9f7;
   --color-secondary-container: #f8daab;
   --color-logo-ink: #49326b;
+
+  /* The brand palette's semantic role names, restated in the reference
+     system's own colours so this edition does not inherit them. */
+  --color-primary: #ffbd59;
+  --color-primary-hover: #f39f5f;
+  --color-secondary: #c9bae0;
+  --color-accent: #ffbd59;
+  --color-background: #fff8ed;
+  --color-surface: #fdf9f7;
+  --color-card: #ffffff;
+  --color-elevated: #ffffff;
+  --color-border: #c9bae0;
+  --color-heading: #49326b;
+  --color-body: #385469;
+  --color-muted: #385469;
 
   /* --- Type scale, verbatim --------------------------------------- */
   --font-hero-display-family: var(--font-capriola);
