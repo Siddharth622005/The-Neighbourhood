@@ -88,10 +88,22 @@ function PillarRow({ pillar, index }) {
 export default function Today() {
   return (
     <Section id="today" surface="off-white">
+      {/* The break is pinned to the sentence boundary rather than left to
+          the container width. At the widths where this title fits on two
+          lines, Inter breaks after "Neighbourhood." but sama-latin (the
+          /type edition) is narrow enough to pull "All" up onto the first
+          line — so the wrap point would differ per edition. On mobile the
+          span stays inline and wraps naturally. */}
       <SectionHeading
         label="What we're building"
-        title="We're rebuilding the Neighbourhood. All three parts of it."
+        title={
+          <>
+            We&rsquo;re rebuilding the Neighbourhood.{" "}
+            <span className="md:block">All three parts of it.</span>
+          </>
+        }
         align="center"
+        measure="xl"
       />
 
       <div className="mt-3xl flex flex-col gap-3xl">
