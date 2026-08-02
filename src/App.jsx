@@ -2,15 +2,15 @@ import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 // "/" serves src/legacy — a copy of the design that is live in
-// production, kept so the redesign can be reviewed at /v2 without
-// changing the site anyone currently visits.
+// production, kept so the alternate version can be reviewed at /type
+// without changing the site anyone currently visits.
 const LegacyHome = lazy(() => import("./legacy/LegacyHome.jsx"));
 const LegacyStory = lazy(() => import("./legacy/LegacyStory.jsx"));
 const LegacyValues = lazy(() => import("./legacy/LegacyValues.jsx"));
 const LegacyFaq = lazy(() => import("./legacy/LegacyFaq.jsx"));
 
-// The redesign and its variants. All three render the same section
-// components; they differ only in the tokens their wrapper class sets.
+// "/type" serves the redesign: the refined brand palette, set in
+// sama-latin.
 const Edition = lazy(() => import("./pages/Edition.jsx"));
 
 const TodayPage = lazy(() => import("./pages/TodayPage.jsx"));
@@ -28,29 +28,24 @@ export default function App() {
       <Route path="/faq" element={page(<LegacyFaq />)} />
 
       {/* The redesign. */}
-      <Route path="/v2" element={page(<Edition edition="v2" page="home" />)} />
-      <Route path="/v2/story" element={page(<Edition edition="v2" page="story" />)} />
-      <Route path="/v2/values" element={page(<Edition edition="v2" page="values" />)} />
-      <Route path="/v2/faq" element={page(<Edition edition="v2" page="faq" />)} />
-
-      {/* The redesign, set in sama-latin. */}
       <Route path="/type" element={page(<Edition edition="typekit" page="home" />)} />
       <Route path="/type/story" element={page(<Edition edition="typekit" page="story" />)} />
       <Route path="/type/values" element={page(<Edition edition="typekit" page="values" />)} />
       <Route path="/type/faq" element={page(<Edition edition="typekit" page="faq" />)} />
 
-      {/* The uploaded design system, verbatim. */}
-      <Route path="/reference" element={page(<Edition edition="reference" page="home" />)} />
-      <Route path="/reference/story" element={page(<Edition edition="reference" page="story" />)} />
-      <Route path="/reference/values" element={page(<Edition edition="reference" page="values" />)} />
-      <Route path="/reference/faq" element={page(<Edition edition="reference" page="faq" />)} />
-
       {/* Product surfaces. */}
       <Route path="/today" element={page(<TodayPage />)} />
       <Route path="/day" element={page(<OneDayPage />)} />
 
-      {/* Legacy redirects. "/v2" is deliberately absent here — it used to
-          redirect to "/" and is now a real route. */}
+      {/* Retired routes. /v2 and /reference were briefly live, so they
+          point somewhere useful rather than 404ing. */}
+      <Route path="/v2" element={<Navigate to="/type" replace />} />
+      <Route path="/v2/story" element={<Navigate to="/type/story" replace />} />
+      <Route path="/v2/values" element={<Navigate to="/type/values" replace />} />
+      <Route path="/v2/faq" element={<Navigate to="/type/faq" replace />} />
+      <Route path="/reference/*" element={<Navigate to="/type" replace />} />
+
+      {/* Legacy redirects. */}
       <Route path="/next" element={<Navigate to="/" replace />} />
       <Route path="/next/story" element={<Navigate to="/story" replace />} />
       <Route path="/next/values" element={<Navigate to="/values" replace />} />

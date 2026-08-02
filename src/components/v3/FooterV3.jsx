@@ -31,6 +31,13 @@ export default function FooterV3({ minimal = false }) {
           Safe Spaces, Warm Hearts, Bright Futures
         </AccentLabel>
 
+        <a
+          href="mailto:founders@theneighbourhood.co.in"
+          className="type-body-regular text-slate-blue transition-colors duration-200 hover:text-charcoal"
+        >
+          founders@theneighbourhood.co.in
+        </a>
+
         <p className="type-caption w-full border-t border-warm-orange/30 pt-lg text-center font-normal text-slate-blue">
           &copy; {new Date().getFullYear()} The Neighbourhood &middot; Gurugram,
           India

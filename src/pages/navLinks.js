@@ -6,4 +6,5 @@ export const V4_LINKS = [
   { label: "Our story", href: "/story" },
   { label: "Our values", href: "/values" },
   { label: "FAQ", href: "/faq" },
+  { label: "Contact", href: "/#contact" },
 ];

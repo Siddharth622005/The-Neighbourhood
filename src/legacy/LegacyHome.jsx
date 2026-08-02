@@ -10,6 +10,7 @@ import Today from "./v4/Today.jsx";
 import GroundedIn from "./v4/GroundedIn.jsx";
 import LongArc from "./v4/LongArc.jsx";
 import Invitation from "./v4/Invitation.jsx";
+import Contact from "./v4/Contact.jsx";
 import { V4_LINKS } from "../pages/navLinks.js";
 
 /**
@@ -40,6 +41,7 @@ export default function HomeV4() {
         <GroundedIn />
         <LongArc />
         <Invitation onJoin={openWaitlist} />
+        <Contact />
       </main>
       <FooterV3 />
       <WaitlistDialogV3 open={waitlistOpen} onClose={() => setWaitlistOpen(false)} />

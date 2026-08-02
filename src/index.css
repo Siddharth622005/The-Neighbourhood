@@ -865,171 +865,120 @@
 }
 
 /* ==================================================================== */
-/* REFERENCE EDITION — /reference                                       */
+/* TYPE EDITION — /type                                                 */
 /*                                                                      */
-/* The uploaded design system reproduced verbatim, with NO Neighbourhood */
-/* branding applied: its own palette, its own three typefaces, its own   */
-/* extracted sizes. This is the site as it looked before the brand was   */
-/* restored, kept as a comparison version.                               */
+/* A separate typographic version of the site, served from the /type    */
+/* routes. It reuses every existing component, layout, colour and       */
+/* interaction unchanged; only the type roles are re-pointed, by        */
+/* redefining the same custom properties inside a scoped wrapper. The   */
+/* default site is not affected in any way.                             */
 /*                                                                      */
-/* Values below are copied from the uploaded design.css / design.json /  */
-/* DESIGN.md and are not adapted in any way.                             */
+/* A single-family setting: sama-latin carries every role — 700 for      */
+/* display, headings and labels, 400 for body. A warm geometric sans     */
+/* with a generous x-height and soft terminals, it has enough range      */
+/* across its two weights to hold the whole hierarchy on its own.        */
+/*                                                                       */
+/* The kit also ships emmeline (a handwritten script) and damson (a 900  */
+/* display face); neither is used here. One voice, set well, reads       */
+/* calmer than a pairing that has to justify itself on every section.    */
 /* ==================================================================== */
-.edition-reference {
-  --font-capriola: "Capriola", sans-serif;
-  --font-love-ya-like-a-sister: "Love Ya Like A Sister", sans-serif;
-  --font-source-sans-pro: "Source Sans Pro", sans-serif;
+.edition-typekit {
+  --font-sama: "sama-latin", ui-rounded, system-ui, sans-serif;
 
-  /* --- Colors, verbatim ------------------------------------------- */
-  --color-deep-purple: #49326b;
-  --color-white: #ffffff;
-  --color-golden-amber: #ffbd59;
-  --color-slate-blue: #385469;
-  --color-warm-orange: #f39f5f;
-  --color-cream-peach: #fff8ed;
-  --color-light-amber: #f8daab;
-  --color-lavender-mist: #c9bae0;
-  --color-off-white: #fdf9f7;
+  /* Display — sama 700. Rounded geometric forms close up well at size,
+     so tracking tightens slightly rather than staying neutral. */
+  --font-hero-display-family: var(--font-sama);
+  --font-hero-display-size: clamp(2.5rem, 5.4vw, 4.125rem);
+  --font-hero-display-weight: 700;
+  --font-hero-display-line-height: 1.06;
+  --font-hero-display-letter-spacing: -0.021em;
 
-  /* The brand-named aliases have to be restated, not left to inherit.
-     `--color-soft-sand: var(--color-golden-amber)` is resolved once on
-     :root, and descendants inherit that computed value — redefining
-     --color-golden-amber here would not re-resolve it. */
-  --color-charcoal: #49326b;
-  --color-on-surface-variant: #385469;
-  --color-warm-taupe: #f39f5f;
-  --color-soft-sand: #f8daab;
-  --color-sage: #c9bae0;
-  --color-surface-cream: #fff8ed;
-  --color-surface-container-low: #fdf9f7;
-  --color-surface-variant: #fdf9f7;
-  --color-secondary-container: #f8daab;
-  --color-logo-ink: #49326b;
+  --font-section-heading-family: var(--font-sama);
+  --font-section-heading-size: clamp(1.85rem, 3.5vw, 2.625rem);
+  --font-section-heading-weight: 700;
+  --font-section-heading-line-height: 1.16;
+  --font-section-heading-letter-spacing: -0.016em;
 
-  /* The brand palette's semantic role names, restated in the reference
-     system's own colours so this edition does not inherit them. */
-  --color-primary: #ffbd59;
-  --color-primary-hover: #f39f5f;
-  --color-secondary: #c9bae0;
-  --color-accent: #ffbd59;
-  --color-background: #fff8ed;
-  --color-surface: #fdf9f7;
-  --color-card: #ffffff;
-  --color-elevated: #ffffff;
-  --color-border: #c9bae0;
-  --color-heading: #49326b;
-  --color-body: #385469;
-  --color-muted: #385469;
+  --font-sub-heading-family: var(--font-sama);
+  --font-sub-heading-size: 1.375rem;
+  --font-sub-heading-weight: 700;
+  --font-sub-heading-line-height: 1.38;
+  --font-sub-heading-letter-spacing: -0.008em;
 
-  /* --- Type scale, verbatim --------------------------------------- */
-  --font-hero-display-family: var(--font-capriola);
-  --font-hero-display-size: 54px;
-  --font-hero-display-weight: 400;
-  --font-hero-display-line-height: 59.4px;
-  --font-hero-display-letter-spacing: normal;
-  --font-hero-display-size-mobile: 36px;
-  --font-hero-display-line-height-mobile: 42px;
+  --font-card-heading-family: var(--font-sama);
+  --font-card-heading-size: 1.125rem;
+  --font-card-heading-weight: 700;
+  --font-card-heading-line-height: 1.4;
+  --font-card-heading-letter-spacing: -0.004em;
 
-  --font-section-heading-family: var(--font-capriola);
-  --font-section-heading-size: 30px;
-  --font-section-heading-weight: 400;
-  --font-section-heading-line-height: 40px;
-  --font-section-heading-letter-spacing: normal;
-  --font-section-heading-size-mobile: 26px;
-  --font-section-heading-line-height-mobile: 34px;
-
-  --font-sub-heading-family: var(--font-capriola);
-  --font-sub-heading-size: 22px;
-  --font-sub-heading-weight: 400;
-  --font-sub-heading-line-height: 28px;
-  --font-sub-heading-letter-spacing: normal;
-
-  --font-card-heading-family: var(--font-capriola);
-  --font-card-heading-size: 18px;
-  --font-card-heading-weight: 400;
-  --font-card-heading-line-height: 23.4px;
-  --font-card-heading-letter-spacing: normal;
-
-  --font-accent-label-family: var(--font-love-ya-like-a-sister);
-  --font-accent-label-size: 16px;
-  --font-accent-label-weight: 500;
-  --font-accent-label-line-height: 16px;
-  --font-accent-label-letter-spacing: 4px;
+  /* The eyebrow returns to a tracked uppercase label. sama-latin's
+     letterforms are wider and rounder than Inter's, so it takes slightly
+     less tracking than the default site's 0.22em before the word starts
+     to come apart. */
+  --font-accent-label-family: var(--font-sama);
+  --font-accent-label-size: 0.8125rem;
+  --font-accent-label-weight: 700;
+  --font-accent-label-line-height: 1.2;
+  --font-accent-label-letter-spacing: 0.18em;
   --font-accent-label-transform: uppercase;
 
-  --font-body-regular-family: var(--font-source-sans-pro);
-  --font-body-regular-size: 16px;
+  /* Body — sama 400. The large x-height wants a little more leading
+     than Inter did at the same size. */
+  --font-body-regular-family: var(--font-sama);
+  --font-body-regular-size: 1rem;
   --font-body-regular-weight: 400;
-  --font-body-regular-line-height: 27.2px;
-  --font-body-regular-letter-spacing: normal;
+  --font-body-regular-line-height: 1.7;
+  --font-body-regular-letter-spacing: 0.002em;
 
-  --font-body-large-family: var(--font-source-sans-pro);
-  --font-body-large-size: 20px;
+  --font-body-large-family: var(--font-sama);
+  --font-body-large-size: 1.1875rem;
   --font-body-large-weight: 400;
-  --font-body-large-line-height: 28px;
-  --font-body-large-letter-spacing: normal;
+  --font-body-large-line-height: 1.7;
+  --font-body-large-letter-spacing: 0.002em;
 
-  --font-body-small-bold-family: var(--font-source-sans-pro);
-  --font-body-small-bold-size: 14px;
+  --font-body-small-bold-family: var(--font-sama);
+  --font-body-small-bold-size: 0.875rem;
   --font-body-small-bold-weight: 700;
-  --font-body-small-bold-line-height: 27.2px;
-  --font-body-small-bold-letter-spacing: normal;
+  --font-body-small-bold-line-height: 1.5;
+  --font-body-small-bold-letter-spacing: 0.004em;
 
-  --font-caption-family: var(--font-source-sans-pro);
-  --font-caption-size: 12px;
-  --font-caption-weight: 700;
-  --font-caption-line-height: 19.2px;
-  --font-caption-letter-spacing: normal;
+  --font-caption-family: var(--font-sama);
+  --font-caption-size: 0.8125rem;
+  --font-caption-weight: 400;
+  --font-caption-line-height: 1.6;
+  --font-caption-letter-spacing: 0.004em;
 
+  /* Display roles are fluid, so both tiers resolve to the same clamp. */
+  --font-hero-display-size-mobile: var(--font-hero-display-size);
+  --font-hero-display-line-height-mobile: var(--font-hero-display-line-height);
+  --font-section-heading-size-mobile: var(--font-section-heading-size);
+  --font-section-heading-line-height-mobile: var(--font-section-heading-line-height);
+
+  /* body{} already resolved font-family against the default tokens, and
+     children inherit that computed value — so the wrapper has to restate
+     it for the new stack to take effect inside. */
   font-family: var(--font-body-regular-family);
   font-size: var(--font-body-regular-size);
   line-height: var(--font-body-regular-line-height);
-  letter-spacing: normal;
+  letter-spacing: var(--font-body-regular-letter-spacing);
 }
 
-.edition-reference .v3-serif {
-  font-family: var(--font-capriola);
+/* The emotional accent (.v3-serif) has no separate face in a
+   single-family setting, so it leans on weight instead of a typeface
+   change. */
+.edition-typekit .v3-serif {
+  font-family: var(--font-sama);
   font-style: normal;
-  font-weight: 400;
-}
-
-/* Tailwind folds an alpha modifier (bg-sage/35) down to a literal hex at
-   build time, so unlike the solid utilities those do NOT re-resolve from
-   the variables above. Each one used inside an edition is restated here
-   in the reference palette. */
-.edition-reference .bg-cream-peach\/95 { background-color: rgba(255, 248, 237, 0.95); }
-.edition-reference .bg-deep-purple\/50 { background-color: rgba(73, 50, 107, 0.5); }
-.edition-reference .bg-soft-sand\/45   { background-color: rgba(248, 218, 171, 0.6); }
-.edition-reference .bg-soft-sand\/40   { background-color: rgba(201, 186, 224, 1); }
-.edition-reference .bg-sage\/35        { background-color: rgba(201, 186, 224, 0.4); }
-.edition-reference .bg-sage\/25        { background-color: rgba(243, 159, 95, 0.2); }
-.edition-reference .bg-sage\/20        { background-color: rgba(201, 186, 224, 0.3); }
-.edition-reference .bg-warm-taupe\/60  { background-color: rgba(243, 159, 95, 0.6); }
-.edition-reference .border-warm-orange\/30 { border-color: rgba(243, 159, 95, 0.3); }
-.edition-reference .text-slate-blue\/60 { color: rgba(56, 84, 105, 0.6); }
-
-/* The reference system spends its Golden Amber on the primary CTA, where
-   the brand spends charcoal. Restored via the variant hook on Button so
-   this doesn't depend on that component's utility classes. */
-.edition-reference [data-variant="primary"] {
-  background-color: var(--color-golden-amber);
-  color: var(--color-deep-purple);
-}
-.edition-reference [data-variant="primary"]:hover {
-  background-color: var(--color-warm-orange);
-}
-.edition-reference [data-variant="secondary"] {
-  background-color: var(--color-white);
-  color: var(--color-deep-purple);
-  border-color: var(--color-deep-purple);
+  font-weight: 700;
 }
 
 /* ==================================================================== */
-/* V2 EDITION — /v2                                                     */
+/* REFINED PALETTE — used by /type                                      */
 /*                                                                      */
-/* The refined brand palette: warmer, with terracotta as the single     */
-/* confident accent. Scoped rather than applied at the root, because    */
-/* "/" must keep serving the design that is live today.                 */
+/* Warmer, with terracotta as the single confident accent. Scoped       */
+/* rather than applied at the root, because "/" must keep serving the   */
+/* design that is live today. Stacked with .edition-typekit, which adds */
+/* the sama-latin type on top of these colours.                         */
 /*                                                                      */
 /* Type is unchanged from the root — the refresh was colour only.       */
 /* ==================================================================== */

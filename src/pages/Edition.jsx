@@ -10,6 +10,7 @@ import Today from "../components/v4/Today.jsx";
 import GroundedIn from "../components/v4/GroundedIn.jsx";
 import LongArc from "../components/v4/LongArc.jsx";
 import Invitation from "../components/v4/Invitation.jsx";
+import Contact from "../components/v4/Contact.jsx";
 
 import FounderStory from "../components/v3/FounderStory.jsx";
 import Values from "../components/v3/Values.jsx";
@@ -24,34 +25,19 @@ import Faq from "../components/v3/Faq.jsx";
  * An edition is nothing more than a wrapper class that redefines design
  * tokens for its subtree (see src/index.css), plus the webfont it needs.
  *
- *   v2        — /v2         the redesign, on the refined brand palette
- *   typekit   — /type       v2's palette, set in sama-latin
- *   reference — /reference  the uploaded design system verbatim: its own
- *                           palette AND its own fonts, with no
- *                           Neighbourhood branding applied
+ *   typekit — /type   the refined brand palette, set in sama-latin
  *
  * "/" carries no wrapper class: it serves src/legacy, a copy of the
  * design that is live in production, rendered from the root palette.
  */
 const EDITIONS = {
-  v2: {
-    className: "edition-v2",
-    basePath: "/v2",
-    stylesheet: null,
-  },
   typekit: {
-    // Stacks both classes: the refined palette from v2, the sama-latin
-    // type from typekit. They set disjoint tokens, so neither wins over
-    // the other.
+    // Stacks both classes: the refined palette from .edition-v2, the
+    // sama-latin type from .edition-typekit. They set disjoint tokens,
+    // so neither wins over the other.
     className: "edition-v2 edition-typekit",
     basePath: "/type",
     stylesheet: "https://use.typekit.net/gzw2wee.css",
-  },
-  reference: {
-    className: "edition-reference",
-    basePath: "/reference",
-    stylesheet:
-      "https://fonts.googleapis.com/css2?family=Capriola&family=Love+Ya+Like+A+Sister&family=Source+Sans+Pro:wght@400;600;700&display=swap",
   },
 };
 
@@ -89,6 +75,7 @@ export default function Edition({ edition = "typekit", page = "home" }) {
     { label: "Our story", href: `${basePath}/story` },
     { label: "Our values", href: `${basePath}/values` },
     { label: "FAQ", href: `${basePath}/faq` },
+    { label: "Contact", href: `${basePath}#contact` },
   ];
 
   const isHome = page === "home";
@@ -109,6 +96,7 @@ export default function Edition({ edition = "typekit", page = "home" }) {
             <GroundedIn />
             <LongArc />
             <Invitation onJoin={openWaitlist} />
+            <Contact />
           </>
         )}
         {page === "story" && <FounderStory />}

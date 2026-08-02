@@ -24,6 +24,12 @@ export default function FooterV3({ minimal = false }) {
           <p className="v3-serif text-warm-taupe text-lg">
             Safe Spaces, Warm Hearts, Bright Futures.
           </p>
+          <a
+            href="mailto:founders@theneighbourhood.co.in"
+            className="text-sm text-on-surface-variant hover:text-charcoal transition-colors duration-200"
+          >
+            founders@theneighbourhood.co.in
+          </a>
         </div>
 
         <p className="text-xs text-on-surface-variant/60 border-t border-warm-taupe/10 pt-8 w-full text-center">
