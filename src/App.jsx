@@ -7,6 +7,7 @@ const HomeV4 = lazy(() => import("./pages/HomeV4.jsx"));
 const StoryPage = lazy(() => import("./pages/StoryPage.jsx"));
 const ValuesPage = lazy(() => import("./pages/ValuesPage.jsx"));
 const FaqPage = lazy(() => import("./pages/FaqPage.jsx"));
+const TypeEdition = lazy(() => import("./pages/TypeEdition.jsx"));
 
 export default function App() {
   return (
@@ -59,6 +60,40 @@ export default function App() {
           </Suspense>
         }
       />
+      {/* The Type Edition — same site, different typography. */}
+      <Route
+        path="/type"
+        element={
+          <Suspense fallback={null}>
+            <TypeEdition page="home" />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/type/story"
+        element={
+          <Suspense fallback={null}>
+            <TypeEdition page="story" />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/type/values"
+        element={
+          <Suspense fallback={null}>
+            <TypeEdition page="values" />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/type/faq"
+        element={
+          <Suspense fallback={null}>
+            <TypeEdition page="faq" />
+          </Suspense>
+        }
+      />
+
       <Route path="/next" element={<Navigate to="/" replace />} />
       <Route path="/next/story" element={<Navigate to="/story" replace />} />
       <Route path="/next/values" element={<Navigate to="/values" replace />} />

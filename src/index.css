@@ -153,6 +153,9 @@
   --font-accent-label-weight: 600;
   --font-accent-label-line-height: 1.2;
   --font-accent-label-letter-spacing: 0.22em;
+  /* Tokenised so an edition using a script face for this role can turn
+     casing off — uppercase and wide tracking destroy handwriting. */
+  --font-accent-label-transform: uppercase;
 
   /* was body-main */
   --font-body-regular-family: var(--font-inter);
@@ -271,7 +274,7 @@
     font-weight: var(--font-accent-label-weight);
     line-height: var(--font-accent-label-line-height);
     letter-spacing: var(--font-accent-label-letter-spacing);
-    text-transform: uppercase;
+    text-transform: var(--font-accent-label-transform);
   }
 
   .type-body-regular {
@@ -360,7 +363,7 @@
     font-weight: var(--font-accent-label-weight);
     line-height: var(--font-accent-label-line-height);
     letter-spacing: var(--font-accent-label-letter-spacing);
-    text-transform: uppercase;
+    text-transform: var(--font-accent-label-transform);
   }
 
   /* The brand's emotional accent: Playfair Display italic. */
@@ -719,4 +722,129 @@
   .today-notice-dot::after {
     transition: none !important;
   }
+}
+
+/* ==================================================================== */
+/* TYPE EDITION — /type                                                 */
+/*                                                                      */
+/* A separate typographic version of the site, served from the /type    */
+/* routes. It reuses every existing component, layout, colour and       */
+/* interaction unchanged; only the type roles are re-pointed, by        */
+/* redefining the same custom properties inside a scoped wrapper. The   */
+/* default site is not affected in any way.                             */
+/*                                                                      */
+/* The pairing:                                                         */
+/*   sama-latin  — a warm geometric sans with a generous x-height and   */
+/*                 soft terminals. Carries the whole hierarchy: 700 for */
+/*                 display and headings, 400 for body.                  */
+/*   emmeline    — a handwritten marker script. Used ONLY for the       */
+/*                 accent-label role and the emotional accent, in       */
+/*                 sentence case at a larger size. Handwriting is       */
+/*                 destroyed by uppercasing and letter-spacing, so this */
+/*                 role turns both off — the reason                     */
+/*                 --font-accent-label-transform is a token.            */
+/*                                                                      */
+/* emmeline is deliberately never used for headlines or body: it has a  */
+/* single weight, no true uppercase rhythm, and loses legibility past a */
+/* short phrase. Restricting it to the accent role is what keeps it     */
+/* feeling like a handwritten note rather than a novelty.               */
+/* ==================================================================== */
+.edition-typekit {
+  --font-sama: "sama-latin", ui-rounded, system-ui, sans-serif;
+  --font-emmeline: "emmeline", "Playfair Display", cursive;
+
+  /* Display — sama 700. Rounded geometric forms close up well at size,
+     so tracking tightens slightly rather than staying neutral. */
+  --font-hero-display-family: var(--font-sama);
+  --font-hero-display-size: clamp(2.5rem, 5.4vw, 4.125rem);
+  --font-hero-display-weight: 700;
+  --font-hero-display-line-height: 1.06;
+  --font-hero-display-letter-spacing: -0.021em;
+
+  --font-section-heading-family: var(--font-sama);
+  --font-section-heading-size: clamp(1.85rem, 3.5vw, 2.625rem);
+  --font-section-heading-weight: 700;
+  --font-section-heading-line-height: 1.16;
+  --font-section-heading-letter-spacing: -0.016em;
+
+  --font-sub-heading-family: var(--font-sama);
+  --font-sub-heading-size: 1.375rem;
+  --font-sub-heading-weight: 700;
+  --font-sub-heading-line-height: 1.38;
+  --font-sub-heading-letter-spacing: -0.008em;
+
+  --font-card-heading-family: var(--font-sama);
+  --font-card-heading-size: 1.125rem;
+  --font-card-heading-weight: 700;
+  --font-card-heading-line-height: 1.4;
+  --font-card-heading-letter-spacing: -0.004em;
+
+  /* The signature move: the eyebrow becomes handwriting. Sentence case,
+     no tracking, and stepped up hard — emmeline's monoline strokes are
+     far thinner than Inter 600, so at the old 12px eyebrow size it went
+     illegible. 1.5rem is where it reads as a confident hand-written note
+     rather than a faint squiggle. */
+  --font-accent-label-family: var(--font-emmeline);
+  --font-accent-label-size: 1.5rem;
+  --font-accent-label-weight: 400;
+  --font-accent-label-line-height: 1.1;
+  --font-accent-label-letter-spacing: 0.01em;
+  --font-accent-label-transform: none;
+
+  /* Body — sama 400. The large x-height wants a little more leading
+     than Inter did at the same size. */
+  --font-body-regular-family: var(--font-sama);
+  --font-body-regular-size: 1rem;
+  --font-body-regular-weight: 400;
+  --font-body-regular-line-height: 1.7;
+  --font-body-regular-letter-spacing: 0.002em;
+
+  --font-body-large-family: var(--font-sama);
+  --font-body-large-size: 1.1875rem;
+  --font-body-large-weight: 400;
+  --font-body-large-line-height: 1.7;
+  --font-body-large-letter-spacing: 0.002em;
+
+  --font-body-small-bold-family: var(--font-sama);
+  --font-body-small-bold-size: 0.875rem;
+  --font-body-small-bold-weight: 700;
+  --font-body-small-bold-line-height: 1.5;
+  --font-body-small-bold-letter-spacing: 0.004em;
+
+  --font-caption-family: var(--font-sama);
+  --font-caption-size: 0.8125rem;
+  --font-caption-weight: 400;
+  --font-caption-line-height: 1.6;
+  --font-caption-letter-spacing: 0.004em;
+
+  /* Display roles are fluid, so both tiers resolve to the same clamp. */
+  --font-hero-display-size-mobile: var(--font-hero-display-size);
+  --font-hero-display-line-height-mobile: var(--font-hero-display-line-height);
+  --font-section-heading-size-mobile: var(--font-section-heading-size);
+  --font-section-heading-line-height-mobile: var(--font-section-heading-line-height);
+
+  /* body{} already resolved font-family against the default tokens, and
+     children inherit that computed value — so the wrapper has to restate
+     it for the new stack to take effect inside. */
+  font-family: var(--font-body-regular-family);
+  font-size: var(--font-body-regular-size);
+  line-height: var(--font-body-regular-line-height);
+  letter-spacing: var(--font-body-regular-letter-spacing);
+}
+
+/* The emotional accent (.v3-serif) becomes the handwritten face here,
+   upright rather than italic — emmeline is already a slanted script. */
+.edition-typekit .v3-serif {
+  font-family: var(--font-emmeline);
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* The 01/02/03 numerals and some labels are tinted soft sand, which was
+   legible in Inter 600 but not in a thin monoline script on a white
+   card. Inside this edition only, the accent role steps up to warm taupe
+   so the handwriting holds its own. Colour roles elsewhere are
+   untouched. */
+.edition-typekit .type-accent-label.text-soft-sand {
+  color: var(--color-warm-taupe);
 }
