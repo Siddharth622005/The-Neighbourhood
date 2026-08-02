@@ -1,5 +1,4 @@
 import Section from "../ui/Section.jsx";
-import SectionHeading from "../ui/SectionHeading.jsx";
 import Card from "../ui/Card.jsx";
 import AccentLabel from "../ui/AccentLabel.jsx";
 import useScrollReveal from "../useScrollReveal.js";
@@ -33,20 +32,37 @@ export default function GroundedIn() {
 
   return (
     <Section id="grounded-in">
-      <SectionHeading label="Grounded in" title="Why you can trust this." align="center" />
+      <div ref={ref}>
+        {/* "Grounded in" is the heading itself, not an eyebrow over one.
+            It completes as a sentence with the three card labels below —
+            grounded in developmental science, real classrooms, honest
+            limits — so a line in between only restated the idea. It also
+            claimed trust, where the section's persuasive move is
+            admitting a limit.
 
-      <div ref={ref} className="mt-2xl grid gap-component-gap md:grid-cols-3">
-        {SIGNALS.map((s, i) => (
-          <Card
-            key={s.label}
-            surface="cream-peach"
-            className={`reveal ${inView ? "in-view" : ""} h-full text-center`}
-            data-delay={String(i + 1)}
-          >
-            <AccentLabel>{s.label}</AccentLabel>
-            <p className="type-body-regular mt-md text-slate-blue">{s.body}</p>
-          </Card>
-        ))}
+            Still an <h2> so the section keeps its place in the document
+            outline, but set at accent-label scale: quieter than the
+            pillars either side, which suits a supporting trust beat. */}
+        <AccentLabel
+          as="h2"
+          className={`reveal ${inView ? "in-view" : ""} text-center`}
+        >
+          Grounded in
+        </AccentLabel>
+
+        <div className="mt-2xl grid gap-component-gap md:grid-cols-3">
+          {SIGNALS.map((s, i) => (
+            <Card
+              key={s.label}
+              surface="cream-peach"
+              className={`reveal ${inView ? "in-view" : ""} h-full text-center`}
+              data-delay={String(i + 1)}
+            >
+              <AccentLabel>{s.label}</AccentLabel>
+              <p className="type-body-regular mt-md text-slate-blue">{s.body}</p>
+            </Card>
+          ))}
+        </div>
       </div>
     </Section>
   );
