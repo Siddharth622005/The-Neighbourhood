@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { supabase, isSupabaseConfigured } from "../../lib/supabaseClient.js";
+import Button from "../ui/Button.jsx";
+import AccentLabel from "../ui/AccentLabel.jsx";
+import { Input, Select, Label, Hint, FieldError } from "../ui/Field.jsx";
 
 const REFERRAL_BOOST = 3;
 const CHILD_STAGES = [
@@ -14,9 +17,10 @@ const CHILD_STAGES = [
 ];
 
 /**
- * Same waitlist flow as the shared dialog (Supabase insert + queue position
- * + referral link), redesigned to match the V3 voice: calmer copy, one
- * decision per screen, honest microcopy.
+ * Waitlist flow (Supabase insert + queue position + referral link),
+ * presented in the reference design system: an Off White panel at
+ * `rounded` (30px), soft-cornered controls with Lavender Mist hairlines,
+ * and one amber pill as the submit action per screen.
  */
 export default function WaitlistDialogV3({ open, onClose }) {
   const [mode, setMode] = useState("join"); // join | lookup
@@ -200,230 +204,257 @@ export default function WaitlistDialogV3({ open, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-lg"
       role="dialog"
       aria-modal="true"
       aria-label="Join the village"
     >
       <div
-        className="absolute inset-0 bg-charcoal/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-deep-purple/50 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
-      <div className="v3-enter relative w-full max-w-md bg-surface-cream rounded-[28px] shadow-2xl p-8 md:p-10">
+
+      <div className="enter-up relative max-h-full w-full max-w-measure-sm overflow-y-auto rounded-rounded border border-lavender-mist bg-off-white p-2xl shadow-subtle-lift">
         <button
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-5 right-5 text-warm-taupe hover:text-charcoal transition-colors"
+          className="absolute right-lg top-lg text-warm-orange transition-colors hover:text-deep-purple"
         >
           <span className="material-symbols-outlined">close</span>
         </button>
 
         {status !== "success" && mode === "join" && (
           <>
-            <p className="v3-eyebrow text-warm-taupe mb-4">
+            <AccentLabel className="mb-md">
               Step {joinStep === "child" ? "1" : "2"} of 2
-            </p>
+            </AccentLabel>
+
             {joinStep === "child" ? (
               <>
-                <h3 className="v3-h3 text-charcoal mb-3">Start with your child.</h3>
-                <p className="text-on-surface-variant leading-relaxed mb-7">
+                <h3 className="type-sub-heading text-deep-purple">
+                  Start with your child.
+                </h3>
+                <p className="type-body-regular mt-sm text-slate-blue">
                   A little context helps us shape the village around the stage
                   your family is in.
                 </p>
 
-                <form onSubmit={handleChildStep} className="space-y-4">
-                  <label className="block text-sm font-medium text-charcoal px-1" htmlFor="waitlist-child-stage">
-                    What is your child's age or due date?
-                  </label>
-                  <select
-                    id="waitlist-child-stage"
-                    ref={inputRef}
-                    required
-                    value={childStage}
-                    onChange={(e) => setChildStage(e.target.value)}
-                    className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
-                  >
-                    <option value="">Select a stage</option>
-                    {CHILD_STAGES.map((stage) => (
-                      <option key={stage} value={stage}>{stage}</option>
-                    ))}
-                  </select>
+                <form onSubmit={handleChildStep} className="mt-lg flex flex-col gap-md">
+                  <div className="flex flex-col gap-xs">
+                    <Label htmlFor="waitlist-child-stage">
+                      What is your child&rsquo;s age or due date?
+                    </Label>
+                    <Select
+                      id="waitlist-child-stage"
+                      ref={inputRef}
+                      required
+                      value={childStage}
+                      onChange={(e) => setChildStage(e.target.value)}
+                    >
+                      <option value="">Select a stage</option>
+                      {CHILD_STAGES.map((stage) => (
+                        <option key={stage} value={stage}>
+                          {stage}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
 
-                  <label className="sr-only" htmlFor="waitlist-child-name">Child's name or nickname</label>
-                  <input
-                    id="waitlist-child-name"
-                    type="text"
-                    value={childName}
-                    onChange={(e) => setChildName(e.target.value)}
-                    placeholder="Child's name / nickname (optional)"
-                    className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
-                  />
+                  <div className="flex flex-col gap-xs">
+                    <Label htmlFor="waitlist-child-name">
+                      Child&rsquo;s name or nickname{" "}
+                      <span className="font-normal text-slate-blue">(optional)</span>
+                    </Label>
+                    <Input
+                      id="waitlist-child-name"
+                      type="text"
+                      value={childName}
+                      onChange={(e) => setChildName(e.target.value)}
+                      placeholder="Child's name / nickname"
+                    />
+                  </div>
 
-                  <button
-                    type="submit"
-                    className="w-full bg-charcoal text-surface-cream px-8 py-3.5 rounded-full font-medium text-lg hover:opacity-90 transition-opacity"
-                  >
+                  <Button type="submit" size="lg" className="w-full">
                     Continue
-                  </button>
+                  </Button>
                 </form>
               </>
             ) : (
               <>
-                <h3 className="v3-h3 text-charcoal mb-3">
-                  Save your family's place.
+                <h3 className="type-sub-heading text-deep-purple">
+                  Save your family&rsquo;s place.
                 </h3>
-                <p className="text-on-surface-variant leading-relaxed mb-7">
+                <p className="type-body-regular mt-sm text-slate-blue">
                   Be one of the founding families. What we build, we build with
                   you.
                 </p>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <label className="sr-only" htmlFor="waitlist-name">Parent name</label>
-                  <input
-                    id="waitlist-name"
-                    ref={inputRef}
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Parent name"
-                    className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
-                  />
-                  <label className="sr-only" htmlFor="waitlist-phone">Phone number</label>
-                  <input
-                    id="waitlist-phone"
-                    type="tel"
-                    required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="Phone number"
-                    className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
-                  />
-                  <p className="-mt-2 px-1 text-xs leading-relaxed text-on-surface-variant/70">
-                    We'll only use this for your waitlist spot and important
-                    launch updates. No spam, no selling your number.
-                  </p>
-                  <label className="sr-only" htmlFor="waitlist-email">Email address (optional)</label>
-                  <input
-                    id="waitlist-email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email"
-                    className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
-                  />
-                  {status === "error" && (
-                    <p className="text-sm text-error px-1" role="alert">{errorMessage}</p>
-                  )}
-                  <p className="px-1 text-xs leading-relaxed text-on-surface-variant/70">
+                <form onSubmit={handleSubmit} className="mt-lg flex flex-col gap-md">
+                  <div className="flex flex-col gap-xs">
+                    <Label htmlFor="waitlist-name">Parent name</Label>
+                    <Input
+                      id="waitlist-name"
+                      ref={inputRef}
+                      type="text"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Parent name"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-xs">
+                    <Label htmlFor="waitlist-phone">Phone number</Label>
+                    <Input
+                      id="waitlist-phone"
+                      type="tel"
+                      required
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="Phone number"
+                    />
+                    <Hint>
+                      We&rsquo;ll only use this for your waitlist spot and
+                      important launch updates. No spam, no selling your number.
+                    </Hint>
+                  </div>
+
+                  <div className="flex flex-col gap-xs">
+                    <Label htmlFor="waitlist-email">
+                      Email{" "}
+                      <span className="font-normal text-slate-blue">(optional)</span>
+                    </Label>
+                    <Input
+                      id="waitlist-email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Email"
+                    />
+                  </div>
+
+                  {status === "error" && <FieldError>{errorMessage}</FieldError>}
+
+                  <Hint>
                     By joining, you agree to hear from The Neighbourhood about
                     your place in the village. You can opt out anytime.
-                  </p>
-                  <button
+                  </Hint>
+
+                  <Button
                     type="submit"
+                    size="lg"
                     disabled={status === "loading"}
-                    className="w-full bg-charcoal text-surface-cream px-8 py-3.5 rounded-full font-medium text-lg hover:opacity-90 transition-opacity disabled:opacity-60"
+                    className="w-full"
                   >
                     {status === "loading" ? "Saving your place…" : "Join the Village"}
-                  </button>
+                  </Button>
                 </form>
 
-                <button
+                <Button
                   type="button"
+                  variant="quiet"
                   onClick={() => {
                     setStatus("form");
                     setErrorMessage("");
                     setJoinStep("child");
                     window.setTimeout(() => inputRef.current?.focus(), 0);
                   }}
-                  className="w-full text-center text-sm text-on-surface-variant/70 hover:text-charcoal transition-colors mt-5"
+                  className="mt-md w-full"
                 >
                   Back to child details
-                </button>
+                </Button>
               </>
             )}
 
-            <button
+            <Button
               type="button"
+              variant="quiet"
               onClick={() => {
                 setMode("lookup");
                 setJoinStep("child");
                 setErrorMessage("");
                 setStatus("form");
               }}
-              className="w-full text-center text-sm text-on-surface-variant/70 hover:text-charcoal transition-colors mt-6"
+              className="mt-sm w-full"
             >
               Already joined? Find your spot
-            </button>
+            </Button>
           </>
         )}
 
         {status !== "success" && mode === "lookup" && (
           <>
-            <p className="v3-eyebrow text-warm-taupe mb-4">Welcome back</p>
-            <h3 className="v3-h3 text-charcoal mb-3">Find your spot.</h3>
-            <p className="text-on-surface-variant leading-relaxed mb-7">
-              Enter the phone number you joined with, and we'll bring back
+            <AccentLabel className="mb-md">Welcome back</AccentLabel>
+
+            <h3 className="type-sub-heading text-deep-purple">Find your spot.</h3>
+            <p className="type-body-regular mt-sm text-slate-blue">
+              Enter the phone number you joined with, and we&rsquo;ll bring back
               your place in line and your referral link.
             </p>
 
-            <form onSubmit={handleLookup} className="space-y-4">
-              <label className="sr-only" htmlFor="waitlist-lookup-phone">Phone number</label>
-              <input
-                id="waitlist-lookup-phone"
-                type="tel"
-                required
-                value={lookupPhone}
-                onChange={(e) => setLookupPhone(e.target.value)}
-                placeholder="Phone number"
-                className="w-full px-5 py-3.5 rounded-full border border-warm-taupe/25 bg-white/60 text-charcoal placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-warm-taupe/40 focus:border-transparent"
-              />
-              {status === "error" && (
-                <p className="text-sm text-error px-1" role="alert">{errorMessage}</p>
-              )}
-              <button
+            <form onSubmit={handleLookup} className="mt-lg flex flex-col gap-md">
+              <div className="flex flex-col gap-xs">
+                <Label htmlFor="waitlist-lookup-phone">Phone number</Label>
+                <Input
+                  id="waitlist-lookup-phone"
+                  ref={inputRef}
+                  type="tel"
+                  required
+                  value={lookupPhone}
+                  onChange={(e) => setLookupPhone(e.target.value)}
+                  placeholder="Phone number"
+                />
+              </div>
+
+              {status === "error" && <FieldError>{errorMessage}</FieldError>}
+
+              <Button
                 type="submit"
+                size="lg"
                 disabled={status === "loading"}
-                className="w-full bg-charcoal text-surface-cream px-8 py-3.5 rounded-full font-medium text-lg hover:opacity-90 transition-opacity disabled:opacity-60"
+                className="w-full"
               >
                 {status === "loading" ? "Looking…" : "Find my spot"}
-              </button>
+              </Button>
             </form>
 
-            <button
+            <Button
               type="button"
+              variant="quiet"
               onClick={() => {
                 setMode("join");
                 setErrorMessage("");
                 setStatus("form");
               }}
-              className="w-full text-center text-sm text-on-surface-variant/70 hover:text-charcoal transition-colors mt-6"
+              className="mt-md w-full"
             >
               Back to join the waitlist
-            </button>
+            </Button>
           </>
         )}
 
         {status === "success" && result && (
           <div className="text-center">
-            <p className="v3-eyebrow text-warm-taupe mb-4">
+            <AccentLabel className="mb-md">
               {mode === "lookup" ? "Welcome back, neighbour" : "Welcome, neighbour"}
-            </p>
-            <h3 className="v3-h2 text-charcoal mb-3">
-              You're #{result.position} in line.
+            </AccentLabel>
+
+            <h3 className="type-section-heading text-deep-purple">
+              You&rsquo;re #{result.position} in line.
             </h3>
-            <p className="text-on-surface-variant leading-relaxed mb-7">
-              Know other parents who'd want this? Each neighbour you invite
+
+            <p className="type-body-regular mt-sm text-slate-blue">
+              Know other parents who&rsquo;d want this? Each neighbour you invite
               moves you up {REFERRAL_BOOST} places.
             </p>
-            <button
-              onClick={handleShare}
-              className="w-full bg-charcoal text-surface-cream px-8 py-3.5 rounded-full font-medium text-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-            >
-              <span className="material-symbols-outlined text-xl" aria-hidden="true">share</span>
+
+            <Button size="lg" onClick={handleShare} className="mt-lg w-full">
+              <span className="material-symbols-outlined" aria-hidden="true">
+                share
+              </span>
               {copied ? "Link copied" : "Invite your neighbours"}
-            </button>
+            </Button>
           </div>
         )}
       </div>

@@ -1,5 +1,8 @@
+import Section from "../ui/Section.jsx";
+import SectionHeading from "../ui/SectionHeading.jsx";
+import Card from "../ui/Card.jsx";
+import AccentLabel from "../ui/AccentLabel.jsx";
 import useScrollReveal from "../useScrollReveal.js";
-import WordReveal from "../WordReveal.jsx";
 
 const TRUTHS = [
   {
@@ -19,67 +22,63 @@ const TRUTHS = [
   },
 ];
 
-function Truth({ truth }) {
-  const { ref, inView } = useScrollReveal(0.3);
+function TruthCard({ truth, index }) {
+  const { ref, inView } = useScrollReveal(0.25);
 
   return (
-    <div
+    <Card
       ref={ref}
-      className={`v3-fade ${inView ? "in-view" : ""} grid md:grid-cols-12 gap-4 md:gap-8 py-12 md:py-14 border-t border-warm-taupe/15`}
+      surface="white"
+      elevated
+      className={`reveal ${inView ? "in-view" : ""} h-full`}
+      data-delay={String(index + 1)}
     >
-      <span className="md:col-span-1 v3-eyebrow text-soft-sand pt-2" aria-hidden="true">
+      <AccentLabel tone="golden-amber" aria-hidden="true">
         {truth.number}
-      </span>
-      <h3 className="md:col-span-5 -ml-3 v3-h3 text-charcoal">{truth.title}</h3>
-      <p className="md:col-span-6 v3-body-lg text-on-surface-variant max-w-xl">
-        {truth.body}
-      </p>
-    </div>
+      </AccentLabel>
+
+      <h3 className="type-card-heading mt-md text-deep-purple">{truth.title}</h3>
+
+      <p className="type-body-regular mt-sm text-slate-blue">{truth.body}</p>
+    </Card>
   );
 }
 
 /**
  * Section 3 — Why We Exist.
  *
- * Mirrors the main homepage copy while keeping the /next anchor stable for
- * the V4 navbar.
+ * The reference states a problem as a heading plus a lead, then answers
+ * it in an evenly-weighted card row on the Off White wash. Three cards,
+ * one radius, one shadow — the system's card corner throughout, no
+ * bespoke geometry.
  */
 export default function TheQuestion() {
-  const closing = useScrollReveal(0.4);
+  const closing = useScrollReveal(0.3);
 
   return (
-    <section
-      id="the-question"
-      className="py-section-gap md:py-32 px-margin-mobile md:px-gutter max-w-container-max mx-auto"
-    >
-      <div className="max-w-3xl mb-16 md:mb-20">
-        <p className="v3-eyebrow text-warm-taupe mb-6">Why we exist</p>
-        <WordReveal
-          text="You love your child more than anything. Some days, raising them is still a lot."
-          className="v3-h2 text-charcoal"
-        />
-        <p className="v3-body-lg text-on-surface-variant mt-6 max-w-2xl">
-          That's not a contradiction, and it isn't a failing. Parenting today
-          asks one person — sometimes two — to do what an entire neighbourhood
-          once did together.
-        </p>
-      </div>
+    <Section id="the-question">
+      <SectionHeading
+        label="Why we exist"
+        title="You love your child more than anything. Some days, raising them is still a lot."
+        lead="That's not a contradiction, and it isn't a failing. Parenting today asks one person — sometimes two — to do what an entire neighbourhood once did together."
+        align="center"
+      />
 
-      <div>
-        {TRUTHS.map((truth) => (
-          <Truth key={truth.number} truth={truth} />
+      <div className="mt-3xl grid gap-component-gap md:grid-cols-3">
+        {TRUTHS.map((truth, i) => (
+          <TruthCard key={truth.number} truth={truth} index={i} />
         ))}
       </div>
 
       <div
         ref={closing.ref}
-        className={`v3-fade ${closing.inView ? "in-view" : ""} border-t border-warm-taupe/15 pt-14 md:pt-16 max-w-3xl`}
+        className={`reveal ${closing.inView ? "in-view" : ""} mx-auto mt-3xl max-w-measure-lg text-center`}
       >
-        <p className="v3-serif text-2xl md:text-[1.75rem] leading-relaxed text-charcoal">
+        <p className="type-sub-heading text-deep-purple">
           None of this is your fault. The support systems were dismantled long
           before you became a parent.
         </p>
       </div>
-    </section>
+    </Section>
   );
 }

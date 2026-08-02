@@ -14,9 +14,9 @@ export default function FaqPage() {
   const openWaitlist = () => setWaitlistOpen(true);
 
   return (
-    <div className="overflow-x-clip bg-surface-cream">
+    <div className="overflow-x-clip bg-cream-peach">
       <NavbarV3 onJoin={openWaitlist} links={V4_LINKS} />
-      <main className="pt-16 md:pt-20">
+      <main className="pt-3xl">
         <Faq />
       </main>
       <FooterV3 />

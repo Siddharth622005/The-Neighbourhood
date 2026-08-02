@@ -1,91 +1,81 @@
 import { useState } from "react";
+import Section from "../ui/Section.jsx";
+import SectionHeading from "../ui/SectionHeading.jsx";
+import Card from "../ui/Card.jsx";
+import AccentLabel from "../ui/AccentLabel.jsx";
 import useScrollReveal from "../useScrollReveal.js";
 import stages from "../../data/timelineSummary.js";
 
 /**
- * Section 4 — The Long Arc. (Timeline + Progress Insights, merged.)
+ * Section 6 — The Long Arc.
  *
- * Two sections in the brief made the same point — "we show growth over
- * time" — so they're one section here. The timeline covers the road
- * ahead; the anti-comparison line covers progress honestly, without
- * mocking up a dashboard for a product that has no users yet.
+ * Milestones are real — derived from src/data/journeyStages.json, the
+ * same nine stages the product uses. The page reads a generated summary
+ * (npm run gen:timeline) rather than the full dataset.
  *
- * Milestones are real — derived from src/data/journeyStages.json, the same
- * fifteen stages the product uses. The page reads a generated summary
- * (npm run gen:timeline) rather than the full dataset, which would put a
- * ~57KB gzip chunk on a marketing page to render 45 short strings.
+ * The previous copy claimed "fifteen stages" and labelled node indices
+ * 12 and 14, which the nine-stage dataset has never contained. Both are
+ * corrected to match the data.
+ *
+ * The track and its nodes are built from palette tokens only: Lavender
+ * Mist for the unfilled rail, Warm Orange for the drawn line, Golden
+ * Amber for the selected node.
  */
 
-// Only a few labels are drawn, so fifteen nodes never read as clutter.
-const LABELLED = new Set([0, 4, 8, 12, 14]);
+// Only a few labels are drawn, so the node row never reads as clutter.
+const LABELLED = new Set([0, 4, 8]);
 
 export default function LongArc() {
   const { ref, inView } = useScrollReveal(0.15);
-  const [active, setActive] = useState(4); // 12–15 months: first steps, a recognisable moment
+  const [active, setActive] = useState(4); // 1–2 years: first steps
 
   const stage = stages[active];
   const highlights = stage.highlights;
 
   return (
-    <section
-      ref={ref}
-      id="long-arc"
-      className="max-w-container-max mx-auto px-margin-mobile md:px-gutter py-24 md:py-36"
-    >
-      <div className="max-w-2xl">
-        <h2 className={`v3-fade ${inView ? "in-view" : ""} v3-h2 text-charcoal`}>
-          Every child on their own clock.
-        </h2>
-        <p
-          className={`v3-fade ${inView ? "in-view" : ""} v3-serif text-warm-taupe text-xl md:text-2xl mt-5`}
-          data-delay="1"
-        >
-          Development isn&rsquo;t a checklist. It&rsquo;s a long, uneven,
-          beautiful line.
-        </p>
-        <p
-          className={`v3-fade ${inView ? "in-view" : ""} v3-body-lg text-on-surface-variant mt-6`}
-          data-delay="2"
-        >
-          The Neighbourhood follows fifteen stages from birth to six years —
-          across motor, communication, social and cognitive growth — and
-          remembers all of it, so you don&rsquo;t have to.
-        </p>
-      </div>
+    <Section id="long-arc" surface="off-white">
+      <SectionHeading
+        label="The long arc"
+        title="Every child on their own clock."
+        lead="The Neighbourhood follows nine stages from birth to six years — across motor, communication, social and cognitive growth — and remembers all of it, so you don't have to."
+        align="center"
+      />
 
-      {/* Timeline */}
-      <div className={`v3-fade ${inView ? "in-view" : ""} mt-16 md:mt-20`} data-delay="2">
+      <div ref={ref} className={`reveal ${inView ? "in-view" : ""} mt-3xl`} data-delay="1">
         <div className="relative">
           {/* The line draws itself, once. */}
-          <div className="absolute left-0 right-0 top-[7px] h-px bg-soft-sand/40" aria-hidden="true" />
+          <div
+            className="absolute inset-x-0 top-[7px] h-px bg-lavender-mist"
+            aria-hidden="true"
+          />
           <div
             aria-hidden="true"
-            className="absolute left-0 right-0 top-[7px] h-px bg-warm-taupe origin-left transition-transform duration-[900ms] ease-out"
+            className="absolute inset-x-0 top-[7px] h-px origin-left bg-warm-orange transition-transform duration-[900ms] ease-out"
             style={{ transform: inView ? "scaleX(1)" : "scaleX(0)" }}
           />
 
-          <ul className="relative flex justify-between items-start">
+          <ul className="relative flex items-start justify-between">
             {stages.map((s, i) => {
               const isActive = i === active;
               return (
-                <li key={s.id} className="flex-1 flex flex-col items-center">
+                <li key={s.id} className="flex flex-1 flex-col items-center">
                   <button
                     onClick={() => setActive(i)}
                     onMouseEnter={() => setActive(i)}
                     aria-label={`Show milestones for ${s.label}`}
                     aria-pressed={isActive}
-                    className="group p-2 -m-2"
+                    className="group -m-xs p-xs"
                   >
                     <span
-                      className={`block rounded-full transition-all duration-300 ${
+                      className={`block rounded-circle transition-all duration-300 ${
                         isActive
-                          ? "w-[15px] h-[15px] bg-warm-taupe"
-                          : "w-[9px] h-[9px] bg-soft-sand group-hover:bg-warm-taupe/60"
+                          ? "h-[15px] w-[15px] bg-golden-amber"
+                          : "h-[9px] w-[9px] bg-lavender-mist group-hover:bg-warm-orange"
                       }`}
                     />
                   </button>
                   {LABELLED.has(i) && (
-                    <span className="mt-3 hidden md:block text-[11px] tracking-wide text-on-surface-variant whitespace-nowrap">
+                    <span className="type-caption mt-sm hidden whitespace-nowrap text-slate-blue md:block">
                       {s.label}
                     </span>
                   )}
@@ -96,28 +86,27 @@ export default function LongArc() {
         </div>
 
         {/* Selected stage */}
-        <div className="mt-12 md:mt-14 min-h-[190px]">
-          <p className="v3-eyebrow text-warm-taupe">{stage.label}</p>
-          <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 max-w-5xl">
+        <Card surface="white" elevated className="mt-2xl min-h-[220px]">
+          <AccentLabel>{stage.label}</AccentLabel>
+
+          <div className="mt-lg grid gap-lg sm:grid-cols-2 lg:grid-cols-4">
             {highlights.map((h) => (
               <div key={h.domain}>
-                <p className="text-[11px] uppercase tracking-[0.16em] text-on-surface-variant/70">
-                  {h.domain}
-                </p>
-                <p className="mt-2 text-lg leading-snug text-charcoal">{h.milestone}</p>
+                <p className="type-caption text-warm-orange uppercase">{h.domain}</p>
+                <p className="type-body-regular mt-xs text-deep-purple">{h.milestone}</p>
               </div>
             ))}
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* The position, stated plainly. */}
       <p
-        className={`v3-fade ${inView ? "in-view" : ""} mt-14 md:mt-16 text-xl md:text-2xl font-medium text-charcoal`}
+        className={`reveal ${inView ? "in-view" : ""} type-sub-heading mt-2xl text-center text-deep-purple`}
         data-delay="3"
       >
         No percentiles. No rankings. No other children.
       </p>
-    </section>
+    </Section>
   );
 }

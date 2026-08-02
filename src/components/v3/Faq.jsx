@@ -1,6 +1,7 @@
 import { useState } from "react";
+import Section from "../ui/Section.jsx";
+import SectionHeading from "../ui/SectionHeading.jsx";
 import useScrollReveal from "../useScrollReveal.js";
-import WordReveal from "../WordReveal.jsx";
 
 // Honest answers only. Where we don't know something yet (like pricing),
 // we say so — that IS the trust strategy.
@@ -37,17 +38,17 @@ const FAQS = [
 
 function FaqItem({ item, open, onToggle }) {
   return (
-    <div className="border-t border-warm-taupe/15 last:border-b">
+    <div className="border-b border-lavender-mist">
       <button
         onClick={onToggle}
         aria-expanded={open}
-        className="w-full flex items-center justify-between gap-6 py-6 text-left group"
+        className="group flex w-full items-center justify-between gap-lg py-lg text-left"
       >
-        <span className="v3-h3 text-charcoal group-hover:text-warm-taupe transition-colors duration-200">
+        <span className="type-sub-heading text-deep-purple transition-colors duration-200 group-hover:text-warm-orange">
           {item.q}
         </span>
         <span
-          className={`material-symbols-outlined text-warm-taupe flex-shrink-0 transition-transform duration-300 ${
+          className={`material-symbols-outlined shrink-0 text-warm-orange transition-transform duration-300 ${
             open ? "rotate-45" : ""
           }`}
           aria-hidden="true"
@@ -55,13 +56,16 @@ function FaqItem({ item, open, onToggle }) {
           add
         </span>
       </button>
+
       <div
         className={`grid transition-[grid-template-rows] duration-300 ease-out ${
           open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
         }`}
       >
         <div className="overflow-hidden">
-          <p className="v3-body-lg text-on-surface-variant max-w-2xl pb-7">{item.a}</p>
+          <p className="type-body-regular max-w-measure-xl pb-lg text-slate-blue">
+            {item.a}
+          </p>
         </div>
       </div>
     </div>
@@ -70,26 +74,29 @@ function FaqItem({ item, open, onToggle }) {
 
 export default function Faq() {
   const [openIndex, setOpenIndex] = useState(0);
-  const { ref, inView } = useScrollReveal(0.2);
+  const { ref, inView } = useScrollReveal(0.15);
 
   return (
-    <section id="faq" className="py-section-gap md:py-32 px-margin-mobile md:px-gutter max-w-container-max mx-auto">
-      <div className="grid lg:grid-cols-12 gap-12">
-        <div className="lg:col-span-4">
-          <p className="v3-eyebrow text-warm-taupe mb-6">Questions</p>
-          <WordReveal text="You're right to ask." className="v3-h2 text-charcoal" />
-        </div>
-        <div ref={ref} className={`v3-fade ${inView ? "in-view" : ""} lg:col-span-8`}>
-          {FAQS.map((item, i) => (
-            <FaqItem
-              key={item.q}
-              item={item}
-              open={openIndex === i}
-              onToggle={() => setOpenIndex(openIndex === i ? -1 : i)}
-            />
-          ))}
-        </div>
+    <Section id="faq">
+      <SectionHeading
+        label="Questions"
+        title="You're right to ask."
+        align="center"
+      />
+
+      <div
+        ref={ref}
+        className={`reveal ${inView ? "in-view" : ""} mx-auto mt-2xl max-w-measure-xl border-t border-lavender-mist`}
+      >
+        {FAQS.map((item, i) => (
+          <FaqItem
+            key={item.q}
+            item={item}
+            open={openIndex === i}
+            onToggle={() => setOpenIndex(openIndex === i ? -1 : i)}
+          />
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }

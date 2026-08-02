@@ -1,9 +1,12 @@
+import Section from "../ui/Section.jsx";
+import SectionHeading from "../ui/SectionHeading.jsx";
+import Card from "../ui/Card.jsx";
+import AccentLabel from "../ui/AccentLabel.jsx";
 import useScrollReveal from "../useScrollReveal.js";
-import WordReveal from "../WordReveal.jsx";
 
 // Our values, spoken like a person instead of a values poster. The five
-// words are Esther Wojcicki's TRICK framework — so the oversized taupe
-// initial on each line isn't only a drop cap, it spells the acronym
+// words are Esther Wojcicki's TRICK framework — so the oversized amber
+// initial on each card isn't only a drop cap, it spells the acronym
 // down the column.
 const VALUES = [
   {
@@ -29,41 +32,40 @@ const VALUES = [
 ];
 
 export default function Values() {
-  const { ref, inView } = useScrollReveal(0.2);
+  const { ref, inView } = useScrollReveal(0.15);
 
   return (
-    <section id="values" className="py-section-gap md:py-32 px-margin-mobile md:px-gutter max-w-container-max mx-auto">
-      <div className="grid lg:grid-cols-12 gap-12">
-        <div className="lg:col-span-4">
-          <p className="v3-eyebrow text-warm-taupe mb-6">How we behave</p>
-          <WordReveal
-            text="Values we live by."
-            className="v3-h2 text-charcoal"
-          />
-          <p className="text-on-surface-variant leading-relaxed mt-6 max-w-xs">
-            Built on <span className="text-charcoal font-medium">TRICK</span> &mdash; Esther
-            Wojcicki&rsquo;s five principles for raising capable, grounded kids.
-          </p>
-        </div>
+    <Section id="values">
+      <SectionHeading
+        label="How we behave"
+        title="Values we live by."
+        lead="Built on TRICK — Esther Wojcicki's five principles for raising capable, grounded kids."
+        align="center"
+      />
 
-        <div ref={ref} className="lg:col-span-8">
-          {VALUES.map((v, i) => (
-            <div
-              key={v.word}
-              className={`v3-fade ${inView ? "in-view" : ""} py-6 border-t border-warm-taupe/15 last:border-b`}
-              style={{ transitionDelay: `${i * 90}ms` }}
-            >
-              <div className="flex flex-col md:flex-row md:items-baseline md:gap-8">
-                <p className="v3-serif text-charcoal text-xl md:w-52 flex-shrink-0">
-                  <span className="text-3xl text-warm-taupe">{v.word[0]}</span>
-                  <span>{v.word.slice(1)}</span>
-                </p>
-                <p className="text-on-surface-variant leading-relaxed">{v.line}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+      <div ref={ref} className="mt-3xl grid gap-component-gap md:grid-cols-2 lg:grid-cols-3">
+        {VALUES.map((v, i) => (
+          <Card
+            key={v.word}
+            surface="white"
+            elevated
+            className={`reveal ${inView ? "in-view" : ""} h-full`}
+            data-delay={String((i % 4) + 1)}
+          >
+            <h3 className="type-section-heading text-deep-purple">
+              <span className="text-warm-orange">{v.word[0]}</span>
+              {v.word.slice(1)}
+            </h3>
+            <p className="type-body-regular mt-sm text-slate-blue">{v.line}</p>
+          </Card>
+        ))}
+
+        <Card surface="light-amber" bordered={false} className="flex h-full items-center justify-center">
+          <AccentLabel tone="deep-purple" className="text-center">
+            T R I C K
+          </AccentLabel>
+        </Card>
       </div>
-    </section>
+    </Section>
   );
 }

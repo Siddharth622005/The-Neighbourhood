@@ -1,424 +1,656 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
 
-body {
-  background-color: #E8DDD1; /* surface-cream fallback */
-  color: #2c2c2c;
-  -webkit-font-smoothing: antialiased;
-}
+/* ==================================================================== */
+/* DESIGN TOKENS                                                        */
+/*                                                                      */
+/* Reproduced verbatim from the uploaded design system                  */
+/* (baby-led-weaning-india-by-riddhi-verma-design.css / .json /         */
+/* DESIGN.md). These are the single source of truth — nothing in this   */
+/* codebase should hardcode a colour, radius, or spacing value.         */
+/* ==================================================================== */
+@theme {
+  /* Colors */
+  --color-deep-purple: #49326b;
+  --color-white: #ffffff;
+  --color-golden-amber: #ffbd59;
+  --color-slate-blue: #385469;
+  --color-warm-orange: #f39f5f;
+  --color-cream-peach: #fff8ed;
+  --color-light-amber: #f8daab;
+  --color-lavender-mist: #c9bae0;
+  --color-off-white: #fdf9f7;
 
-.material-symbols-outlined {
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
-}
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 10px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 30px;
+  --spacing-2xl: 50px;
+  --spacing-3xl: 100px;
+  --spacing-base-unit: 15px;
+  --spacing-component-gap: 22px;
+  --spacing-section-pad: 32px;
+  --spacing-section-pad-lg: 40px;
+  --spacing-section-pad-xl: 48px;
 
-.hero-graphic-bg {
-  background-image: radial-gradient(circle at 50% 50%, rgba(210, 180, 140, 0.1) 0%, transparent 70%);
-}
+  /* Border Radius */
+  --radius-pill: 22px;
+  --radius-rounded: 30px;
+  --radius-circle: 100px;
+  --radius-soft: 10px;
+  --radius-card: 17px;
 
-.bento-card {
-  background-color: rgba(255, 252, 247, 0.75);
-  border: 1px solid rgba(139, 115, 85, 0.18);
-  box-shadow: 0 2px 16px rgba(139, 115, 85, 0.08), 0 1px 4px rgba(44, 44, 44, 0.04);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+  /* Fonts */
+  --font-capriola: "Capriola", sans-serif;
+  --font-love-ya-like-a-sister: "Love Ya Like A Sister", sans-serif;
+  --font-source-sans-pro: "Source Sans Pro", sans-serif;
 
-.bento-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 32px rgba(139, 115, 85, 0.14), 0 2px 8px rgba(44, 44, 44, 0.06);
-}
+  /* ------------------------------------------------------------------ */
+  /* Elevation. DESIGN.md lists exactly one validated shadow token, and  */
+  /* is explicit that depth stays flat beyond that evidence boundary —   */
+  /* so this is the only shadow in the system.                           */
+  /* ------------------------------------------------------------------ */
+  --shadow-subtle-lift: 0px 0px 3px 0px rgba(0, 0, 0, 0.15);
 
-.bento-card.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease-out;
-}
+  /* ------------------------------------------------------------------ */
+  /* Legacy semantic aliases.                                            */
+  /*                                                                     */
+  /* /today and /day are product surfaces, not marketing pages, and were */
+  /* written against the previous palette's names. Rather than leave     */
+  /* them on the old colours (an incoherent half-redesigned site) or     */
+  /* rewrite ~1,400 lines of app UI, each old name is re-pointed at its  */
+  /* closest role in the reference palette, so those routes inherit the  */
+  /* new colours automatically. No new colour meaning is invented.       */
+  /* ------------------------------------------------------------------ */
+  --color-charcoal: var(--color-deep-purple);
+  --color-on-surface-variant: var(--color-slate-blue);
+  --color-warm-taupe: var(--color-warm-orange);
+  --color-soft-sand: var(--color-light-amber);
+  --color-sage: var(--color-lavender-mist);
+  --color-surface-cream: var(--color-cream-peach);
+  --color-surface-variant: var(--color-off-white);
+  --color-surface-container-low: var(--color-off-white);
+  --color-error: #ba1a1a;
 
-.bento-card.reveal.in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Stagger reveal for individual items */
-.stagger-item {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.55s ease-out, transform 0.55s ease-out;
-}
-
-.stagger-item.in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.stagger-item:nth-child(1) { transition-delay: 0ms; }
-.stagger-item:nth-child(2) { transition-delay: 100ms; }
-.stagger-item:nth-child(3) { transition-delay: 200ms; }
-.stagger-item:nth-child(4) { transition-delay: 300ms; }
-.stagger-item:nth-child(5) { transition-delay: 400ms; }
-.stagger-item:nth-child(6) { transition-delay: 500ms; }
-
-/* Generic scroll reveal (fade + slide up) */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-}
-
-.reveal.in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Story timeline: connecting line draws downward on reveal */
-.story-line {
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.story-line.in-view {
-  transform: scaleY(1);
-}
-
-/* Story number badge: pop in with slight overshoot */
-.story-badge {
-  opacity: 0;
-  transform: scale(0.6);
-  transition: opacity 0.5s ease-out, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.story-badge.in-view {
-  opacity: 1;
-  transform: scale(1);
+  /* ------------------------------------------------------------------ */
+  /* Measure widths.                                                     */
+  /*                                                                     */
+  /* These live in the --container-* namespace and are named             */
+  /* deliberately, because the design system's named --spacing-* keys    */
+  /* (xl, 2xl, 3xl…) collide with Tailwind v4's default max-w-* sizes of */
+  /* the same name and win. Using max-w-3xl here would silently resolve  */
+  /* to --spacing-3xl (100px) instead of 48rem. So the layout never uses */
+  /* Tailwind's default width scale — only these explicit tokens.        */
+  /* ------------------------------------------------------------------ */
+  --container-page: 1200px;
+  --container-measure-sm: 420px;
+  --container-measure: 560px;
+  --container-measure-lg: 680px;
+  --container-measure-xl: 800px;
 }
 
-/* Blob float animation */
-@keyframes blobFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%       { transform: translate(8px, -12px) scale(1.03); }
-  66%       { transform: translate(-6px, 6px) scale(0.97); }
+/* ==================================================================== */
+/* TYPOGRAPHY VARIABLES                                                 */
+/* Copied verbatim from the uploaded CSS-variables file. Consumed by     */
+/* the .type-* classes below so no component ever states a font size.    */
+/* ==================================================================== */
+:root {
+  --font-hero-display-family: var(--font-capriola);
+  --font-hero-display-size: 54px;
+  --font-hero-display-weight: 400;
+  --font-hero-display-line-height: 59.4px;
+
+  --font-section-heading-family: var(--font-capriola);
+  --font-section-heading-size: 30px;
+  --font-section-heading-weight: 400;
+  --font-section-heading-line-height: 40px;
+
+  --font-sub-heading-family: var(--font-capriola);
+  --font-sub-heading-size: 22px;
+  --font-sub-heading-weight: 400;
+  --font-sub-heading-line-height: 28px;
+
+  --font-card-heading-family: var(--font-capriola);
+  --font-card-heading-size: 18px;
+  --font-card-heading-weight: 400;
+  --font-card-heading-line-height: 23.4px;
+
+  --font-accent-label-family: var(--font-love-ya-like-a-sister);
+  --font-accent-label-size: 16px;
+  --font-accent-label-weight: 500;
+  --font-accent-label-line-height: 16px;
+  --font-accent-label-letter-spacing: 4px;
+
+  --font-body-regular-family: var(--font-source-sans-pro);
+  --font-body-regular-size: 16px;
+  --font-body-regular-weight: 400;
+  --font-body-regular-line-height: 27.2px;
+
+  --font-body-large-family: var(--font-source-sans-pro);
+  --font-body-large-size: 20px;
+  --font-body-large-weight: 400;
+  --font-body-large-line-height: 28px;
+
+  --font-body-small-bold-family: var(--font-source-sans-pro);
+  --font-body-small-bold-size: 14px;
+  --font-body-small-bold-weight: 700;
+  --font-body-small-bold-line-height: 27.2px;
+
+  --font-caption-family: var(--font-source-sans-pro);
+  --font-caption-size: 12px;
+  --font-caption-weight: 700;
+  --font-caption-line-height: 19.2px;
+
+  /* Mobile-tier display sizes. DESIGN.md's responsive strategy is
+     "constrain layout for small viewports"; the type ramp steps down
+     proportionally rather than introducing new scale steps. */
+  --font-hero-display-size-mobile: 36px;
+  --font-hero-display-line-height-mobile: 42px;
+  --font-section-heading-size-mobile: 26px;
+  --font-section-heading-line-height-mobile: 34px;
 }
 
-.blob-float {
-  animation: blobFloat 8s ease-in-out infinite;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* The fixed nav is 72px; anchored sections must clear it. */
+    scroll-padding-top: var(--spacing-3xl);
+  }
+
+  body {
+    background-color: var(--color-cream-peach);
+    color: var(--color-deep-purple);
+    font-family: var(--font-body-regular-family);
+    font-size: var(--font-body-regular-size);
+    font-weight: var(--font-body-regular-weight);
+    line-height: var(--font-body-regular-line-height);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-golden-amber);
+    color: var(--color-deep-purple);
+  }
+
+  /* The system's one interaction signal for focus: a 3px outline in a
+     palette colour (DESIGN.md → Interaction Signals). */
+  :focus-visible {
+    outline: 3px solid var(--color-deep-purple);
+    outline-offset: 2px;
+    border-radius: var(--radius-soft);
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  }
 }
 
-.blob-float-slow {
-  animation: blobFloat 12s ease-in-out infinite reverse;
+/* ==================================================================== */
+/* TYPE SCALE                                                           */
+/* One class per row of the DESIGN.md type table. Components pick a      */
+/* role; they never pick a size.                                         */
+/* ==================================================================== */
+@layer components {
+  .type-hero-display {
+    font-family: var(--font-hero-display-family);
+    font-size: var(--font-hero-display-size-mobile);
+    font-weight: var(--font-hero-display-weight);
+    line-height: var(--font-hero-display-line-height-mobile);
+  }
+
+  .type-section-heading {
+    font-family: var(--font-section-heading-family);
+    font-size: var(--font-section-heading-size-mobile);
+    font-weight: var(--font-section-heading-weight);
+    line-height: var(--font-section-heading-line-height-mobile);
+  }
+
+  .type-sub-heading {
+    font-family: var(--font-sub-heading-family);
+    font-size: var(--font-sub-heading-size);
+    font-weight: var(--font-sub-heading-weight);
+    line-height: var(--font-sub-heading-line-height);
+  }
+
+  .type-card-heading {
+    font-family: var(--font-card-heading-family);
+    font-size: var(--font-card-heading-size);
+    font-weight: var(--font-card-heading-weight);
+    line-height: var(--font-card-heading-line-height);
+  }
+
+  .type-accent-label {
+    font-family: var(--font-accent-label-family);
+    font-size: var(--font-accent-label-size);
+    font-weight: var(--font-accent-label-weight);
+    line-height: var(--font-accent-label-line-height);
+    letter-spacing: var(--font-accent-label-letter-spacing);
+    text-transform: uppercase;
+  }
+
+  .type-body-regular {
+    font-family: var(--font-body-regular-family);
+    font-size: var(--font-body-regular-size);
+    font-weight: var(--font-body-regular-weight);
+    line-height: var(--font-body-regular-line-height);
+  }
+
+  .type-body-large {
+    font-family: var(--font-body-large-family);
+    font-size: var(--font-body-large-size);
+    font-weight: var(--font-body-large-weight);
+    line-height: var(--font-body-large-line-height);
+  }
+
+  .type-body-small-bold {
+    font-family: var(--font-body-small-bold-family);
+    font-size: var(--font-body-small-bold-size);
+    font-weight: var(--font-body-small-bold-weight);
+    line-height: var(--font-body-small-bold-line-height);
+  }
+
+  .type-caption {
+    font-family: var(--font-caption-family);
+    font-size: var(--font-caption-size);
+    font-weight: var(--font-caption-weight);
+    line-height: var(--font-caption-line-height);
+  }
+
+  /* Desktop tier restores the extracted display sizes exactly. */
+  @media (min-width: 768px) {
+    .type-hero-display {
+      font-size: var(--font-hero-display-size);
+      line-height: var(--font-hero-display-line-height);
+    }
+
+    .type-section-heading {
+      font-size: var(--font-section-heading-size);
+      line-height: var(--font-section-heading-line-height);
+    }
+  }
 }
 
-/* Character slide-in from bottom */
-@keyframes slideInUp {
-  from { opacity: 0; transform: translateY(60px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* ==================================================================== */
+/* LEGACY TYPE ALIASES                                                  */
+/*                                                                      */
+/* /today and /day still author against the previous type vocabulary    */
+/* (.v3-*). Each old class is re-pointed at its equivalent role in the  */
+/* reference scale, so those routes render in Capriola / Source Sans    */
+/* Pro at the extracted sizes instead of the retired Inter ramp. No new */
+/* type roles are introduced — these are aliases, not additions.        */
+/* ==================================================================== */
+@layer components {
+  .v3-display {
+    font-family: var(--font-hero-display-family);
+    font-size: var(--font-hero-display-size-mobile);
+    font-weight: var(--font-hero-display-weight);
+    line-height: var(--font-hero-display-line-height-mobile);
+  }
+
+  .v3-h2 {
+    font-family: var(--font-section-heading-family);
+    font-size: var(--font-section-heading-size-mobile);
+    font-weight: var(--font-section-heading-weight);
+    line-height: var(--font-section-heading-line-height-mobile);
+  }
+
+  .v3-h3 {
+    font-family: var(--font-sub-heading-family);
+    font-size: var(--font-sub-heading-size);
+    font-weight: var(--font-sub-heading-weight);
+    line-height: var(--font-sub-heading-line-height);
+  }
+
+  .v3-eyebrow {
+    font-family: var(--font-accent-label-family);
+    font-size: var(--font-accent-label-size);
+    font-weight: var(--font-accent-label-weight);
+    line-height: var(--font-accent-label-line-height);
+    letter-spacing: var(--font-accent-label-letter-spacing);
+    text-transform: uppercase;
+  }
+
+  /* The old emotional accent was Playfair Display italic. The reference
+     system has no italic serif role, so this maps to the display face —
+     the same job (emphasis) in the system's own voice. */
+  .v3-serif {
+    font-family: var(--font-capriola);
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  .v3-body-lg {
+    font-family: var(--font-body-large-family);
+    font-size: var(--font-body-large-size);
+    font-weight: var(--font-body-large-weight);
+    line-height: var(--font-body-large-line-height);
+  }
+
+  @media (min-width: 768px) {
+    .v3-display {
+      font-size: var(--font-hero-display-size);
+      line-height: var(--font-hero-display-line-height);
+    }
+
+    .v3-h2 {
+      font-size: var(--font-section-heading-size);
+      line-height: var(--font-section-heading-line-height);
+    }
+  }
+
+  .v3-fade {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.8s ease-out,
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .v3-fade.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .v3-fade[data-delay="1"] { transition-delay: 120ms; }
+  .v3-fade[data-delay="2"] { transition-delay: 240ms; }
+  .v3-fade[data-delay="3"] { transition-delay: 360ms; }
+
+  .v3-enter {
+    animation: enterUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .v3-enter[data-delay="1"] { animation-delay: 150ms; }
+  .v3-enter[data-delay="2"] { animation-delay: 300ms; }
+  .v3-enter[data-delay="3"] { animation-delay: 450ms; }
+  .v3-enter[data-delay="4"] { animation-delay: 600ms; }
 }
 
-.character-reveal {
-  animation: slideInUp 1s ease-out 0.4s both;
+/* ==================================================================== */
+/* SIGNATURE SHAPES                                                     */
+/* "Rounded pill-shaped buttons, dashed orange illustration outlines,    */
+/*  and organic blob-shaped photo frames" — DESIGN.md overview.          */
+/* ==================================================================== */
+@layer components {
+  /* Organic blob photo frame. Four asymmetric radii, softened further on
+     hover so the shape feels drawn rather than generated. */
+  .blob-frame {
+    border-radius: 62% 38% 46% 54% / 54% 44% 56% 46%;
+    overflow: hidden;
+    transition: border-radius 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .blob-frame:hover {
+    border-radius: 44% 56% 60% 40% / 42% 58% 42% 58%;
+  }
+
+  .blob-frame-alt {
+    border-radius: 48% 52% 62% 38% / 58% 40% 60% 42%;
+    overflow: hidden;
+    transition: border-radius 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .blob-frame-alt:hover {
+    border-radius: 58% 42% 40% 60% / 44% 56% 44% 56%;
+  }
+
+  /* Dashed decorative outline, in the colour DESIGN.md assigns the role
+     ("Illustration outlines, dashed decorative borders"). */
+  .dashed-outline {
+    border: 2px dashed var(--color-warm-orange);
+  }
 }
 
-/* ---------------------------------------------------------------- */
-/* V3 animation vocabulary                                          */
-/* ---------------------------------------------------------------- */
+/* ==================================================================== */
+/* MOTION                                                               */
+/* Soft, unhurried entrances only — nothing that competes with the type. */
+/* ==================================================================== */
+@layer components {
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.8s ease-out,
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
 
-/* Word-by-word headline reveal: each word rises out of its own
-   overflow-hidden slot. Delay is set inline per word by WordReveal. */
-.word-reveal-inner {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(110%);
-  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease-out;
-  /* per-word transition-delay is set inline by WordReveal */
-}
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-.word-reveal.in-view .word-reveal-inner {
-  opacity: 1;
-  transform: translateY(0);
-}
+  .reveal[data-delay="1"] { transition-delay: 120ms; }
+  .reveal[data-delay="2"] { transition-delay: 240ms; }
+  .reveal[data-delay="3"] { transition-delay: 360ms; }
+  .reveal[data-delay="4"] { transition-delay: 480ms; }
 
-/* ---------------------------------------------------------------- */
-/* V3 redesign vocabulary (calm, editorial)                          */
-/* ---------------------------------------------------------------- */
+  /* Same feel, but keyframe-driven so the hero plays on mount. */
+  @keyframes enterUp {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
-/* Type system. Inter carries everything; Playfair Display appears only
-   as .v3-serif — italic emotional accents, hero emphasis, pull quotes. */
-.v3-display {
-  font-family: Inter, sans-serif;
-  font-size: clamp(2.5rem, 5.5vw, 4.25rem);
-  line-height: 1.08;
-  letter-spacing: -0.025em;
-  font-weight: 700;
-}
+  .enter-up {
+    animation: enterUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
 
-.v3-h2 {
-  font-family: Inter, sans-serif;
-  font-size: clamp(1.9rem, 3.6vw, 2.75rem);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-}
+  .enter-up[data-delay="1"] { animation-delay: 150ms; }
+  .enter-up[data-delay="2"] { animation-delay: 300ms; }
+  .enter-up[data-delay="3"] { animation-delay: 450ms; }
+  .enter-up[data-delay="4"] { animation-delay: 600ms; }
 
-.v3-h3 {
-  font-family: Inter, sans-serif;
-  font-size: 1.375rem;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
-  font-weight: 600;
-}
+  /* Word-by-word headline reveal (WordReveal.jsx). */
+  .word-reveal-inner {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(110%);
+    transition:
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.5s ease-out;
+  }
 
-.v3-eyebrow {
-  font-family: Inter, sans-serif;
-  font-size: 0.75rem;
-  line-height: 1.2;
-  letter-spacing: 0.22em;
-  font-weight: 600;
-  text-transform: uppercase;
-}
+  .word-reveal.in-view .word-reveal-inner {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-.v3-serif {
-  font-family: "Playfair Display", serif;
-  font-style: italic;
-  font-weight: 400;
-}
+  /* Decorative blobs drift gently behind hero and closing artwork. */
+  @keyframes blobFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(8px, -12px) scale(1.03); }
+    66%      { transform: translate(-6px, 6px) scale(0.97); }
+  }
 
-.v3-body-lg {
-  font-size: 1.125rem;
-  line-height: 1.75;
-}
+  .blob-float {
+    animation: blobFloat 12s ease-in-out infinite;
+  }
 
-/* Scroll reveal: fade + gentle rise + blur settling into focus.
-   Pair with useScrollReveal's `in-view`. */
-.v3-fade {
-  opacity: 0;
-  transform: translateY(22px);
-  filter: blur(8px);
-  transition:
-    opacity 0.9s ease-out,
-    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.9s ease-out;
-}
+  .blob-float-slow {
+    animation: blobFloat 16s ease-in-out infinite reverse;
+  }
 
-.v3-fade.in-view {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-}
+  /* Logo mark settles in on first load. Parts are solid fills, so they
+     reveal by opacity/scale rather than a stroke draw. */
+  @keyframes logoPart {
+    from { opacity: 0; transform: scale(0.85); }
+    to   { opacity: 1; transform: scale(1); }
+  }
 
-/* Optional per-item delay steps for small groups of .v3-fade siblings. */
-.v3-fade[data-delay="1"] { transition-delay: 120ms; }
-.v3-fade[data-delay="2"] { transition-delay: 240ms; }
-.v3-fade[data-delay="3"] { transition-delay: 360ms; }
+  .logo-draw [data-part] {
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: 0;
+    animation: logoPart 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
 
-/* Load-in for the hero (no scroll needed): same feel as .v3-fade but
-   keyframe-driven so it plays once on mount, staggered via data-delay. */
-@keyframes v3Enter {
-  from { opacity: 0; transform: translateY(22px); filter: blur(8px); }
-  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+  .logo-draw [data-part="roof"]       { animation-delay: 0s; }
+  .logo-draw [data-part="heart"]      { animation-delay: 0.25s; }
+  .logo-draw [data-part="dot-left"]   { animation-delay: 0.55s; }
+  .logo-draw [data-part="dot-center"] { animation-delay: 0.62s; }
+  .logo-draw [data-part="dot-right"]  { animation-delay: 0.69s; }
 }
 
-.v3-enter {
-  animation: v3Enter 1s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
+/* ==================================================================== */
+/* /today COMPANION VOCABULARY                                          */
+/* The product surface runs slower and quieter than the marketing site.  */
+/* Retained as-is; it now reads in the reference palette via the legacy  */
+/* colour aliases above.                                                 */
+/* ==================================================================== */
+@layer components {
+  .today-fade {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(4px);
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.6s ease-out;
+  }
+  .today-fade.in {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
 
-.v3-enter[data-delay="1"] { animation-delay: 150ms; }
-.v3-enter[data-delay="2"] { animation-delay: 300ms; }
-.v3-enter[data-delay="3"] { animation-delay: 450ms; }
-.v3-enter[data-delay="4"] { animation-delay: 600ms; }
+  .onboarding-screen {
+    animation: onboardingScreenIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes onboardingScreenIn {
+    from { opacity: 0; transform: translateY(18px); filter: blur(8px); }
+    to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
 
-/* Logo mark settles in on load: the roof and heart fade/scale up first,
-   dots pop in last. Applied by adding .logo-draw to LogoIcon. The mark is
-   solid fills (not stroked line art), so parts reveal via opacity/scale
-   rather than a stroke-dashoffset draw. */
-@keyframes v3LogoPart {
-  from { opacity: 0; transform: scale(0.85); }
-  to   { opacity: 1; transform: scale(1); }
-}
+  .today-stagger {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: todayStaggerIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes todayStaggerIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-.logo-draw [data-part] {
-  transform-box: fill-box;
-  transform-origin: center;
-  opacity: 0;
-  animation: v3LogoPart 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
+  .today-moment-card {
+    transition:
+      border-color 0.3s ease,
+      background-color 0.3s ease,
+      box-shadow 0.3s ease,
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .today-moment-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-subtle-lift);
+  }
 
-.logo-draw [data-part="roof"] { animation-delay: 0s; }
-.logo-draw [data-part="heart"] { animation-delay: 0.25s; }
-.logo-draw [data-part="dot-left"] { animation-delay: 0.55s; }
-.logo-draw [data-part="dot-center"] { animation-delay: 0.62s; }
-.logo-draw [data-part="dot-right"] { animation-delay: 0.69s; }
+  .today-preview-enter {
+    animation: todayPreviewIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes todayPreviewIn {
+    from { opacity: 0; transform: translateY(18px); filter: blur(6px); }
+    to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
 
-/* ---------------------------------------------------------------- */
-/* Today companion vocabulary                                        */
-/* /today runs slower and quieter than the marketing site — every    */
-/* transition here is deliberately unhurried (400-700ms vs the site's */
-/* snappier ~200ms), because speed itself communicates "efficient      */
-/* tool" and this is meant to read as "unhurried companion" instead.  */
-/* ---------------------------------------------------------------- */
+  .today-response-enter {
+    opacity: 0;
+    transform: translateY(6px);
+    animation: todayResponseIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  }
+  @keyframes todayResponseIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
-.today-fade {
-  opacity: 0;
-  transform: translateY(10px);
-  filter: blur(4px);
-  transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s ease-out;
-}
-.today-fade.in {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-}
+  @keyframes todayCardPulse {
+    0%   { opacity: 1; transform: translateY(0) scale(1); }
+    42%  { opacity: 1; transform: translateY(-4px) scale(1.018); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .today-card-picked {
+    animation: todayCardPulse 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+    opacity: 1;
+  }
+  .today-pick-label {
+    opacity: 0;
+    transform: translateY(4px);
+    animation: todayPickLabelIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+  }
+  @keyframes todayPickLabelIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .today-pick-button .material-symbols-outlined {
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .today-pick-button:hover .material-symbols-outlined {
+    transform: translateX(3px);
+  }
 
-.onboarding-screen {
-  animation: onboardingScreenIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-@keyframes onboardingScreenIn {
-  from { opacity: 0; transform: translateY(18px); filter: blur(8px); }
-  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
-}
+  .today-notice-dot {
+    position: relative;
+    overflow: hidden;
+  }
+  .today-notice-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-circle);
+    background: var(--color-warm-orange);
+    transform: scale(0);
+    transition: transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
+  }
+  .today-notice-dot.on::after {
+    transform: scale(1);
+  }
+  .today-notice-label {
+    transition: color 0.35s ease-out 0.15s;
+  }
 
-.today-stagger {
-  opacity: 0;
-  transform: translateY(18px);
-  animation: todayStaggerIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-@keyframes todayStaggerIn {
-  to { opacity: 1; transform: translateY(0); }
-}
+  @keyframes todayFirstGlow {
+    0%   { box-shadow: 0 0 0 0 rgba(243, 159, 95, 0); }
+    35%  { box-shadow: 0 0 40px 12px rgba(243, 159, 95, 0.22); }
+    100% { box-shadow: 0 0 0 0 rgba(243, 159, 95, 0); }
+  }
+  .today-first-glow {
+    animation: todayFirstGlow 2.2s ease-out;
+    border-radius: var(--radius-rounded);
+  }
 
-.today-moment-card {
-  transition:
-    border-color 0.3s ease,
-    background-color 0.3s ease,
-    box-shadow 0.3s ease,
-    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.today-moment-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 24px 70px rgba(139, 115, 85, 0.12);
-}
+  .today-opening-line {
+    stroke-dasharray: 240;
+    stroke-dashoffset: 240;
+    animation: todayDrawLine 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  @keyframes todayDrawLine {
+    to { stroke-dashoffset: 0; }
+  }
 
-.today-preview-enter {
-  animation: todayPreviewIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-@keyframes todayPreviewIn {
-  from { opacity: 0; transform: translateY(18px); filter: blur(6px); }
-  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
-}
-
-/* A quiet held breath between the reflection and the response — the
-   response line arrives alone, centered, unhurried. */
-.today-response-enter {
-  opacity: 0;
-  transform: translateY(6px);
-  animation: todayResponseIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
-}
-@keyframes todayResponseIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Picking an activity: the card breathes rather than just changing state. */
-@keyframes todayCardPulse {
-  0%   { opacity: 1; transform: translateY(0) scale(1); }
-  42%  { opacity: 1; transform: translateY(-4px) scale(1.018); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-.today-card-picked {
-  animation: todayCardPulse 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
-  opacity: 1;
-}
-.today-pick-label {
-  opacity: 0;
-  transform: translateY(4px);
-  animation: todayPickLabelIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
-}
-@keyframes todayPickLabelIn {
-  to { opacity: 1; transform: translateY(0); }
-}
-.today-pick-button .material-symbols-outlined {
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.today-pick-button:hover .material-symbols-outlined {
-  transform: translateX(3px);
-}
-
-/* Marking a moment as tried: the circle fills from the centre outward,
-   like ink settling, before the label darkens a beat later. */
-.today-notice-dot {
-  position: relative;
-  overflow: hidden;
-}
-.today-notice-dot::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 9999px;
-  background: #8B7355;
-  transform: scale(0);
-  transition: transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
-}
-.today-notice-dot.on::after {
-  transform: scale(1);
-}
-.today-notice-label {
-  transition: color 0.35s ease-out 0.15s;
-}
-
-/* First-ever noticed milestone: one soft, unrepeatable glow. Never
-   reused for anything else — repetition would turn this into a badge. */
-@keyframes todayFirstGlow {
-  0%   { box-shadow: 0 0 0 0 rgba(139, 115, 85, 0); }
-  35%  { box-shadow: 0 0 40px 12px rgba(139, 115, 85, 0.18); }
-  100% { box-shadow: 0 0 0 0 rgba(139, 115, 85, 0); }
-}
-.today-first-glow {
-  animation: todayFirstGlow 2.2s ease-out;
-  border-radius: 28px;
-}
-
-/* The opening gesture: a single line draws itself at the top of every
-   /today visit, the same brushstroke every time — a small daily ritual
-   marker, not a novelty. */
-.today-opening-line {
-  stroke-dasharray: 240;
-  stroke-dashoffset: 240;
-  animation: todayDrawLine 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-@keyframes todayDrawLine {
-  to { stroke-dashoffset: 0; }
-}
-
-/* A day-with-nothing-tried response reads a touch softer/cooler than a
-   day-with-something-tried — never a penalty, just a different mood. */
-.today-response-quiet {
-  filter: saturate(0.85);
+  .today-response-quiet {
+    filter: saturate(0.85);
+  }
 }
 
 /* Calm honesty for people who ask for less motion. */
 @media (prefers-reduced-motion: reduce) {
+  .reveal,
   .v3-fade,
-  .word-reveal-inner {
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-    transition: none !important;
-  }
-  .v3-enter,
-  .logo-draw [data-part] {
-    animation: none !important;
-    opacity: 1;
-    transform: none;
-  }
-  .blob-float,
-  .blob-float-slow {
-    animation: none;
-  }
+  .word-reveal-inner,
   .today-fade {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
     transition: none !important;
   }
+
+  .enter-up,
+  .v3-enter,
+  .logo-draw [data-part],
+  .blob-float,
+  .blob-float-slow,
   .today-response-enter,
   .onboarding-screen,
   .today-stagger,
@@ -432,6 +664,9 @@ body {
     transform: none;
     stroke-dashoffset: 0;
   }
+
+  .blob-frame,
+  .blob-frame-alt,
   .today-notice-dot::after {
     transition: none !important;
   }

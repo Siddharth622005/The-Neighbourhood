@@ -1,35 +1,41 @@
 import LogoIcon from "../LogoIcon.jsx";
+import AccentLabel from "../ui/AccentLabel.jsx";
+import { Container } from "../ui/Section.jsx";
 
+/**
+ * Footer sits on the Light Amber wash — the token whose role DESIGN.md
+ * names as "footer accent areas". Divider is Warm Orange at low opacity,
+ * matching the dashed-outline vocabulary used elsewhere.
+ */
 export default function FooterV3({ minimal = false }) {
   if (minimal) {
     return (
-      <footer className="pb-10 px-margin-mobile md:px-gutter">
-        <div className="max-w-container-max mx-auto border-t border-warm-taupe/10 pt-8 text-center">
-          <p className="text-xs text-on-surface-variant/60">
+      <footer className="bg-light-amber py-lg">
+        <Container className="text-center">
+          <p className="type-caption font-normal text-slate-blue">
             The Neighbourhood &middot; A little support for today.
           </p>
-        </div>
+        </Container>
       </footer>
     );
   }
 
   return (
-    <footer className="pt-20 pb-10 px-margin-mobile md:px-gutter">
-      <div className="max-w-container-max mx-auto flex flex-col items-center gap-8">
-        <div className="flex flex-col items-center gap-4">
-          <LogoIcon className="w-12 h-12" />
-          <p className="font-semibold tracking-tight text-charcoal text-xl">
-            The Neighbourhood
-          </p>
-          <p className="v3-serif text-warm-taupe text-lg">
-            Safe Spaces, Warm Hearts, Bright Futures.
-          </p>
-        </div>
+    <footer className="bg-light-amber py-2xl">
+      <Container className="flex flex-col items-center gap-lg">
+        <LogoIcon className="h-2xl w-2xl" />
 
-        <p className="text-xs text-on-surface-variant/60 border-t border-warm-taupe/10 pt-8 w-full text-center">
-          &copy; {new Date().getFullYear()} The Neighbourhood &middot; Gurugram, India
+        <p className="type-sub-heading text-deep-purple">The Neighbourhood</p>
+
+        <AccentLabel className="text-center">
+          Safe Spaces, Warm Hearts, Bright Futures
+        </AccentLabel>
+
+        <p className="type-caption w-full border-t border-warm-orange/30 pt-lg text-center font-normal text-slate-blue">
+          &copy; {new Date().getFullYear()} The Neighbourhood &middot; Gurugram,
+          India
         </p>
-      </div>
+      </Container>
     </footer>
   );
 }

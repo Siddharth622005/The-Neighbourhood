@@ -30,7 +30,7 @@ export default function HomeV4() {
   const openWaitlist = () => setWaitlistOpen(true);
 
   return (
-    <div className="overflow-x-clip bg-surface-cream">
+    <div className="overflow-x-clip bg-cream-peach">
       <NavbarV3 onJoin={openWaitlist} links={V4_LINKS} />
       <main>
         <HeroV4 onJoin={openWaitlist} />

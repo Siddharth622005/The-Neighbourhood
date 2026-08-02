@@ -1,5 +1,8 @@
+import Section from "../ui/Section.jsx";
+import SectionHeading from "../ui/SectionHeading.jsx";
+import AccentLabel from "../ui/AccentLabel.jsx";
+import BlobImage from "../ui/BlobImage.jsx";
 import useScrollReveal from "../useScrollReveal.js";
-import WordReveal from "../WordReveal.jsx";
 import aanganSpace from "../../assets/aangan-space.jpg";
 import neighboursCircle from "../../assets/neighbours-circle.jpg";
 import guidancePhone from "../../assets/guidance-phone.jpg";
@@ -38,32 +41,37 @@ const PILLARS = [
 ];
 
 function PillarRow({ pillar, index }) {
-  const { ref, inView } = useScrollReveal(0.25);
+  const { ref, inView } = useScrollReveal(0.2);
   const flipped = index % 2 === 1;
 
   return (
     <div
       ref={ref}
-      className={`v3-fade ${inView ? "in-view" : ""} grid md:grid-cols-2 gap-10 md:gap-16 items-center`}
+      className={`reveal ${inView ? "in-view" : ""} grid items-center gap-2xl md:grid-cols-2 md:gap-3xl`}
     >
       <div className={flipped ? "md:order-2" : ""}>
-        <div className="flex items-baseline gap-4 mb-5">
-          <span className="v3-eyebrow text-soft-sand">{pillar.number}</span>
-          <span className="v3-eyebrow text-warm-taupe">{pillar.eyebrow}</span>
+        <div className="flex items-baseline gap-md">
+          <AccentLabel tone="golden-amber" aria-hidden="true">
+            {pillar.number}
+          </AccentLabel>
+          <AccentLabel>{pillar.eyebrow}</AccentLabel>
         </div>
-        <h3 className="v3-h2 text-charcoal mb-5 max-w-md">{pillar.title}</h3>
-        <p className="v3-body-lg text-on-surface-variant max-w-lg">{pillar.body}</p>
+
+        <h3 className="type-section-heading mt-md max-w-measure text-deep-purple">
+          {pillar.title}
+        </h3>
+
+        <p className="type-body-regular mt-md max-w-measure text-slate-blue">
+          {pillar.body}
+        </p>
       </div>
 
-      <div className={flipped ? "md:order-1" : ""}>
-        <div className="rounded-[28px] overflow-hidden aspect-[4/3] bg-surface-container/60">
-          <img
-            src={pillar.image.src}
-            alt={pillar.image.alt}
-            loading="lazy"
-            className="w-full h-full object-cover"
-          />
-        </div>
+      <div className={`${flipped ? "md:order-1" : ""} mx-auto w-full max-w-measure-sm`}>
+        <BlobImage
+          src={pillar.image.src}
+          alt={pillar.image.alt}
+          variant={flipped ? "b" : "a"}
+        />
       </div>
     </div>
   );
@@ -72,28 +80,25 @@ function PillarRow({ pillar, index }) {
 /**
  * Section 4 — What We're Building.
  *
- * Mirrors the main homepage section while preserving /next#today for the
- * V4 navbar.
+ * Alternating photo/copy rows, each photo in the system's organic blob
+ * frame with the dashed Warm Orange outline offset behind it. The blob
+ * variant alternates with the row direction so no two silhouettes on the
+ * page repeat.
  */
 export default function Today() {
   return (
-    <section
-      id="today"
-      className="py-section-gap md:py-32 px-margin-mobile md:px-gutter max-w-container-max mx-auto"
-    >
-      <div className="max-w-3xl mb-20 md:mb-24">
-        <p className="v3-eyebrow text-warm-taupe mb-6">What we're building</p>
-        <WordReveal
-          text="We're rebuilding the Neighbourhood. All three parts of it."
-          className="v3-h2 text-charcoal"
-        />
-      </div>
+    <Section id="today" surface="off-white">
+      <SectionHeading
+        label="What we're building"
+        title="We're rebuilding the Neighbourhood. All three parts of it."
+        align="center"
+      />
 
-      <div className="space-y-24 md:space-y-32">
+      <div className="mt-3xl flex flex-col gap-3xl">
         {PILLARS.map((pillar, index) => (
           <PillarRow key={pillar.number} pillar={pillar} index={index} />
         ))}
       </div>
-    </section>
+    </Section>
   );
 }

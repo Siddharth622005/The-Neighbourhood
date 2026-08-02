@@ -1,14 +1,17 @@
+import Section from "../ui/Section.jsx";
+import SectionHeading from "../ui/SectionHeading.jsx";
+import Card from "../ui/Card.jsx";
+import AccentLabel from "../ui/AccentLabel.jsx";
 import useScrollReveal from "../useScrollReveal.js";
 
 /**
- * Section 6 — Grounded In.
+ * Section 5 — Grounded In.
  *
  * Three signals, not six. No logo wall: there are no partner logos yet,
  * and a row of grey placeholders is worse than nothing.
  *
  * "Honest limits" is the unconventional one — admitting what the product
- * doesn't do is more persuasive than another credential, and it defuses
- * the PRD's own listed risk that parents expect medical advice.
+ * doesn't do is more persuasive than another credential.
  */
 const SIGNALS = [
   {
@@ -29,31 +32,22 @@ export default function GroundedIn() {
   const { ref, inView } = useScrollReveal(0.15);
 
   return (
-    <section
-      ref={ref}
-      id="grounded-in"
-      className="max-w-container-max mx-auto px-margin-mobile md:px-gutter py-24 md:py-32"
-    >
-      <h2 className={`v3-fade ${inView ? "in-view" : ""} v3-h3 text-charcoal`}>
-        Grounded in
-      </h2>
+    <Section id="grounded-in">
+      <SectionHeading label="Grounded in" title="Why you can trust this." align="center" />
 
-      <div className="mt-10 grid md:grid-cols-3 gap-10 md:gap-8">
+      <div ref={ref} className="mt-2xl grid gap-component-gap md:grid-cols-3">
         {SIGNALS.map((s, i) => (
-          <div
+          <Card
             key={s.label}
-            className={`v3-fade ${inView ? "in-view" : ""} md:pr-8 ${
-              i < SIGNALS.length - 1 ? "md:border-r md:border-soft-sand/30" : ""
-            }`}
+            surface="cream-peach"
+            className={`reveal ${inView ? "in-view" : ""} h-full text-center`}
             data-delay={String(i + 1)}
           >
-            <p className="v3-eyebrow text-warm-taupe">{s.label}</p>
-            <p className="mt-4 text-base leading-relaxed text-on-surface-variant max-w-xs">
-              {s.body}
-            </p>
-          </div>
+            <AccentLabel>{s.label}</AccentLabel>
+            <p className="type-body-regular mt-md text-slate-blue">{s.body}</p>
+          </Card>
         ))}
       </div>
-    </section>
+    </Section>
   );
 }

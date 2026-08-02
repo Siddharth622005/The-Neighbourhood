@@ -12,7 +12,7 @@
  * `.logo-draw` (index.css) fades/scales each part in on first mount.
  * Parts: roof, heart, dot-left, dot-center, dot-right.
  */
-export default function LogoIcon({ className = "", color = "#4A3323" }) {
+export default function LogoIcon({ className = "", color = "var(--color-deep-purple)" }) {
   return (
     <svg
       viewBox="0 0 1979 1778"
