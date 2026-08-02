@@ -35,6 +35,9 @@ export default function Button({
 }) {
   return (
     <Tag
+      // Exposed so an edition can restyle a variant from CSS without
+      // depending on the utility classes above (see .edition-reference).
+      data-variant={variant}
       className={`type-body-small-bold inline-flex items-center justify-center gap-sm rounded-pill whitespace-nowrap transition-all duration-200 hover:-translate-y-px disabled:pointer-events-none disabled:opacity-60 ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
       {...props}
     >

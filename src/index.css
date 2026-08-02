@@ -848,3 +848,148 @@
 .edition-typekit .type-accent-label.text-soft-sand {
   color: var(--color-warm-taupe);
 }
+
+/* ==================================================================== */
+/* REFERENCE EDITION — /reference                                       */
+/*                                                                      */
+/* The uploaded design system reproduced verbatim, with NO Neighbourhood */
+/* branding applied: its own palette, its own three typefaces, its own   */
+/* extracted sizes. This is the site as it looked before the brand was   */
+/* restored, kept as a comparison version.                               */
+/*                                                                      */
+/* Values below are copied from the uploaded design.css / design.json /  */
+/* DESIGN.md and are not adapted in any way.                             */
+/* ==================================================================== */
+.edition-reference {
+  --font-capriola: "Capriola", sans-serif;
+  --font-love-ya-like-a-sister: "Love Ya Like A Sister", sans-serif;
+  --font-source-sans-pro: "Source Sans Pro", sans-serif;
+
+  /* --- Colors, verbatim ------------------------------------------- */
+  --color-deep-purple: #49326b;
+  --color-white: #ffffff;
+  --color-golden-amber: #ffbd59;
+  --color-slate-blue: #385469;
+  --color-warm-orange: #f39f5f;
+  --color-cream-peach: #fff8ed;
+  --color-light-amber: #f8daab;
+  --color-lavender-mist: #c9bae0;
+  --color-off-white: #fdf9f7;
+
+  /* The brand-named aliases have to be restated, not left to inherit.
+     `--color-soft-sand: var(--color-golden-amber)` is resolved once on
+     :root, and descendants inherit that computed value — redefining
+     --color-golden-amber here would not re-resolve it. */
+  --color-charcoal: #49326b;
+  --color-on-surface-variant: #385469;
+  --color-warm-taupe: #f39f5f;
+  --color-soft-sand: #f8daab;
+  --color-sage: #c9bae0;
+  --color-surface-cream: #fff8ed;
+  --color-surface-container-low: #fdf9f7;
+  --color-surface-variant: #fdf9f7;
+  --color-secondary-container: #f8daab;
+  --color-logo-ink: #49326b;
+
+  /* --- Type scale, verbatim --------------------------------------- */
+  --font-hero-display-family: var(--font-capriola);
+  --font-hero-display-size: 54px;
+  --font-hero-display-weight: 400;
+  --font-hero-display-line-height: 59.4px;
+  --font-hero-display-letter-spacing: normal;
+  --font-hero-display-size-mobile: 36px;
+  --font-hero-display-line-height-mobile: 42px;
+
+  --font-section-heading-family: var(--font-capriola);
+  --font-section-heading-size: 30px;
+  --font-section-heading-weight: 400;
+  --font-section-heading-line-height: 40px;
+  --font-section-heading-letter-spacing: normal;
+  --font-section-heading-size-mobile: 26px;
+  --font-section-heading-line-height-mobile: 34px;
+
+  --font-sub-heading-family: var(--font-capriola);
+  --font-sub-heading-size: 22px;
+  --font-sub-heading-weight: 400;
+  --font-sub-heading-line-height: 28px;
+  --font-sub-heading-letter-spacing: normal;
+
+  --font-card-heading-family: var(--font-capriola);
+  --font-card-heading-size: 18px;
+  --font-card-heading-weight: 400;
+  --font-card-heading-line-height: 23.4px;
+  --font-card-heading-letter-spacing: normal;
+
+  --font-accent-label-family: var(--font-love-ya-like-a-sister);
+  --font-accent-label-size: 16px;
+  --font-accent-label-weight: 500;
+  --font-accent-label-line-height: 16px;
+  --font-accent-label-letter-spacing: 4px;
+  --font-accent-label-transform: uppercase;
+
+  --font-body-regular-family: var(--font-source-sans-pro);
+  --font-body-regular-size: 16px;
+  --font-body-regular-weight: 400;
+  --font-body-regular-line-height: 27.2px;
+  --font-body-regular-letter-spacing: normal;
+
+  --font-body-large-family: var(--font-source-sans-pro);
+  --font-body-large-size: 20px;
+  --font-body-large-weight: 400;
+  --font-body-large-line-height: 28px;
+  --font-body-large-letter-spacing: normal;
+
+  --font-body-small-bold-family: var(--font-source-sans-pro);
+  --font-body-small-bold-size: 14px;
+  --font-body-small-bold-weight: 700;
+  --font-body-small-bold-line-height: 27.2px;
+  --font-body-small-bold-letter-spacing: normal;
+
+  --font-caption-family: var(--font-source-sans-pro);
+  --font-caption-size: 12px;
+  --font-caption-weight: 700;
+  --font-caption-line-height: 19.2px;
+  --font-caption-letter-spacing: normal;
+
+  font-family: var(--font-body-regular-family);
+  font-size: var(--font-body-regular-size);
+  line-height: var(--font-body-regular-line-height);
+  letter-spacing: normal;
+}
+
+.edition-reference .v3-serif {
+  font-family: var(--font-capriola);
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* Tailwind folds an alpha modifier (bg-sage/35) down to a literal hex at
+   build time, so unlike the solid utilities those do NOT re-resolve from
+   the variables above. Each one used inside an edition is restated here
+   in the reference palette. */
+.edition-reference .bg-cream-peach\/95 { background-color: rgba(255, 248, 237, 0.95); }
+.edition-reference .bg-deep-purple\/50 { background-color: rgba(73, 50, 107, 0.5); }
+.edition-reference .bg-soft-sand\/45   { background-color: rgba(248, 218, 171, 0.6); }
+.edition-reference .bg-soft-sand\/40   { background-color: rgba(201, 186, 224, 1); }
+.edition-reference .bg-sage\/35        { background-color: rgba(201, 186, 224, 0.4); }
+.edition-reference .bg-sage\/25        { background-color: rgba(243, 159, 95, 0.2); }
+.edition-reference .bg-sage\/20        { background-color: rgba(201, 186, 224, 0.3); }
+.edition-reference .bg-warm-taupe\/60  { background-color: rgba(243, 159, 95, 0.6); }
+.edition-reference .border-warm-orange\/30 { border-color: rgba(243, 159, 95, 0.3); }
+.edition-reference .text-slate-blue\/60 { color: rgba(56, 84, 105, 0.6); }
+
+/* The reference system spends its Golden Amber on the primary CTA, where
+   the brand spends charcoal. Restored via the variant hook on Button so
+   this doesn't depend on that component's utility classes. */
+.edition-reference [data-variant="primary"] {
+  background-color: var(--color-golden-amber);
+  color: var(--color-deep-purple);
+}
+.edition-reference [data-variant="primary"]:hover {
+  background-color: var(--color-warm-orange);
+}
+.edition-reference [data-variant="secondary"] {
+  background-color: var(--color-white);
+  color: var(--color-deep-purple);
+  border-color: var(--color-deep-purple);
+}
