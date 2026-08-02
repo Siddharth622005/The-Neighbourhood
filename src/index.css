@@ -733,25 +733,17 @@
 /* redefining the same custom properties inside a scoped wrapper. The   */
 /* default site is not affected in any way.                             */
 /*                                                                      */
-/* The pairing:                                                         */
-/*   sama-latin  — a warm geometric sans with a generous x-height and   */
-/*                 soft terminals. Carries the whole hierarchy: 700 for */
-/*                 display and headings, 400 for body.                  */
-/*   emmeline    — a handwritten marker script. Used ONLY for the       */
-/*                 accent-label role and the emotional accent, in       */
-/*                 sentence case at a larger size. Handwriting is       */
-/*                 destroyed by uppercasing and letter-spacing, so this */
-/*                 role turns both off — the reason                     */
-/*                 --font-accent-label-transform is a token.            */
-/*                                                                      */
-/* emmeline is deliberately never used for headlines or body: it has a  */
-/* single weight, no true uppercase rhythm, and loses legibility past a */
-/* short phrase. Restricting it to the accent role is what keeps it     */
-/* feeling like a handwritten note rather than a novelty.               */
+/* A single-family setting: sama-latin carries every role — 700 for      */
+/* display, headings and labels, 400 for body. A warm geometric sans     */
+/* with a generous x-height and soft terminals, it has enough range      */
+/* across its two weights to hold the whole hierarchy on its own.        */
+/*                                                                       */
+/* The kit also ships emmeline (a handwritten script) and damson (a 900  */
+/* display face); neither is used here. One voice, set well, reads       */
+/* calmer than a pairing that has to justify itself on every section.    */
 /* ==================================================================== */
 .edition-typekit {
   --font-sama: "sama-latin", ui-rounded, system-ui, sans-serif;
-  --font-emmeline: "emmeline", "Playfair Display", cursive;
 
   /* Display — sama 700. Rounded geometric forms close up well at size,
      so tracking tightens slightly rather than staying neutral. */
@@ -779,17 +771,16 @@
   --font-card-heading-line-height: 1.4;
   --font-card-heading-letter-spacing: -0.004em;
 
-  /* The signature move: the eyebrow becomes handwriting. Sentence case,
-     no tracking, and stepped up hard — emmeline's monoline strokes are
-     far thinner than Inter 600, so at the old 12px eyebrow size it went
-     illegible. 1.5rem is where it reads as a confident hand-written note
-     rather than a faint squiggle. */
-  --font-accent-label-family: var(--font-emmeline);
-  --font-accent-label-size: 1.5rem;
-  --font-accent-label-weight: 400;
-  --font-accent-label-line-height: 1.1;
-  --font-accent-label-letter-spacing: 0.01em;
-  --font-accent-label-transform: none;
+  /* The eyebrow returns to a tracked uppercase label. sama-latin's
+     letterforms are wider and rounder than Inter's, so it takes slightly
+     less tracking than the default site's 0.22em before the word starts
+     to come apart. */
+  --font-accent-label-family: var(--font-sama);
+  --font-accent-label-size: 0.8125rem;
+  --font-accent-label-weight: 700;
+  --font-accent-label-line-height: 1.2;
+  --font-accent-label-letter-spacing: 0.18em;
+  --font-accent-label-transform: uppercase;
 
   /* Body — sama 400. The large x-height wants a little more leading
      than Inter did at the same size. */
@@ -832,21 +823,13 @@
   letter-spacing: var(--font-body-regular-letter-spacing);
 }
 
-/* The emotional accent (.v3-serif) becomes the handwritten face here,
-   upright rather than italic — emmeline is already a slanted script. */
+/* The emotional accent (.v3-serif) has no separate face in a
+   single-family setting, so it leans on weight instead of a typeface
+   change. */
 .edition-typekit .v3-serif {
-  font-family: var(--font-emmeline);
+  font-family: var(--font-sama);
   font-style: normal;
-  font-weight: 400;
-}
-
-/* The 01/02/03 numerals and some labels are tinted soft sand, which was
-   legible in Inter 600 but not in a thin monoline script on a white
-   card. Inside this edition only, the accent role steps up to warm taupe
-   so the handwriting holds its own. Colour roles elsewhere are
-   untouched. */
-.edition-typekit .type-accent-label.text-soft-sand {
-  color: var(--color-warm-taupe);
+  font-weight: 700;
 }
 
 /* ==================================================================== */
