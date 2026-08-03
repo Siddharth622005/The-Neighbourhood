@@ -984,13 +984,13 @@
 /* ==================================================================== */
 .edition-v2 {
   /* Action */
-  --color-primary: #a04a28;        /* terracotta — 5.0:1 on bg, 6.0:1 under white */
+  --color-primary: #a04a28;        /* terracotta — 5.5:1 on bg, 6.0:1 under white */
   --color-primary-hover: #8a3e20;
   --color-secondary: #5f7566;      /* deep sage — 5.0:1 under white */
   --color-accent: #d79a48;         /* marigold — decorative only, 2.4:1 on white */
 
   /* Surfaces */
-  --color-background: #f3e9dc;
+  --color-background: #fbf4ea;
   --color-surface: #faf3e9;
   --color-card: #fdf8f1;
   --color-elevated: #ffffff;
@@ -1012,7 +1012,16 @@
   --color-warm-orange: var(--color-primary);
   --color-golden-amber: var(--color-accent);
   --color-cream-peach: var(--color-background);
-  --color-off-white: var(--color-surface);
+
+  /* SECTION BANDING. The page alternates between the base background and
+     this tone — Welcome, Today, The Long Arc and Contact carry it, the
+     sections between them do not. Pinned to its own literal rather than
+     tracking --color-surface: the cards use that, and they need to stay
+     near-white. Lightening the background to #fbf4ea had left the two
+     within 0.01 luminance of each other, which flattened the rhythm;
+     this restores the separation the design had before. */
+  --color-off-white: #f5ebdc;
+
   --color-lavender-mist: var(--color-border);
   --color-light-amber: #f6e3c4;
 
@@ -1036,10 +1045,19 @@
   color: var(--color-body);
 }
 
+/* The page's base colour lives on <body>, which is an ANCESTOR of the
+   element carrying .edition-v2 — so it never saw this palette and stayed
+   on the root's darker cream. That was the single largest surface on the
+   page, and it showed through as a muddier tone behind everything and in
+   the overscroll area. */
+body:has(.edition-v2) {
+  background-color: #fbf4ea;
+}
+
 /* Alpha modifiers are folded to a literal at build time from the ROOT
    palette, so unlike the solid utilities they do not re-resolve here.
    Every one reachable from this edition is restated. */
-.edition-v2 .bg-cream-peach\/95   { background-color: rgba(243, 233, 220, 0.95); }
+.edition-v2 .bg-cream-peach\/95   { background-color: rgba(251, 244, 234, 0.95); }
 .edition-v2 .bg-deep-purple\/50   { background-color: rgba(43, 35, 28, 0.5); }
 .edition-v2 .bg-soft-sand\/45     { background-color: rgba(215, 154, 72, 0.45); }
 .edition-v2 .bg-soft-sand\/40     { background-color: rgba(215, 154, 72, 0.4); }
