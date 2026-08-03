@@ -1,4 +1,12 @@
+import { Link } from "react-router-dom";
 import LogoIcon from "../../components/LogoIcon.jsx";
+
+const LEGAL_LINKS = [
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms & Conditions", href: "/terms-and-conditions" },
+  { label: "Cookie Policy", href: "/cookie-policy" },
+  { label: "Disclaimer", href: "/disclaimer" },
+];
 
 export default function FooterV3({ minimal = false }) {
   if (minimal) {
@@ -32,7 +40,22 @@ export default function FooterV3({ minimal = false }) {
           </a>
         </div>
 
-        <p className="text-xs text-on-surface-variant/60 border-t border-warm-taupe/10 pt-8 w-full text-center">
+        <nav
+          aria-label="Legal"
+          className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-warm-taupe/10 pt-8 w-full"
+        >
+          {LEGAL_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              to={link.href}
+              className="text-xs text-on-surface-variant/70 hover:text-charcoal transition-colors duration-200"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        <p className="text-xs text-on-surface-variant/60 w-full text-center">
           &copy; {new Date().getFullYear()} The Neighbourhood &middot; Gurugram, India
         </p>
       </div>

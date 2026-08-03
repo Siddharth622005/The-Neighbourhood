@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { supabase, isSupabaseConfigured } from "../../lib/supabaseClient.js";
 import Button from "../ui/Button.jsx";
 import AccentLabel from "../ui/AccentLabel.jsx";
@@ -349,6 +350,18 @@ export default function WaitlistDialogV3({ open, onClose }) {
                   >
                     {status === "loading" ? "Saving your place…" : "Join the Village"}
                   </Button>
+
+                  <p className="type-caption text-center font-normal text-slate-blue">
+                    By continuing, you agree to our{" "}
+                    <Link to="/terms-and-conditions" className="text-deep-purple underline underline-offset-2">
+                      Terms &amp; Conditions
+                    </Link>{" "}
+                    and{" "}
+                    <Link to="/privacy-policy" className="text-deep-purple underline underline-offset-2">
+                      Privacy Policy
+                    </Link>
+                    .
+                  </p>
                 </form>
 
                 <Button

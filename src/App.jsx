@@ -16,6 +16,13 @@ const Edition = lazy(() => import("./pages/Edition.jsx"));
 const TodayPage = lazy(() => import("./pages/TodayPage.jsx"));
 const OneDayPage = lazy(() => import("./pages/OneDayPage.jsx"));
 
+// Legal pages. Top-level routes (not per-edition), so every surface of
+// the site — legacy, /type, /today, /day — can link to one canonical copy.
+const PrivacyPolicy = lazy(() => import("./pages/legal/PrivacyPolicy.jsx"));
+const TermsAndConditions = lazy(() => import("./pages/legal/TermsAndConditions.jsx"));
+const CookiePolicy = lazy(() => import("./pages/legal/CookiePolicy.jsx"));
+const Disclaimer = lazy(() => import("./pages/legal/Disclaimer.jsx"));
+
 const page = (element) => <Suspense fallback={null}>{element}</Suspense>;
 
 export default function App() {
@@ -36,6 +43,12 @@ export default function App() {
       {/* Product surfaces. */}
       <Route path="/today" element={page(<TodayPage />)} />
       <Route path="/day" element={page(<OneDayPage />)} />
+
+      {/* Legal. */}
+      <Route path="/privacy-policy" element={page(<PrivacyPolicy />)} />
+      <Route path="/terms-and-conditions" element={page(<TermsAndConditions />)} />
+      <Route path="/cookie-policy" element={page(<CookiePolicy />)} />
+      <Route path="/disclaimer" element={page(<Disclaimer />)} />
 
       {/* Retired routes. /v2 and /reference were briefly live, so they
           point somewhere useful rather than 404ing. */}

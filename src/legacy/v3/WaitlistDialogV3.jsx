@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { supabase, isSupabaseConfigured } from "../../lib/supabaseClient.js";
 
 const REFERRAL_BOOST = 3;
@@ -327,6 +328,18 @@ export default function WaitlistDialogV3({ open, onClose }) {
                   >
                     {status === "loading" ? "Saving your place…" : "Join the Village"}
                   </button>
+
+                  <p className="text-center text-xs leading-relaxed text-on-surface-variant/70">
+                    By continuing, you agree to our{" "}
+                    <Link to="/terms-and-conditions" className="text-charcoal underline underline-offset-2">
+                      Terms &amp; Conditions
+                    </Link>{" "}
+                    and{" "}
+                    <Link to="/privacy-policy" className="text-charcoal underline underline-offset-2">
+                      Privacy Policy
+                    </Link>
+                    .
+                  </p>
                 </form>
 
                 <button
