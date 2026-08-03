@@ -90,9 +90,16 @@ export default function NavbarV3({
           </div>
 
           <div className="flex items-center gap-md">
-            <Button onClick={onJoin} className="hidden sm:inline-flex">
-              Join the Village
-            </Button>
+            {/* The responsive display lives on this wrapper, NOT on the
+                Button. Button's base class list already contains
+                inline-flex, and Tailwind emits .inline-flex after .hidden
+                in the stylesheet — same specificity, so the later one won
+                and "hidden" silently did nothing. The CTA was rendering
+                on top of the wordmark on small screens. A wrapper with no
+                competing display utility is the reliable fix. */}
+            <span className="hidden lg:inline-flex">
+              <Button onClick={onJoin}>Join the Village</Button>
+            </span>
 
             {/* Hamburger — only visible below lg, where the link row is
                 hidden. Toggles the full-screen overlay below. */}
