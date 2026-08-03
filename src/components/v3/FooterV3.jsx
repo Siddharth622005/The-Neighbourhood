@@ -10,6 +10,16 @@ const LEGAL_LINKS = [
   { label: "Disclaimer", href: "/disclaimer" },
 ];
 
+const LINKEDIN_URL = "https://www.linkedin.com/company/theneighbourhud/";
+
+function LinkedInIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z" />
+    </svg>
+  );
+}
+
 /**
  * Footer sits on the Light Amber wash — the token whose role DESIGN.md
  * names as "footer accent areas". Divider is Warm Orange at low opacity,
@@ -39,12 +49,24 @@ export default function FooterV3({ minimal = false }) {
           Safe Spaces, Warm Hearts, Bright Futures
         </AccentLabel>
 
-        <a
-          href="mailto:founders@theneighbourhood.co.in"
-          className="type-body-regular text-slate-blue transition-colors duration-200 hover:text-charcoal"
-        >
-          founders@theneighbourhood.co.in
-        </a>
+        <div className="flex items-center gap-lg">
+          <a
+            href="mailto:founders@theneighbourhood.co.in"
+            className="type-body-regular text-slate-blue transition-colors duration-200 hover:text-charcoal"
+          >
+            founders@theneighbourhood.co.in
+          </a>
+
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="The Neighbourhood on LinkedIn"
+            className="text-slate-blue transition-colors duration-200 hover:text-charcoal"
+          >
+            <LinkedInIcon className="h-lg w-lg" />
+          </a>
+        </div>
 
         <nav
           aria-label="Legal"
